@@ -15,6 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 global $CFG;
+
 define('PLUGIN_NAME_ENVBAR', 'local_envbar');
 
 $CFG->__ENVBAR_COLOR_CHOICES = array(

@@ -14,8 +14,7 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-global $CFG;
-
+require_once(dirname(__FILE__) . '/../config.php');
 require_once($CFG->dirroot . '/local/envbar/lib.php');
 require_once($CFG->dirroot . '/local/envbar/config.php');
 require_once($CFG->dirroot . '/local/envbar/config_form.php');

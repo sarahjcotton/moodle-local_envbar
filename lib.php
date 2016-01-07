@@ -31,7 +31,9 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
             $CFG->additionalhtmltopofbody .=
                 '<div style="position:fixed; padding:15px; width:100%; top:0px; left:0px; z-index:9999;background-color:'
                 .$set->color_bg.'; color:'.$set->color_text.'">'
-                .htmlspecialchars($set->show_text).'</div>';
+                .htmlspecialchars($set->show_text).'</div>'
+                .'<style>.navbar-fixed-top {top:50px !important;}</style>'
+                .'<div style="height:50px;"> &nbsp;</div>';
             break;
         }
     }
