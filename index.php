@@ -28,7 +28,6 @@ require_once($CFG->libdir . '/adminlib.php');
 
 admin_externalpage_setup('local_envbar');
 
-//page nav bar
 $PAGE->set_url('/local/envbar/index.php');
 $node = $PAGE->settingsnav->find('envbar', navigation_node::TYPE_SETTING);
 if ($node) {
@@ -41,16 +40,16 @@ $PAGE->set_heading(get_string('pluginname', 'local_envbar'));
 
 
 
-$sets = EnvbarConfigSetFactory::instances();
+$sets = envbar_config_set_factory::instances();
 $form = new local_envbar_form(null, array('sets' => $sets));
 
-if($data = $form->get_data()){
-    $confSet = EnvbarConfigSetFactory::newRecord();
-    $keys = array_keys($confSet->get_params());
-    foreach($data->{$keys[0]} as $set_id => $_){
-        $set = $sets[$set_id];
-        foreach($keys as $key){
-            $set->$key = $data->{$key}[$set_id];
+if ($data = $form->get_data()) {
+    $confset = envbar_config_set_factory::new_record();
+    $keys = array_keys($confset->get_params());
+    foreach ($data->{$keys[0]} as $setid => $s) {
+        $set = $sets[$setid];
+        foreach ($keys as $key) {
+            $set->$key = $data->{$key}[$setid];
         }
         $set->save($DB);
     }

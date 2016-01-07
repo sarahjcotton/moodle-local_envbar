@@ -7,17 +7,17 @@
     <TABLE NAME="local_envbar_configset" COMMENT="A list of envbar sets">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="color_bg" TYPE="char" LENGTH="64" NOTNULL="true" SEQUENCE="false" COMMENT="Background color"/>
-        <FIELD NAME="color_text" TYPE="char" LENGTH="64" NOTNULL="true" SEQUENCE="false" COMMENT="Text color"/>
-        <FIELD NAME="match_pattern" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Match pattern"/>
-        <FIELD NAME="show_text" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Text to show"/>
+        <FIELD NAME="colorbg" TYPE="char" LENGTH="64" NOTNULL="true" SEQUENCE="false" COMMENT="Background color"/>
+        <FIELD NAME="colortext" TYPE="char" LENGTH="64" NOTNULL="true" SEQUENCE="false" COMMENT="Text color"/>
+        <FIELD NAME="matchpattern" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Match pattern"/>
+        <FIELD NAME="showtext" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Text to show"/>
         <FIELD NAME="enabled" TYPE="int" LENGTH="1" DEFAULT="0" UNSIGNED="true"  NOTNULL="true" SEQUENCE="false" COMMENT="Enabled Flag"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
       <INDEXES>
-        <INDEX NAME="idx_match" UNIQUE="true" FIELDS="match_pattern" COMMENT="match pattern index"/>
+        <INDEX NAME="idx_match" UNIQUE="true" FIELDS="matchpattern" COMMENT="match pattern index"/>
       </INDEXES>
     </TABLE>
   </TABLES>

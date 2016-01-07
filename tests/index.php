@@ -21,7 +21,7 @@ require_once($CFG->dirroot . '/local/envbar/config_form.php');
 
 class local_envbar_test extends advanced_testcase{
 
-    public function test_factory_empty_records(){
-        $this->assertCount(3, EnvbarConfigSetFactory::instances(), 'Factory does not return 3 records');
+    public function test_factory_empty_records() {
+        $this->assertCount(3, envbar_config_set_factory::instances(), 'Factory does not return 3 records');
     }
 }

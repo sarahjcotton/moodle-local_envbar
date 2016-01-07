@@ -23,15 +23,15 @@
 
 require_once(dirname(__FILE__).'/config.php');
 
-if($_SERVER['REQUEST_METHOD'] == 'GET'){
+if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     global $DB;
-    $records = $DB->get_records(EnvbarConfigSet::TABLE, array('enabled' => 1));
-    foreach($records as $set){
-        if(false !== (strpos($_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], $set->match_pattern))){
+    $records = $DB->get_records(envbar_config_set::TABLE, array('enabled' => 1));
+    foreach ($records as $set) {
+        if (false !== (strpos($_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], $set->matchpattern))) {
             $CFG->additionalhtmltopofbody .=
                 '<div style="position:fixed; padding:15px; width:100%; top:0px; left:0px; z-index:9999;background-color:'
-                .$set->color_bg.'; color:'.$set->color_text.'">'
-                .htmlspecialchars($set->show_text).'</div>'
+                .$set->colorbg.'; color:'.$set->colortext.'">'
+                .htmlspecialchars($set->showtext).'</div>'
                 .'<style>.navbar-fixed-top {top:50px !important;}</style>'
                 .'<div style="height:50px;"> &nbsp;</div>';
             break;
@@ -40,7 +40,7 @@ if($_SERVER['REQUEST_METHOD'] == 'GET'){
 }
 
 
-function local_envbar_extends_navigation(){
+function local_envbar_extends_navigation() {
 
 }
 

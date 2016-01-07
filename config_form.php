@@ -37,28 +37,38 @@ class local_envbar_form extends moodleform {
 
         $mform = $this->_form;
         $counter = 1;
-        foreach($this->_customdata['sets'] as $set){
+        foreach ($this->_customdata['sets'] as $set) {
             $mform->addElement('html', "<h4>Set #{$counter}</h4>");
             $mform->addElement('hidden', "id[{$set->id}]", $set->id);
 
-            if(!$counter != 1){
+            if (!$counter != 1) {
                 $mform->addElement('html', '<hr>');
             }
-            $bgcolor = $mform->addElement('select', "color_bg[{$set->id}]", get_string('bgcolor', PLUGIN_NAME_ENVBAR), $CFG->__ENVBAR_COLOR_CHOICES);
-            $bgcolor->setSelected($set->color_bg);
+            $bgcolor = $mform->addElement(
+                'select',
+                "colorbg[{$set->id}]",
+                get_string('bgcolor', PLUGIN_NAME_ENVBAR),
+                $CFG->__ENVBAR_COLOR_CHOICES
+            );
+            $bgcolor->setSelected($set->colorbg);
 
-            $textcolor = $mform->addElement('select', "color_text[{$set->id}]", get_string('text-color', PLUGIN_NAME_ENVBAR), $CFG->__ENVBAR_COLOR_CHOICES);
-            $textcolor->setSelected($set->color_text);
+            $textcolor = $mform->addElement(
+                'select',
+                "colortext[{$set->id}]",
+                get_string('text-color', PLUGIN_NAME_ENVBAR),
+                $CFG->__ENVBAR_COLOR_CHOICES
+            );
+            $textcolor->setSelected($set->colortext);
 
             $mform->addElement(
                 'text',
-                "match_pattern[{$set->id}]",
+                "matchpattern[{$set->id}]",
                 get_string('url-match', PLUGIN_NAME_ENVBAR),
                 array('placeholder' => get_string('url-match-placeholder', PLUGIN_NAME_ENVBAR))
             );
             $mform->addElement(
                 'text',
-                "show_text[{$set->id}]",
+                "showtext[{$set->id}]",
                 get_string('show-text', PLUGIN_NAME_ENVBAR),
                 array('placeholder' => get_string('show-text-placeholder', PLUGIN_NAME_ENVBAR))
             );
@@ -71,9 +81,9 @@ class local_envbar_form extends moodleform {
                 array(),
                 array(0, 1));
 
-            $mform->setDefault("enabled[{$set->id}]", $set->enabled? 1:0);
-            $mform->setDefault("show_text[{$set->id}]", $set->show_text);
-            $mform->setDefault("match_pattern[{$set->id}]", $set->match_pattern);
+            $mform->setDefault("enabled[{$set->id}]", $set->enabled ? 1 : 0);
+            $mform->setDefault("showtext[{$set->id}]", $set->showtext);
+            $mform->setDefault("matchpattern[{$set->id}]", $set->matchpattern);
 
             $counter++;
         }

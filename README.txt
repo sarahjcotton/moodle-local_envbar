@@ -10,4 +10,3 @@ Extra div will be printed within standard_top_of_body_html function call:
 $OUTPUT->standard_top_of_body_html()
 
 plugin: local_envbar
-

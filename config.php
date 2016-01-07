@@ -35,132 +35,121 @@ $CFG->__ENVBAR_COLOR_CHOICES = array(
 );
 
 
-class EnvbarConfigSet {
-    protected $_params ;
-    protected $_db_exists = false;
+class envbar_config_set {
+    protected $params;
+    protected $dbexists = false;
 
     const TABLE = 'local_envbar_configset';
 
-    public function __construct($params = array(), $db_exists = false){
-        $this->_db_exists = $db_exists;
-        $this->_params = array(
+    public function __construct($params = array(), $dbexists = false) {
+        $this->dbexists = $dbexists;
+        $this->params = array(
             'id' => 0,
-            'color_bg' => 'black',
-            'color_text' => 'white',
-            'match_pattern' => '',
-            'show_text' => '',
+            'colorbg' => 'black',
+            'colortext' => 'white',
+            'matchpattern' => '',
+            'showtext' => '',
             'enabled' => 0
         );
-        if($params instanceof stdClass){
-            foreach(array_keys($this->_params) as $key) {
-                $this->_params[$key] = $params->$key;
+        if ($params instanceof stdClass) {
+            foreach (array_keys($this->params) as $key) {
+                $this->params[$key] = $params->$key;
             }
         } else {
-            foreach(array_keys($this->_params) as $key) {
-                if(isset($params[$key])) {
-                    $this->_params[$key] = $params[$key];
+            foreach (array_keys($this->params) as $key) {
+                if (isset($params[$key])) {
+                    $this->params[$key] = $params[$key];
                 }
             }
         }
-
     }
 
-    public function __get($name)
-    {
-        return $this->_params[$name];
+    public function __get($name) {
+        return $this->params[$name];
     }
 
-    public function __set($name, $value)
-    {
+    public function __set($name, $value) {
         global $CFG;
-        switch($name){
+        switch($name) {
             case 'id':
             case 'enabled':
                 $value = intval($value);
                 break;
-            case 'color_bg':
-            case 'color_text':
-                if(!in_array($value, $CFG->__ENVBAR_COLOR_CHOICES))
+            case 'colorbg':
+            case 'colortext':
+                if (!in_array($value, $CFG->__ENVBAR_COLOR_CHOICES)) {
                     return false;
+                }
                 break;
-            case 'match_pattern':
-            case 'show_text':
-                if(strlen($value) > 255)
+            case 'matchpattern':
+            case 'showtext':
+                if (strlen($value) > 255) {
                     return false;
+                }
                 break;
             default:
                 return false;
         }
-        $this->_params[$name] = $value;
+        $this->params[$name] = $value;
     }
 
-    public function is_valid(){
-        return ($this->match_pattern != '' && $this->id > 0);
+    public function is_valid() {
+        return ($this->matchpattern != '' && $this->id > 0);
     }
 
-    public function get_params(){
-        return $this->_params;
+    public function get_params() {
+        return $this->params;
     }
 
-    public function save($DB){
-        try {
-
-            if($this->match_pattern == '' && $this->_db_exists){
-                $DB->delete_records(self::TABLE, array('id' => $this->id));
+    public function save($DB) {
+        if ($this->matchpattern == '' && $this->dbexists) {
+            $DB->delete_records(self::TABLE, array('id' => $this->id));
+        } else if ($this->is_valid()) {
+            if ($this->dbexists) {
+                $DB->update_record(self::TABLE, arr_to_std($this->get_params()));
+            } else {
+                $DB->insert_record(self::TABLE, arr_to_std($this->get_params()));
             }
-            elseif($this->is_valid()) {
-                if ($this->_db_exists) {
-                    $DB->update_record(self::TABLE, arr_to_std($this->get_params()));
-                } else {
-                    $DB->insert_record(self::TABLE, arr_to_std($this->get_params()));
-
-                }
-            }
-        }
-        catch(Exception $e){
-            error_log(var_export($e, true));
         }
     }
 }
 
-function arr_to_std($array){
+function arr_to_std($array) {
     $result = new stdClass();
-    foreach($array as $key => $value){
+    foreach ($array as $key => $value) {
         $result->$key = $value;
     }
     return $result;
 }
 
 
-class EnvbarConfigSetFactory {
+class envbar_config_set_factory {
     /**
      * @return array records from DB + 3 empty records
      */
-    public static function instances(){
+    public static function instances() {
         global $DB;
         $result = array();
 
         $records = $DB->get_records('local_envbar_configset', array(), 'id asc');
-        $max_id = 0;
+        $maxid = 0;
 
-        foreach($records as $id => $set){
-            $result [$id]= new EnvbarConfigSet($set, true);
-            $max_id = max($max_id, $set->id);
+        foreach ($records as $id => $set) {
+            $result [$id] = new envbar_config_set($set, true);
+            $maxid = max($maxid, $set->id);
         }
 
-        for($i = 1; $i <= 3; $i++){
-            $result [$i + $max_id] = self::newRecord($i + $max_id);
+        for ($i = 1; $i <= 3; $i++) {
+            $result [$i + $maxid] = self::new_record($i + $maxid);
         }
-
-
         return $result;
     }
 
     /**
      * @param int $id attribute of new record
-     * @return EnvbarConfigSet empty object
+     * @return envbar_config_set empty object
      */
-    public static function newRecord($id = 0){
-       return new EnvbarConfigSet(array('id' => $id));
+    public static function new_record($id = 0) {
+        return new envbar_config_set(array('id' => $id));
     }
 }
