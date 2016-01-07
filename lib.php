@@ -21,6 +21,7 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+require_once(dirname(__FILE__).'/config.php');
 
 if($_SERVER['REQUEST_METHOD'] == 'GET'){
     global $DB;
