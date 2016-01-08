@@ -25,7 +25,7 @@ require_once(dirname(__FILE__).'/config.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'GET') {
     global $DB;
-    $records = $DB->get_records(envbar_config_set::TABLE, array('enabled' => 1));
+    $records = $DB->get_records(envbar_config_set::DB_TABLE, array('enabled' => 1));
     foreach ($records as $set) {
         if (false !== (strpos($_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], $set->matchpattern))) {
             $CFG->additionalhtmltopofbody .=

@@ -39,7 +39,7 @@ class envbar_config_set {
     protected $params;
     protected $dbexists = false;
 
-    const TABLE = 'local_envbar_configset';
+    const DB_TABLE = 'local_envbar_configset';
 
     public function __construct($params = array(), $dbexists = false) {
         $this->dbexists = $dbexists;
@@ -103,25 +103,16 @@ class envbar_config_set {
 
     public function save($DB) {
         if ($this->matchpattern == '' && $this->dbexists) {
-            $DB->delete_records(self::TABLE, array('id' => $this->id));
+            $DB->delete_records(self::DB_TABLE, array('id' => $this->id));
         } else if ($this->is_valid()) {
             if ($this->dbexists) {
-                $DB->update_record(self::TABLE, arr_to_std($this->get_params()));
+                $DB->update_record(self::DB_TABLE, (object) $this->get_params());
             } else {
-                $DB->insert_record(self::TABLE, arr_to_std($this->get_params()));
+                $DB->insert_record(self::DB_TABLE, (object) $this->get_params());
             }
         }
     }
 }
-
-function arr_to_std($array) {
-    $result = new stdClass();
-    foreach ($array as $key => $value) {
-        $result->$key = $value;
-    }
-    return $result;
-}
-
 
 class envbar_config_set_factory {
     /**
