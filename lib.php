@@ -23,7 +23,7 @@
 
 require_once(dirname(__FILE__).'/config.php');
 
-if ($_SERVER['REQUEST_METHOD'] == 'GET') {
+if (isset($_SERVER['REQUEST_METHOD']) and $_SERVER['REQUEST_METHOD'] == 'GET') {
     global $DB;
     $records = $DB->get_records(envbar_config_set::DB_TABLE, array('enabled' => 1));
     foreach ($records as $set) {

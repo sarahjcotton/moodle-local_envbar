@@ -24,4 +24,37 @@ class local_envbar_test extends advanced_testcase{
     public function test_factory_empty_records() {
         $this->assertCount(3, envbar_config_set_factory::instances(), 'Factory does not return 3 records');
     }
+
+    public function test_configmodel(){
+        global $ENVBAR_COLOR_CHOICES;
+
+            $set = new envbar_config_set();
+        foreach(array(
+            'id' => array(4,5),
+            'colorbg' => $ENVBAR_COLOR_CHOICES,
+            'colortext' => $ENVBAR_COLOR_CHOICES,
+            'matchpattern' => array('some text', 'another text'),
+            'showtext' => array('some text', 'another text'),
+            'enabled' => array(0, 1, 2)
+                ) as $attr => $goodValues) {
+            foreach($goodValues as $testValue) {
+                $set->$attr = $testValue;
+                $this->assertEquals($testValue, $set->$attr);
+            }
+        }
+
+        foreach(array(
+                    'id' => array('qwe', 'zxc', -14),
+                    'colorbg' => array('#qwe', '#cccccc'),
+                    'colortext' => array('#qwe', '#cccccc'),
+                ) as $attr => $badValues) {
+            foreach($badValues as $testValue) {
+                $set->$attr = $testValue;
+                $this->assertNotEquals($testValue, $set->$attr, $attr);
+            }
+        }
+
+    }
+
+
 }
