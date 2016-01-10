@@ -38,12 +38,3 @@ if (isset($_SERVER['REQUEST_METHOD']) and $_SERVER['REQUEST_METHOD'] == 'GET') {
         }
     }
 }
-
-
-function local_envbar_extends_navigation() {
-
-}
-
-function local_envbar_extends_settings_navigation($settingsnav, $context) {
-}
-
