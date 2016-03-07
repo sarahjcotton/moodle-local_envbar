@@ -32,7 +32,10 @@ if (isset($_SERVER['REQUEST_METHOD']) and $_SERVER['REQUEST_METHOD'] == 'GET') {
                 '<div style="position:fixed; padding:15px; width:100%; top:0px; left:0px; z-index:9999;background-color:'
                 .$set->colorbg.'; color:'.$set->colortext.'">'
                 .htmlspecialchars($set->showtext).'</div>'
-                .'<style>.navbar-fixed-top {top:50px !important;}</style>'
+                .'<style>.navbar-fixed-top {top:50px !important;}'
+                .'.debuggingmessage {padding-top:50px;}'
+                .'.debuggingmessage ~ .debuggingmessage {padding-top:0px;}'
+                .'</style>'
                 .'<div style="height:50px;"> &nbsp;</div>';
             break;
         }
