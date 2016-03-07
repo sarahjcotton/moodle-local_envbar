@@ -40,6 +40,7 @@ class local_envbar_form extends moodleform {
         foreach ($this->_customdata['sets'] as $set) {
             $mform->addElement('html', "<h4>Set #{$counter}</h4>");
             $mform->addElement('hidden', "id[{$set->id}]", $set->id);
+            $mform->setType("id[{$set->id}]", PARAM_TEXT);
 
             if (!$counter != 1) {
                 $mform->addElement('html', '<hr>');
@@ -66,12 +67,15 @@ class local_envbar_form extends moodleform {
                 get_string('url-match', PLUGIN_NAME_ENVBAR),
                 array('placeholder' => get_string('url-match-placeholder', PLUGIN_NAME_ENVBAR))
             );
+            $mform->setType("matchpattern[{$set->id}]", PARAM_TEXT);
+
             $mform->addElement(
                 'text',
                 "showtext[{$set->id}]",
                 get_string('show-text', PLUGIN_NAME_ENVBAR),
                 array('placeholder' => get_string('show-text-placeholder', PLUGIN_NAME_ENVBAR))
             );
+            $mform->setType("showtext[{$set->id}]", PARAM_URL);
 
             $mform->addElement(
                 'advcheckbox',
