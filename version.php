@@ -16,10 +16,17 @@
 
 /**
  *
- * @package local_envbar
- * @copyright 2016 Catalyst
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   local_envbar
+ * @author    Grigory Baleevskiy (grigory@catalyst-au.net)
+ * @copyright Catalyst IT
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$plugin->version   = 2016010600;
+if (!defined('MOODLE_INTERNAL')) {
+    die('Direct access to this script is forbidden.'); // It must be included from a Moodle page.
+}
+
+$plugin->version   = 2016010600;        // The current plugin version (Date: YYYYMMDDXX).
+$plugin->requires  = 2015050500;        // Requires Moodle 2.7.
 $plugin->component = "local_envbar";
+

@@ -16,9 +16,10 @@
 
 /**
  *
- * @package local_envbar
- * @copyright 2016 Catalyst
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   local_envbar
+ * @author    Grigory Baleevskiy (grigory@catalyst-au.net)
+ * @copyright Catalyst IT
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once(dirname(__FILE__) . '/../../config.php');

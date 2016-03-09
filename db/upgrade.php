@@ -17,13 +17,13 @@
 /**
  * Database upgrades.
  *
- * @package local_envbar
- * @copyright 2016 Catalyst Australia
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   local_envbar
+ * @author    Grigory Baleevskiy (grigory@catalyst-au.net)
+ * @copyright Catalyst IT
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
-
 
 /**
  * @param string $oldversion the version we are upgrading from.

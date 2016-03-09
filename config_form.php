@@ -17,9 +17,10 @@
 /**
  * Form for editing a configuration of the status bar
  *
- * @package local_envbar
- * @copyright 2016 Catalyst Australia
- * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   local_envbar
+ * @author    Grigory Baleevskiy (grigory@catalyst-au.net)
+ * @copyright Catalyst IT
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 require_once($CFG->libdir . '/formslib.php');
@@ -28,7 +29,7 @@ require_once(dirname(__FILE__).'/config.php');
 /**
  * Form for editing a Enviromental bar.
  *
- * @copyright © 2016 Catalyst Australia
+ * @copyright Catalyst IT
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class local_envbar_form extends moodleform {
