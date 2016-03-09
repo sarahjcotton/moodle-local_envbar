@@ -33,7 +33,7 @@ require_once(dirname(__FILE__).'/config.php');
  */
 class local_envbar_form extends moodleform {
     public function definition() {
-        global $ENVBAR_COLOR_CHOICES;
+        global $envbarcolorchoices;
 
         $mform = $this->_form;
         $counter = 1;
@@ -49,7 +49,7 @@ class local_envbar_form extends moodleform {
                 'select',
                 "colorbg[{$set->id}]",
                 get_string('bgcolor', PLUGIN_NAME_ENVBAR),
-                $ENVBAR_COLOR_CHOICES
+                $envbarcolorchoices
             );
             $bgcolor->setSelected($set->colorbg);
 
@@ -57,7 +57,7 @@ class local_envbar_form extends moodleform {
                 'select',
                 "colortext[{$set->id}]",
                 get_string('text-color', PLUGIN_NAME_ENVBAR),
-                $ENVBAR_COLOR_CHOICES
+                $envbarcolorchoices
             );
             $textcolor->setSelected($set->colortext);
 

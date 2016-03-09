@@ -25,32 +25,32 @@ class local_envbar_test extends advanced_testcase{
         $this->assertCount(3, envbar_config_set_factory::instances(), 'Factory does not return 3 records');
     }
 
-    public function test_configmodel(){
-        global $ENVBAR_COLOR_CHOICES;
+    public function test_configmodel() {
+        global $envbarcolorchoices;
 
             $set = new envbar_config_set();
-        foreach(array(
-            'id' => array(4,5),
-            'colorbg' => $ENVBAR_COLOR_CHOICES,
-            'colortext' => $ENVBAR_COLOR_CHOICES,
+        foreach (array(
+            'id' => array(4, 5),
+            'colorbg' => $envbarcolorchoices,
+            'colortext' => $envbarcolorchoices,
             'matchpattern' => array('some text', 'another text'),
             'showtext' => array('some text', 'another text'),
             'enabled' => array(0, 1, 2)
-                ) as $attr => $goodValues) {
-            foreach($goodValues as $testValue) {
-                $set->$attr = $testValue;
-                $this->assertEquals($testValue, $set->$attr);
+                ) as $attr => $goodvalues) {
+            foreach ($goodvalues as $testvalue) {
+                $set->$attr = $testvalue;
+                $this->assertEquals($testvalue, $set->$attr);
             }
         }
 
-        foreach(array(
+        foreach (array(
                     'id' => array('qwe', 'zxc', -14),
                     'colorbg' => array('#qwe', '#cccccc'),
                     'colortext' => array('#qwe', '#cccccc'),
-                ) as $attr => $badValues) {
-            foreach($badValues as $testValue) {
-                $set->$attr = $testValue;
-                $this->assertNotEquals($testValue, $set->$attr, $attr);
+                ) as $attr => $badvalues) {
+            foreach ($badvalues as $testvalue) {
+                $set->$attr = $testvalue;
+                $this->assertNotEquals($testvalue, $set->$attr, $attr);
             }
         }
 

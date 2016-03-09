@@ -18,7 +18,7 @@ global $CFG;
 
 define('PLUGIN_NAME_ENVBAR', 'local_envbar');
 
-$ENVBAR_COLOR_CHOICES = array(
+$envbarcolorchoices = array(
     'black' => 'black',
     'white' => 'white',
     'red' => 'red',
@@ -69,7 +69,7 @@ class envbar_config_set {
     }
 
     public function __set($name, $value) {
-        global $ENVBAR_COLOR_CHOICES;
+        global $envbarcolorchoices;
         switch($name) {
             case 'id':
             case 'enabled':
@@ -77,7 +77,7 @@ class envbar_config_set {
                 break;
             case 'colorbg':
             case 'colortext':
-                if (!in_array($value, $ENVBAR_COLOR_CHOICES)) {
+                if (!in_array($value, $envbarcolorchoices)) {
                     return false;
                 }
                 break;
