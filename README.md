@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/nhoobin/moodle-local_envbar.svg?branch=master)](https://travis-ci.org/nhoobin/moodle-local_envbar)
+
 # Environmental bar plugin
 
 This directory contains a plug-in which can show a fixed div with custom text according to the URL.
