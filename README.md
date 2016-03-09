@@ -1,11 +1,11 @@
 [![Build Status](https://travis-ci.org/nhoobin/moodle-local_envbar.svg?branch=master)](https://travis-ci.org/nhoobin/moodle-local_envbar)
 
-Environmental bar plugin
+Environment bar - Moodle local plugin
 ====================
 
 This plugin can show a fixed div with custom text according to the URL.
 
-This is useful with development and production for identifying which server you currently reside on based on the sites URL.
+This is useful with development and production for identifying which server you currently reside on based on the URL.
 
 # Installation
 
