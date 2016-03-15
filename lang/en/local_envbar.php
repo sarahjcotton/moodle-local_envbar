@@ -33,5 +33,5 @@ $string['setenabledtext'] = '';
 $string['urlmatch'] = 'URL Match pattern';
 $string['urlmatchplaceholder'] = 'e.x. staging';
 $string['header_envbar'] = 'Environment bar';
-$string['set'] = 'Set';
+$string['set'] = 'Set #{$a}';
 $string['cachedef_records'] = 'The environment bar database records';
