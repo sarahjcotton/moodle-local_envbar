@@ -36,7 +36,7 @@ Run the Moodle upgrade.
 # Setup
 
 The plugin can be configured via,
-    `(Site administration > Development > Environment bar)`
+    `(Site administration > Plugins > Local Plugins > Environment bar)`
 
 Text, backgound-color and text color can be customised.
 
