@@ -23,24 +23,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-global $CFG;
-
-$envbarcolorchoices = array(
-    'black' => 'black',
-    'white' => 'white',
-    'red' => 'red',
-    'green' => 'green',
-    'seagreen' => 'seagreen',
-    'yellow' => 'yellow',
-    'brown' => 'brown',
-    'blue' => 'blue',
-    'slateblue' => 'slateblue',
-    'chocolate' => 'chocolate',
-    'crimson' => 'crimson',
-    'orange' => 'orange',
-    'darkorange' => 'darkorange',
-);
-
 
 /**
  * Set the configuration for environment bar.
@@ -71,6 +53,7 @@ class envbar_config_set {
             'showtext' => '',
             'enabled' => 0
         );
+
         if ($params instanceof stdClass) {
             foreach (array_keys($this->params) as $key) {
                 $this->params[$key] = $params->$key;
@@ -100,27 +83,6 @@ class envbar_config_set {
      * @param string $value
      */
     public function __set($name, $value) {
-        global $envbarcolorchoices;
-        switch($name) {
-            case 'id':
-            case 'enabled':
-                $value = abs(intval($value));
-                break;
-            case 'colorbg':
-            case 'colortext':
-                if (!in_array($value, $envbarcolorchoices)) {
-                    return false;
-                }
-                break;
-            case 'matchpattern':
-            case 'showtext':
-                if (strlen($value) > 255) {
-                    return false;
-                }
-                break;
-            default:
-                return false;
-        }
         $this->params[$name] = $value;
     }
 
