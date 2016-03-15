@@ -39,9 +39,24 @@ class local_envbar_form extends moodleform {
      * @see moodleform::definition()
      */
     public function definition() {
-        global $envbarcolorchoices;
+        $envbarcolorchoices = array(
+            'black' => 'black',
+            'white' => 'white',
+            'red' => 'red',
+            'green' => 'green',
+            'seagreen' => 'seagreen',
+            'yellow' => 'yellow',
+            'brown' => 'brown',
+            'blue' => 'blue',
+            'slateblue' => 'slateblue',
+            'chocolate' => 'chocolate',
+            'crimson' => 'crimson',
+            'orange' => 'orange',
+            'darkorange' => 'darkorange',
+        );
 
         $mform = $this->_form;
+
         $counter = 1;
         foreach ($this->_customdata['sets'] as $set) {
             $settitle = html_writer::tag('h4', get_string('set', 'local_envbar', $counter));
@@ -111,12 +126,7 @@ class local_envbar_form extends moodleform {
      *         or an empty array if everything is OK (true allowed for backwards compatibility too).
      */
     public function validation($data, $files) {
-        global $CFG, $DB, $USER;
-
         $errors = parent::validation($data, $files);
-
-        return $errors;
     }
-
 }
 
