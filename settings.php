@@ -23,9 +23,13 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-$settings = null;
+if ($hassiteconfig) {
 
-$ADMIN->add('development', new admin_externalpage('local_envbar',
-    get_string('pluginname', 'local_envbar'),
-    new moodle_url('/local/envbar/index.php'),
-    'moodle/site:config'));
+    $externalpage = new admin_externalpage('local_envbar',
+        get_string('pluginname', 'local_envbar'),
+        new moodle_url('/local/envbar/index.php'));
+
+    $ADMIN->add('localplugins', $externalpage);
+
+    $settings = null;
+}
