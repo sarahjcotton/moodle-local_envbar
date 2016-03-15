@@ -4,7 +4,7 @@
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
-    <TABLE NAME="local_envbar_configset" COMMENT="A list of envbar sets">
+    <TABLE NAME="local_envbar" COMMENT="A list of envbar sets">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="colorbg" TYPE="char" LENGTH="64" NOTNULL="true" SEQUENCE="false" COMMENT="Background color"/>

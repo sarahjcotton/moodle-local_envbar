@@ -44,7 +44,7 @@ class local_envbar_form extends moodleform {
         $mform = $this->_form;
         $counter = 1;
         foreach ($this->_customdata['sets'] as $set) {
-            $mform->addElement('html', "<h4>" . get_string('set', PLUGIN_NAME_ENVBAR) . " #{$counter}</h4>");
+            $mform->addElement('html', "<h4>" . get_string('set', 'local_envbar') . " #{$counter}</h4>");
             $mform->addElement('hidden', "id[{$set->id}]", $set->id);
             $mform->setType("id[{$set->id}]", PARAM_TEXT);
 
@@ -54,7 +54,7 @@ class local_envbar_form extends moodleform {
             $bgcolor = $mform->addElement(
                 'select',
                 "colorbg[{$set->id}]",
-                get_string('bgcolor', PLUGIN_NAME_ENVBAR),
+                get_string('bgcolor', 'local_envbar'),
                 $envbarcolorchoices
             );
             $bgcolor->setSelected($set->colorbg);
@@ -62,7 +62,7 @@ class local_envbar_form extends moodleform {
             $textcolor = $mform->addElement(
                 'select',
                 "colortext[{$set->id}]",
-                get_string('text-color', PLUGIN_NAME_ENVBAR),
+                get_string('textcolor', 'local_envbar'),
                 $envbarcolorchoices
             );
             $textcolor->setSelected($set->colortext);
@@ -70,24 +70,24 @@ class local_envbar_form extends moodleform {
             $mform->addElement(
                 'text',
                 "matchpattern[{$set->id}]",
-                get_string('url-match', PLUGIN_NAME_ENVBAR),
-                array('placeholder' => get_string('url-match-placeholder', PLUGIN_NAME_ENVBAR))
+                get_string('urlmatch', 'local_envbar'),
+                array('placeholder' => get_string('urlmatchplaceholder', 'local_envbar'))
             );
             $mform->setType("matchpattern[{$set->id}]", PARAM_URL);
 
             $mform->addElement(
                 'text',
                 "showtext[{$set->id}]",
-                get_string('show-text', PLUGIN_NAME_ENVBAR),
-                array('placeholder' => get_string('show-text-placeholder', PLUGIN_NAME_ENVBAR))
+                get_string('showtext', 'local_envbar'),
+                array('placeholder' => get_string('showtextplaceholder', 'local_envbar'))
             );
             $mform->setType("showtext[{$set->id}]", PARAM_TEXT);
 
             $mform->addElement(
                 'advcheckbox',
                 "enabled[{$set->id}]",
-                get_string('set-enabled', PLUGIN_NAME_ENVBAR),
-                get_string('set-enabled-text', PLUGIN_NAME_ENVBAR),
+                get_string('setenabled', 'local_envbar'),
+                get_string('setenabledtext', 'local_envbar'),
                 array(),
                 array(0, 1));
 

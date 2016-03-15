@@ -25,8 +25,6 @@
 
 global $CFG;
 
-define('PLUGIN_NAME_ENVBAR', 'local_envbar');
-
 $envbarcolorchoices = array(
     'black' => 'black',
     'white' => 'white',
@@ -56,9 +54,6 @@ class envbar_config_set {
 
     /** @var Database check flag */
     protected $dbexists = false;
-
-    /** @var The table this plugin will use */
-    const DB_TABLE = 'local_envbar_configset';
 
     /**
      * Environment bar constructor.
@@ -149,12 +144,12 @@ class envbar_config_set {
      */
     public function save($DB) {
         if ($this->matchpattern == '' && $this->dbexists) {
-            $DB->delete_records(self::DB_TABLE, array('id' => $this->id));
+            $DB->delete_records('local_envbar', array('id' => $this->id));
         } else if ($this->is_valid()) {
             if ($this->dbexists) {
-                $DB->update_record(self::DB_TABLE, (object) $this->get_params());
+                $DB->update_record('local_envbar', (object) $this->get_params());
             } else {
-                $DB->insert_record(self::DB_TABLE, (object) $this->get_params());
+                $DB->insert_record('local_envbar', (object) $this->get_params());
             }
         }
     }
@@ -176,7 +171,7 @@ class envbar_config_set_factory {
         global $DB;
         $result = array();
 
-        $records = $DB->get_records('local_envbar_configset', array(), 'id asc');
+        $records = $DB->get_records('local_envbar', array(), 'id asc');
         $maxid = 0;
 
         foreach ($records as $id => $set) {

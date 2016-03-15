@@ -30,18 +30,6 @@ require_once($CFG->libdir . '/adminlib.php');
 
 admin_externalpage_setup('local_envbar');
 
-$PAGE->set_url('/local/envbar/index.php');
-$node = $PAGE->settingsnav->find('envbar', navigation_node::TYPE_SETTING);
-if ($node) {
-    $node->make_active();
-}
-$PAGE->navbar->add(get_string('pluginname', 'local_envbar'));
-
-$PAGE->set_title(get_string('pluginname', 'local_envbar'));
-$PAGE->set_heading(get_string('pluginname', 'local_envbar'));
-
-
-
 $sets = envbar_config_set_factory::instances();
 $form = new local_envbar_form(null, array('sets' => $sets));
 
@@ -60,8 +48,7 @@ if ($data = $form->get_data()) {
 
 echo $OUTPUT->header();
 
-
-echo $OUTPUT->heading(get_string('header_envbar', PLUGIN_NAME_ENVBAR));
+echo $OUTPUT->heading(get_string('header_envbar', 'local_envbar'));
 
 echo $form->display();
 
