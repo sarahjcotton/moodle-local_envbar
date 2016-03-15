@@ -13,14 +13,25 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+//
+/**
+ * Strings for component 'local_envbar', language 'en'.
+ *
+ * @package   local_envbar
+ * @author    Grigory Baleevskiy (grigory@catalyst-au.net)
+ * @copyright Catalyst IT
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
 $string['pluginname'] = 'Environment bar';
 $string['bgcolor'] = 'Background color';
-$string['text-color'] = 'Text color';
-$string['show-text'] = 'Text to show';
-$string['show-text-placeholder'] = 'e.x. You are on staging environment';
-$string['set-enabled'] = 'Enabled';
-$string['set-enabled-text'] = '';
-$string['url-match'] = 'URL Match pattern';
-$string['url-match-placeholder'] = 'e.x. staging';
-$string['header_envbar'] = 'Environmental bar';
+$string['textcolor'] = 'Text color';
+$string['showtext'] = 'Text to show';
+$string['showtextplaceholder'] = 'e.x. You are on staging environment';
+$string['setenabled'] = 'Enabled';
+$string['setenabledtext'] = '';
+$string['urlmatch'] = 'URL Match pattern';
+$string['urlmatchplaceholder'] = 'e.x. staging';
+$string['header_envbar'] = 'Environment bar';
+$string['set'] = 'Set';
+$string['cachedef_records'] = 'The environment bar database records';

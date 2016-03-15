@@ -14,9 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-global $CFG;
+/**
+ * Environment bar config.
+ *
+ * @package   local_envbar
+ * @author    Grigory Baleevskiy (grigory@catalyst-au.net)
+ * @copyright Catalyst IT
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
-define('PLUGIN_NAME_ENVBAR', 'local_envbar');
+global $CFG;
 
 $envbarcolorchoices = array(
     'black' => 'black',
@@ -35,12 +42,25 @@ $envbarcolorchoices = array(
 );
 
 
+/**
+ * Set the configuration for environment bar.
+ *
+ * @copyright Catalyst IT
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class envbar_config_set {
+    /** @var Parameter object that contains instance configuration */
     protected $params;
+
+    /** @var Database check flag */
     protected $dbexists = false;
 
-    const DB_TABLE = 'local_envbar_configset';
-
+    /**
+     * Environment bar constructor.
+     *
+     * @param array $params
+     * @param boolean $dbexists
+     */
     public function __construct($params = array(), $dbexists = false) {
         $this->dbexists = $dbexists;
         $this->params = array(
@@ -64,10 +84,21 @@ class envbar_config_set {
         }
     }
 
+    /**
+     * Gets the parameters.
+     *
+     * @param string $name
+     */
     public function __get($name) {
         return $this->params[$name];
     }
 
+    /**
+     * Sets the name and colour.
+     *
+     * @param string $name
+     * @param string $value
+     */
     public function __set($name, $value) {
         global $envbarcolorchoices;
         switch($name) {
@@ -93,36 +124,54 @@ class envbar_config_set {
         $this->params[$name] = $value;
     }
 
+    /**
+     * Checks if the match pattern is valid.
+     */
     public function is_valid() {
         return ($this->matchpattern != '' && $this->id > 0);
     }
 
+    /**
+     * Returns the parameter list.
+     */
     public function get_params() {
         return $this->params;
     }
 
+    /**
+     * Save records to the database.
+     * @param object $DB Moodle database reference.
+     */
     public function save($DB) {
         if ($this->matchpattern == '' && $this->dbexists) {
-            $DB->delete_records(self::DB_TABLE, array('id' => $this->id));
+            $DB->delete_records('local_envbar', array('id' => $this->id));
         } else if ($this->is_valid()) {
             if ($this->dbexists) {
-                $DB->update_record(self::DB_TABLE, (object) $this->get_params());
+                $DB->update_record('local_envbar', (object) $this->get_params());
             } else {
-                $DB->insert_record(self::DB_TABLE, (object) $this->get_params());
+                $DB->insert_record('local_envbar', (object) $this->get_params());
             }
         }
     }
 }
 
+/**
+ * Configuration factory helper class to return instances and configuration objects.
+ *
+ * @copyright Catalyst IT
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 class envbar_config_set_factory {
     /**
+     * Instances of the configruation settings.
+     *
      * @return array records from DB + 3 empty records
      */
     public static function instances() {
         global $DB;
         $result = array();
 
-        $records = $DB->get_records('local_envbar_configset', array(), 'id asc');
+        $records = $DB->get_records('local_envbar', array(), 'id asc');
         $maxid = 0;
 
         foreach ($records as $id => $set) {
@@ -137,6 +186,8 @@ class envbar_config_set_factory {
     }
 
     /**
+     * Returns a new record of the configuration.
+     *
      * @param int $id attribute of new record
      * @return envbar_config_set empty object
      */

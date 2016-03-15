@@ -33,13 +33,18 @@ require_once(dirname(__FILE__).'/config.php');
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class local_envbar_form extends moodleform {
+
+    /**
+     * {@inheritDoc}
+     * @see moodleform::definition()
+     */
     public function definition() {
         global $envbarcolorchoices;
 
         $mform = $this->_form;
         $counter = 1;
         foreach ($this->_customdata['sets'] as $set) {
-            $mform->addElement('html', "<h4>Set #{$counter}</h4>");
+            $mform->addElement('html', "<h4>" . get_string('set', 'local_envbar') . " #{$counter}</h4>");
             $mform->addElement('hidden', "id[{$set->id}]", $set->id);
             $mform->setType("id[{$set->id}]", PARAM_TEXT);
 
@@ -49,7 +54,7 @@ class local_envbar_form extends moodleform {
             $bgcolor = $mform->addElement(
                 'select',
                 "colorbg[{$set->id}]",
-                get_string('bgcolor', PLUGIN_NAME_ENVBAR),
+                get_string('bgcolor', 'local_envbar'),
                 $envbarcolorchoices
             );
             $bgcolor->setSelected($set->colorbg);
@@ -57,7 +62,7 @@ class local_envbar_form extends moodleform {
             $textcolor = $mform->addElement(
                 'select',
                 "colortext[{$set->id}]",
-                get_string('text-color', PLUGIN_NAME_ENVBAR),
+                get_string('textcolor', 'local_envbar'),
                 $envbarcolorchoices
             );
             $textcolor->setSelected($set->colortext);
@@ -65,24 +70,24 @@ class local_envbar_form extends moodleform {
             $mform->addElement(
                 'text',
                 "matchpattern[{$set->id}]",
-                get_string('url-match', PLUGIN_NAME_ENVBAR),
-                array('placeholder' => get_string('url-match-placeholder', PLUGIN_NAME_ENVBAR))
+                get_string('urlmatch', 'local_envbar'),
+                array('placeholder' => get_string('urlmatchplaceholder', 'local_envbar'))
             );
             $mform->setType("matchpattern[{$set->id}]", PARAM_URL);
 
             $mform->addElement(
                 'text',
                 "showtext[{$set->id}]",
-                get_string('show-text', PLUGIN_NAME_ENVBAR),
-                array('placeholder' => get_string('show-text-placeholder', PLUGIN_NAME_ENVBAR))
+                get_string('showtext', 'local_envbar'),
+                array('placeholder' => get_string('showtextplaceholder', 'local_envbar'))
             );
             $mform->setType("showtext[{$set->id}]", PARAM_TEXT);
 
             $mform->addElement(
                 'advcheckbox',
                 "enabled[{$set->id}]",
-                get_string('set-enabled', PLUGIN_NAME_ENVBAR),
-                get_string('set-enabled-text', PLUGIN_NAME_ENVBAR),
+                get_string('setenabled', 'local_envbar'),
+                get_string('setenabledtext', 'local_envbar'),
                 array(),
                 array(0, 1));
 
@@ -95,6 +100,14 @@ class local_envbar_form extends moodleform {
         $this->add_action_buttons();
     }
 
+    /**
+     * Returns an array with fields that are invalid while creating a new QR link.
+     *
+     * @param array $data array of ("fieldname"=>value) of submitted data
+     * @param array $files array of uploaded files "element_name"=>tmp_file_path
+     * @return array of "element_name"=>"error_description" if there are errors,
+     *         or an empty array if everything is OK (true allowed for backwards compatibility too).
+     */
     public function validation($data, $files) {
         global $CFG, $DB, $USER;
 

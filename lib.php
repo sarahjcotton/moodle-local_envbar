@@ -15,6 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
+ * Environment bar library.
  *
  * @package   local_envbar
  * @author    Grigory Baleevskiy (grigory@catalyst-au.net)
@@ -22,22 +23,25 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once(dirname(__FILE__).'/config.php');
+global $DB;
+$records = $DB->get_records('local_envbar', array('enabled' => 1));
 
-if (isset($_SERVER['REQUEST_METHOD']) and $_SERVER['REQUEST_METHOD'] == 'GET') {
-    global $DB;
-    $records = $DB->get_records(envbar_config_set::DB_TABLE, array('enabled' => 1));
-    foreach ($records as $set) {
-        if (false !== (strpos($_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], $set->matchpattern))) {
-            $CFG->additionalhtmltopofbody .= '<div style="position:fixed; padding:15px; width:100%; top:0px; left:0px; z-index:9999;background-color:'
-                .$set->colorbg.'; color:'.$set->colortext.'">'
-                .htmlspecialchars($set->showtext).'</div>'
-                .'<style>.navbar-fixed-top {top:50px !important;}'
-                .'.debuggingmessage {padding-top:50px;}'
-                .'.debuggingmessage ~ .debuggingmessage {padding-top:0px;}'
-                .'</style>'
-                .'<div style="height:50px;"> &nbsp;</div>';
-            break;
-        }
+
+foreach ($records as $set) {
+    $showtext = htmlspecialchars($set->showtext);
+    $additionalhtml = <<<EOD
+<div style="position:fixed; padding:15px; width:100%; top:0px; left:0px; z-index:9999;background-color:{$set->colorbg}; color:{$set->colortext}">{$showtext}</div>
+<style>
+.navbar-fixed-top {top:50px !important;}
+.debuggingmessage {padding-top:50px;}
+.debuggingmessage ~ .debuggingmessage {padding-top:0px;}
+</style>
+<div style="height:50px;"> &nbsp;</div>
+EOD;
+
+    if (false !== (strpos($_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], $set->matchpattern))) {
+        $CFG->additionalhtmltopofbody .= $additionalhtml;
+        break;
     }
 }
+
