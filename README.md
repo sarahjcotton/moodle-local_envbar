@@ -23,6 +23,14 @@ dev environment' the logic because much more resiliant to mistakes, refreshed
 databases, and still works even if you forget to do something. Ie it is the
 only near perfect fail safe way to detect an environment.
 
+Summary of situations covered:
+
+* In prod, with config, env bar doesn't show
+
+* In non-prod, with refreshed config, env bar shows custom bar
+
+* In non-prod, with zero config, env bar shows generic bar
+
 
 Installation
 ------------
