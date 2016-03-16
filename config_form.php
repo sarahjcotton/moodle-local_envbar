@@ -24,8 +24,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once($CFG->libdir . '/formslib.php');
-require_once(dirname(__FILE__).'/locallib.php');
+require_once($CFG->libdir . "/formslib.php");
+require_once(dirname(__FILE__)."/locallib.php");
 
 /**
  * Form for editing a Enviromental bar.
@@ -41,68 +41,172 @@ class local_envbar_form extends moodleform {
      */
     public function definition() {
         $envbarcolourchoices = array(
-            'black' => 'black',
-            'white' => 'white',
-            'red' => 'red',
-            'green' => 'green',
-            'seagreen' => 'seagreen',
-            'yellow' => 'yellow',
-            'brown' => 'brown',
-            'blue' => 'blue',
-            'slateblue' => 'slateblue',
-            'chocolate' => 'chocolate',
-            'crimson' => 'crimson',
-            'orange' => 'orange',
-            'darkorange' => 'darkorange',
+            "black" => "black",
+            "white" => "white",
+            "red" => "red",
+            "green" => "green",
+            "seagreen" => "seagreen",
+            "yellow" => "yellow",
+            "brown" => "brown",
+            "blue" => "blue",
+            "slateblue" => "slateblue",
+            "chocolate" => "chocolate",
+            "crimson" => "crimson",
+            "orange" => "orange",
+            "darkorange" => "darkorange",
         );
 
         $mform = $this->_form;
+        $records = $this->_customdata["records"];
+        $rcount = count($records);
+
+        foreach ($records as $record) {
+            $id = $record->id;
+
+            $mform->addElement(
+                "hidden",
+                "id[{$id}]",
+                $id
+            );
+
+            $backgroundcolour = $mform->addElement(
+                "select",
+                "colourbg[{$id}]",
+                get_string("bgcolour", "local_envbar"),
+                $envbarcolourchoices
+            );
+
+            $textcolour = $mform->addElement(
+                "select",
+                "colourtext[{$id}]",
+                get_string("textcolour", "local_envbar"),
+                $envbarcolourchoices
+            );
+
+            $mform->addElement(
+                "text",
+                "matchpattern[{$id}]",
+                get_string("urlmatch", "local_envbar"),
+                array("placeholder" => get_string("urlmatchplaceholder", "local_envbar"))
+            );
+
+            $mform->addElement(
+                "text",
+                "showtext[{$id}]",
+                get_string("showtext", "local_envbar"),
+                array("placeholder" => get_string("showtextplaceholder", "local_envbar"))
+            );
+
+            $mform->addElement(
+                "advcheckbox",
+                "enabled[{$id}]",
+                get_string("setenabled", "local_envbar"),
+                get_string("setenabledtext", "local_envbar"),
+                array(),
+                array(0, 1)
+            );
+
+            $mform->addElement(
+                "advcheckbox",
+                "delete[{$id}]",
+                get_string("setdeleted", "local_envbar"),
+                get_string("setdeletedtext", "local_envbar"),
+                array(),
+                array(0, 1)
+            );
+
+            $mform->addElement("html", "<br />");
+
+            $mform->setType("id[{$id}]", PARAM_INT);
+            $mform->setType("matchpattern[{$id}]", PARAM_URL);
+            $mform->setType("showtext[{$id}]", PARAM_TEXT);
+
+            $mform->setDefault("id[{$id}]", $record->id);
+            $mform->setDefault("matchpattern[{$id}]", $record->matchpattern);
+            $mform->setDefault("showtext[{$id}]", $record->showtext);
+            $mform->setDefault("enabled[{$id}]", $record->enabled ? 1 : 0);
+            $mform->setDefault("delete[{$id}]", 0);
+
+            $textcolour->setSelected($record->colourtext);
+            $backgroundcolour->setSelected($record->colourbg);
+        }
+
+        // Now we set up the same fields to repeat and add elements.
+        if ($rcount == 0) {
+            $repeatnumber = 1;
+        } else {
+            $repeatnumber = 0;
+        }
 
         $repeatarray = array();
-        $repeatnumber = 3;
 
-        $repeatarray[] = $mform->createElement('select',
-            'colourbg',
-            get_string('bgcolour', 'local_envbar'),
-            $envbarcolourchoices
+        $repeatarray[] = $mform->createElement(
+            "hidden",
+            "id"
         );
 
-        $repeatarray[] = $mform->createElement('select',
-            'colourtext',
-            get_string('textcolour', 'local_envbar'),
+        $repeatarray[] = $mform->createElement(
+            "select",
+            "colourbg",
+            get_string("bgcolour", "local_envbar"),
             $envbarcolourchoices
         );
 
         $repeatarray[] = $mform->createElement(
-            'text',
-            'matchpattern',
-            get_string('urlmatch', 'local_envbar'),
-            array('placeholder' => get_string('urlmatchplaceholder', 'local_envbar'))
+            "select",
+            "colourtext",
+            get_string("textcolour", "local_envbar"),
+            $envbarcolourchoices
         );
 
         $repeatarray[] = $mform->createElement(
-            'text',
-            'showtext',
-            get_string('showtext', 'local_envbar'),
-            array('placeholder' => get_string('showtextplaceholder', 'local_envbar'))
+            "text",
+            "matchpattern",
+            get_string("urlmatch", "local_envbar"),
+            array("placeholder" => get_string("urlmatchplaceholder", "local_envbar"))
         );
 
-        $repeatarray[] = $mform->addElement('html', '<br />');
+        $repeatarray[] = $mform->createElement(
+            "text",
+            "showtext",
+            get_string("showtext", "local_envbar"),
+            array("placeholder" => get_string("showtextplaceholder", "local_envbar"))
+        );
+
+        $repeatarray[] = $mform->createElement(
+            "advcheckbox",
+            "enabled",
+            get_string("setenabled", "local_envbar"),
+            get_string("setenabledtext", "local_envbar"),
+            array(),
+            array(0, 1)
+        );
+
+        $repeatarray[] = $mform->createElement(
+            "advcheckbox",
+            "delete",
+            get_string("setdeleted", "local_envbar"),
+            get_string("setdeletedtext", "local_envbar"),
+            array(),
+            array(0, 1)
+        );
+
+        $repeatarray[] = $mform->addElement("html", "<br />");
 
         $repeatoptions = array();
-        $repeatoptions['bgcolour']['default'] = 0;
-        $repeatoptions['bgcolour']['type'] = PARAM_INT;
+        $repeatoptions["id"]["default"] = "{no}";
+        $repeatoptions["id"]["type"] = PARAM_INT;
 
-        $repeatoptions['textcolour']['default'] = 0;
-        $repeatoptions['textcolour']['type'] = PARAM_INT;
+        $repeatoptions["bgcolour"]["default"] = "black";
+        $repeatoptions["textcolour"]["default"] = "white";
 
-        $repeatoptions['matchpattern']['default'] = '';
-        $repeatoptions['matchpattern']['type'] = PARAM_URL;
+        $repeatoptions["matchpattern"]["default"] = "";
+        $repeatoptions["matchpattern"]["type"] = PARAM_URL;
 
-        $repeatoptions['showtext']['default'] = '';
-        $repeatoptions['showtext']['type'] = PARAM_TEXT;
+        $repeatoptions["showtext"]["default"] = "";
+        $repeatoptions["showtext"]["type"] = PARAM_TEXT;
 
-        $this->repeat_elements($repeatarray, $repeatnumber, $repeatoptions, 'repeats', 'envbar_add', 1, null, false);
+        $this->repeat_elements($repeatarray, $repeatnumber, $repeatoptions, "repeats", "envbar_add", 1, null, false);
 
         $this->add_action_buttons();
     }

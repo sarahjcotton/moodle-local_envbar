@@ -33,5 +33,19 @@ defined('MOODLE_INTERNAL') || die();
 function xmldb_local_envbar_upgrade($oldversion) {
     global $CFG, $DB;
 
+    $dbman = $DB->get_manager(); // Loads ddl manager and xmldb classes.
+
+    if ($oldversion < 2016041505) {
+
+        $table = new xmldb_table('local_envbar');
+        $bgfield = new xmldb_field('colorbg', XMLDB_TYPE_CHAR, '64', null, XMLDB_NOTNULL, null, null, 'id');
+        $textfield = new xmldb_field('colortext', XMLDB_TYPE_CHAR, '64', null, XMLDB_NOTNULL, null, null, 'id');
+
+        $dbman->rename_field($table, $bgfield, 'colourbg');
+        $dbman->rename_field($table, $textfield, 'colourtext');
+
+        upgrade_plugin_savepoint(true, 2016041505, 'local', 'envbar');
+    }
+
     return true;
 }

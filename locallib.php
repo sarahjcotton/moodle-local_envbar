@@ -28,25 +28,44 @@ if (!defined('MOODLE_INTERNAL')) {
     die('Direct access to this script is forbidden.'); // It must be included from a Moodle page.
 }
 
-
+/**
+ * Helper function to insert data.
+ * @param stdClass $data
+ * @return boolean|number return value for the insert
+ */
 function insert_envbar($data) {
     global $DB;
-    $DB->insert_record('local_envbar', $data);
+    $ret = $DB->insert_record('local_envbar', $data);
+
+    return $ret;
 }
 
+/**
+ * Helper function to update data.
+ * @param stdClass $data
+ * @return boolean|number return value for the update
+ */
 function update_envbar($data) {
     global $DB;
-
     $result = $DB->get_records('local_envbar', array('id' => $data->id));
 
     if (empty($result)) {
-        insert_envbar($data);
+        $ret = insert_envbar($data);
     } else {
-        $DB->update_record('local_envbar', $data);
+        $ret = $DB->update_record('local_envbar', $data);
     }
+
+    return $ret;
 }
 
+/**
+ * Helper function to delete data.
+ * @param int $id
+ * @return boolean|number return value for the delete
+ */
 function delete_envbar($id) {
     global $DB;
-    $DB->delete_records('local_envbar', array('id' => $id));
+    $ret = $DB->delete_records('local_envbar', array('id' => $id));
+
+    return $ret;
 }

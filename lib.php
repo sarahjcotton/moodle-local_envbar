@@ -33,13 +33,13 @@ function local_envbar_inject() {
     // During the initial install we don't want to break the admin gui.
     try {
         $records = $DB->get_records('local_envbar', array('enabled' => 1));
-    } catch (Exception $e){
+    } catch (Exception $e) {
         return;
     }
     foreach ($records as $set) {
         $showtext = htmlspecialchars($set->showtext);
         $additionalhtml = <<<EOD
-<div style="position:fixed; padding:15px; width:100%; top:0px; left:0px; z-index:9999;background-color:{$set->colorbg}; color:{$set->colortext}">{$showtext}</div>
+<div style="position:fixed; padding:15px; width:100%; top:0px; left:0px; z-index:9999;background-color:{$set->colourbg}; color:{$set->colourtext}">{$showtext}</div>
 <style>
 .navbar-fixed-top {
     top:50px !important;
@@ -53,10 +53,11 @@ function local_envbar_inject() {
 </style>
 <div style="height:50px;"> &nbsp;</div>
 EOD;
-
-        if (false !== (strpos($_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], $set->matchpattern))) {
-            $CFG->additionalhtmltopofbody .= $additionalhtml;
-            break;
+        if (!empty($set->matchpattern)) {
+            if (false !== (strpos($_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], $set->matchpattern))) {
+                $CFG->additionalhtmltopofbody .= $additionalhtml;
+                break;
+            }
         }
     }
 }

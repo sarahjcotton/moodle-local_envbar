@@ -29,18 +29,32 @@ require_once(dirname(__FILE__).'/locallib.php');
 require_once(dirname(__FILE__) . '/config_form.php');
 require_once($CFG->libdir . '/adminlib.php');
 
+global $DB;
+
 admin_externalpage_setup('local_envbar');
 
-$form = new local_envbar_form();
+$records = $DB->get_records('local_envbar');
+$form = new local_envbar_form(null, array('records' => $records));
 
 if ($data = $form->get_data()) {
-    $repeats = $data->repeats;
 
-    for ($id = 0; $id < $repeats; $id++) {
-        $colourbg = $data->colourbg[$id];
-        $colourtext = $data->colourtext[$id];
-        $matchpattern = $data->matchpattern[$id];
-        $showtext = $data->showtext[$id];
+    $keys = array_keys($data->id);
+
+    foreach ($keys as $key => $value) {
+        $item = new stdClass();
+        $item->id = $data->id[$value];
+        $item->colourbg = $data->colourbg[$value];
+        $item->colourtext = $data->colourtext[$value];
+        $item->matchpattern = $data->matchpattern[$value];
+        $item->showtext = $data->showtext[$value];
+        $item->enabled = $data->enabled[$value];
+
+        if ($data->delete[$value] == 1) {
+            delete_envbar($value);
+        } else {
+            // Update or insert a new item.
+            update_envbar($item);
+        }
     }
 
     redirect(new moodle_url('/local/envbar/index.php'));
