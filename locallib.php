@@ -62,20 +62,6 @@ function delete_envbar($id) {
 }
 
 /**
- * Helper function get records, will perform base64_decode on the fields.
- * @param array $array array of query parameters
- * @return array $result array of records
- */
-function envbar_get_records($array = null) {
-    global $DB;
-
-    $result = $DB->get_records('local_envbar', $array);
-    $result = base64_decode_records($result);
-    return $result;
-
-}
-
-/**
  * Helper function to base64 decode the matchpattern and showtext fields.
  * @param array $data
  * @return array $data
