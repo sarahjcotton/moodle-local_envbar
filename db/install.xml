@@ -7,8 +7,8 @@
     <TABLE NAME="local_envbar" COMMENT="A list of envbar sets">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
-        <FIELD NAME="colorbg" TYPE="char" LENGTH="64" NOTNULL="true" SEQUENCE="false" COMMENT="Background color"/>
-        <FIELD NAME="colortext" TYPE="char" LENGTH="64" NOTNULL="true" SEQUENCE="false" COMMENT="Text color"/>
+        <FIELD NAME="colourbg" TYPE="char" LENGTH="64" NOTNULL="true" SEQUENCE="false" COMMENT="Background colour"/>
+        <FIELD NAME="colourtext" TYPE="char" LENGTH="64" NOTNULL="true" SEQUENCE="false" COMMENT="Text colour"/>
         <FIELD NAME="matchpattern" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Match pattern"/>
         <FIELD NAME="showtext" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Text to show"/>
         <FIELD NAME="enabled" TYPE="int" LENGTH="1" DEFAULT="0" UNSIGNED="true"  NOTNULL="true" SEQUENCE="false" COMMENT="Enabled Flag"/>
