@@ -25,24 +25,43 @@
 
 
 // TODO: Add to application cache, preventing a lookup for each page.
-global $DB;
-$records = $DB->get_records('local_envbar', array('enabled' => 1));
 
-foreach ($records as $set) {
-    $showtext = htmlspecialchars($set->showtext);
-    $additionalhtml = <<<EOD
+function local_envbar_inject() {
+    global $DB, $CFG;
+
+    // During the initial install we don't want to break the admin gui.
+    try {
+        $records = $DB->get_records('local_envbar', array('enabled' => 1));
+    } catch (Exception $e){
+        return;
+    }
+    foreach ($records as $set) {
+        $showtext = htmlspecialchars($set->showtext);
+        $additionalhtml = <<<EOD
 <div style="position:fixed; padding:15px; width:100%; top:0px; left:0px; z-index:9999;background-color:{$set->colorbg}; color:{$set->colortext}">{$showtext}</div>
 <style>
-.navbar-fixed-top {top:50px !important;}
-.debuggingmessage {padding-top:50px;}
-.debuggingmessage ~ .debuggingmessage {padding-top:0px;}
+.navbar-fixed-top {
+    top:50px !important;
+}
+.debuggingmessage {
+    padding-top:50px;
+}
+.debuggingmessage ~ .debuggingmessage {
+    padding-top:0px;
+}
 </style>
 <div style="height:50px;"> &nbsp;</div>
 EOD;
 
-    if (false !== (strpos($_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], $set->matchpattern))) {
-        $CFG->additionalhtmltopofbody .= $additionalhtml;
-        break;
+        if (false !== (strpos($_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], $set->matchpattern))) {
+            $CFG->additionalhtmltopofbody .= $additionalhtml;
+            break;
+        }
     }
+}
+
+// lib.php isn't always called, we need to hook something to ensure it runs.
+function local_envbar_extend_navigation($navigation, $course = null, $module = null, $cm = null) {
+    local_envbar_inject();
 }
 
