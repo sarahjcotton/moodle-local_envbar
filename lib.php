@@ -32,7 +32,7 @@ function local_envbar_inject() {
 
     // During the initial install we don't want to break the admin gui.
     try {
-        $records = $DB->get_records('local_envbar', array('enabled' => 1));
+        $records = envbar_get_records(array('enabled' => 1));
     } catch (Exception $e) {
         return;
     }

@@ -33,7 +33,7 @@ global $DB;
 
 admin_externalpage_setup('local_envbar');
 
-$records = $DB->get_records('local_envbar');
+$records = envbar_get_records();
 $form = new local_envbar_form(null, array('records' => $records));
 
 if ($data = $form->get_data()) {

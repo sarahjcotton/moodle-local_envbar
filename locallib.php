@@ -29,28 +29,19 @@ if (!defined('MOODLE_INTERNAL')) {
 }
 
 /**
- * Helper function to insert data.
- * @param stdClass $data
- * @return boolean|number return value for the insert
- */
-function insert_envbar($data) {
-    global $DB;
-    $ret = $DB->insert_record('local_envbar', $data);
-
-    return $ret;
-}
-
-/**
- * Helper function to update data.
+ * Helper function to update data, or insert if it does not exist.
  * @param stdClass $data
  * @return boolean|number return value for the update
  */
 function update_envbar($data) {
     global $DB;
+
+    $data = base64_encode_record($data);
+
     $result = $DB->get_records('local_envbar', array('id' => $data->id));
 
     if (empty($result)) {
-        $ret = insert_envbar($data);
+        $ret = $DB->insert_record('local_envbar', $data);
     } else {
         $ret = $DB->update_record('local_envbar', $data);
     }
@@ -68,4 +59,43 @@ function delete_envbar($id) {
     $ret = $DB->delete_records('local_envbar', array('id' => $id));
 
     return $ret;
+}
+
+/**
+ * Helper function get records, will perform base64_decode on the fields.
+ * @param array $array array of query parameters
+ * @return array $result array of records
+ */
+function envbar_get_records($array = null) {
+    global $DB;
+
+    $result = $DB->get_records('local_envbar', $array);
+    $result = base64_decode_records($result);
+    return $result;
+
+}
+
+/**
+ * Helper function to base64 decode the matchpattern and showtext fields.
+ * @param array $data
+ * @return array $data
+ */
+function base64_decode_records($data) {
+    foreach ($data as $record) {
+        $record->matchpattern = base64_decode($record->matchpattern);
+        $record->showtext = base64_decode($record->showtext);
+    }
+    return $data;
+}
+
+/**
+ * Helper function to base64 encode the matchpattern and showtext fields.
+ * @param array $data
+ * @return array $data
+ */
+function base64_encode_record($data) {
+    $data->matchpattern = base64_encode($data->matchpattern);
+    $data->showtext = base64_encode($data->showtext);
+
+    return $data;
 }
