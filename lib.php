@@ -37,8 +37,6 @@ function envbar_get_records($array = null) {
     if (!$result = $cache->get('records')) {
         $result = $DB->get_records('local_envbar', $array);
         $cache->set('records', $result);
-    } else {
-        $result = $cache->get('records');
     }
 
     foreach ($result as $record) {
