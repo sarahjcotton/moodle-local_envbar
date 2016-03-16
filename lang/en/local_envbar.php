@@ -24,8 +24,8 @@
  */
 
 $string['pluginname'] = 'Environment bar';
-$string['bgcolor'] = 'Background color';
-$string['textcolor'] = 'Text color';
+$string['bgcolour'] = 'Background color';
+$string['textcolour'] = 'Text color';
 $string['showtext'] = 'Text to show';
 $string['showtextplaceholder'] = 'e.x. You are on staging environment';
 $string['setenabled'] = 'Enabled';

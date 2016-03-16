@@ -23,9 +23,10 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+
+// TODO: Add to application cache, preventing a lookup for each page.
 global $DB;
 $records = $DB->get_records('local_envbar', array('enabled' => 1));
-
 
 foreach ($records as $set) {
     $showtext = htmlspecialchars($set->showtext);

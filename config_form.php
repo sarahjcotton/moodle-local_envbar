@@ -39,7 +39,7 @@ class local_envbar_form extends moodleform {
      * @see moodleform::definition()
      */
     public function definition() {
-        $envbarcolorchoices = array(
+        $envbarcolourchoices = array(
             'black' => 'black',
             'white' => 'white',
             'red' => 'red',
@@ -57,63 +57,52 @@ class local_envbar_form extends moodleform {
 
         $mform = $this->_form;
 
-        $counter = 1;
-        foreach ($this->_customdata['sets'] as $set) {
-            $settitle = html_writer::tag('h4', get_string('set', 'local_envbar', $counter));
+        $repeatarray = array();
+        $repeatnumber = 3;
 
-            $mform->addElement('html', $settitle);
-            $mform->addElement('hidden', "id[{$set->id}]", $set->id);
-            $mform->setType("id[{$set->id}]", PARAM_TEXT);
+        $repeatarray[] = $mform->createElement('select',
+            'colourbg',
+            get_string('bgcolour', 'local_envbar'),
+            $envbarcolourchoices
+        );
 
-            if (!$counter != 1) {
-                $mform->addElement('html', '<hr>');
-            }
-            $bgcolor = $mform->addElement(
-                'select',
-                "colorbg[{$set->id}]",
-                get_string('bgcolor', 'local_envbar'),
-                $envbarcolorchoices
-            );
-            $bgcolor->setSelected($set->colorbg);
+        $repeatarray[] = $mform->createElement('select',
+            'colourtext',
+            get_string('textcolour', 'local_envbar'),
+            $envbarcolourchoices
+        );
 
-            $textcolor = $mform->addElement(
-                'select',
-                "colortext[{$set->id}]",
-                get_string('textcolor', 'local_envbar'),
-                $envbarcolorchoices
-            );
-            $textcolor->setSelected($set->colortext);
+        $repeatarray[] = $mform->createElement(
+            'text',
+            'matchpattern',
+            get_string('urlmatch', 'local_envbar'),
+            array('placeholder' => get_string('urlmatchplaceholder', 'local_envbar'))
+        );
 
-            $mform->addElement(
-                'text',
-                "matchpattern[{$set->id}]",
-                get_string('urlmatch', 'local_envbar'),
-                array('placeholder' => get_string('urlmatchplaceholder', 'local_envbar'))
-            );
-            $mform->setType("matchpattern[{$set->id}]", PARAM_URL);
+        $repeatarray[] = $mform->createElement(
+            'text',
+            'showtext',
+            get_string('showtext', 'local_envbar'),
+            array('placeholder' => get_string('showtextplaceholder', 'local_envbar'))
+        );
 
-            $mform->addElement(
-                'text',
-                "showtext[{$set->id}]",
-                get_string('showtext', 'local_envbar'),
-                array('placeholder' => get_string('showtextplaceholder', 'local_envbar'))
-            );
-            $mform->setType("showtext[{$set->id}]", PARAM_TEXT);
+        $repeatarray[] = $mform->addElement('html', '<br />');
 
-            $mform->addElement(
-                'advcheckbox',
-                "enabled[{$set->id}]",
-                get_string('setenabled', 'local_envbar'),
-                get_string('setenabledtext', 'local_envbar'),
-                array(),
-                array(0, 1));
+        $repeatoptions = array();
+        $repeatoptions['bgcolour']['default'] = 0;
+        $repeatoptions['bgcolour']['type'] = PARAM_INT;
 
-            $mform->setDefault("enabled[{$set->id}]", $set->enabled ? 1 : 0);
-            $mform->setDefault("showtext[{$set->id}]", $set->showtext);
-            $mform->setDefault("matchpattern[{$set->id}]", $set->matchpattern);
+        $repeatoptions['textcolour']['default'] = 0;
+        $repeatoptions['textcolour']['type'] = PARAM_INT;
 
-            $counter++;
-        }
+        $repeatoptions['matchpattern']['default'] = '';
+        $repeatoptions['matchpattern']['type'] = PARAM_URL;
+
+        $repeatoptions['showtext']['default'] = '';
+        $repeatoptions['showtext']['type'] = PARAM_TEXT;
+
+        $this->repeat_elements($repeatarray, $repeatnumber, $repeatoptions, 'repeats', 'envbar_add', 1, null, false);
+
         $this->add_action_buttons();
     }
 

@@ -30,20 +30,19 @@ require_once($CFG->libdir . '/adminlib.php');
 
 admin_externalpage_setup('local_envbar');
 
-$sets = envbar_config_set_factory::instances();
-$form = new local_envbar_form(null, array('sets' => $sets));
+$form = new local_envbar_form();
 
 if ($data = $form->get_data()) {
-    $confset = envbar_config_set_factory::new_record();
-    $keys = array_keys($confset->get_params());
-    foreach ($data->{$keys[0]} as $setid => $s) {
-        $set = $sets[$setid];
-        foreach ($keys as $key) {
-            $set->$key = $data->{$key}[$setid];
-        }
-        $set->save($DB);
+    $repeats = $data->repeats;
+
+    for ($id = 0; $id < $repeats; $id++) {
+        $colourbg = $data->colourbg[$id];
+        $colourtext = $data->colourtext[$id];
+        $matchpattern = $data->matchpattern[$id];
+        $showtext = $data->showtext[$id];
     }
-    redirect($CFG->wwwroot.'/local/envbar/index.php');
+
+    redirect(new moodle_url('/local/envbar/index.php'));
 }
 
 echo $OUTPUT->header();
