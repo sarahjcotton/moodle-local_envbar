@@ -15,22 +15,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Version information.
+ * Environment bar cache details.
  *
  * @package   local_envbar
- * @author    Grigory Baleevskiy (grigory@catalyst-au.net)
  * @author    Nicholas Hoobin <nicholashoobin@catalyst-au.net>
  * @copyright Catalyst IT
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-if (!defined('MOODLE_INTERNAL')) {
-    die('Direct access to this script is forbidden.'); // It must be included from a Moodle page.
-}
-
-$plugin->version   = 2016041506;        // The current plugin version (Date: YYYYMMDDXX).
-$plugin->release   = 2016041506;
-$plugin->requires  = 2014051200;        // Requires Moodle 2.7 or later.
-$plugin->component = "local_envbar";
-$plugin->maturity  = MATURITY_STABLE;
-
+$definitions = array(
+    'records' => array(
+        'mode' => cache_store::MODE_APPLICATION
+    )
+);
