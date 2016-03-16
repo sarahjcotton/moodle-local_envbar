@@ -27,6 +27,24 @@
 
 // TODO: Add to application cache, preventing a lookup for each page.
 
+/**
+ * Extracted from locallib.php, as it is not called first.
+ * @param array $array array of query parameters
+ * @return array $result array of records
+ */
+function envbar_get_records($array = null) {
+	global $DB;
+
+	$result = $DB->get_records('local_envbar', $array);
+
+	foreach ($result as $record) {
+        $record->matchpattern = base64_decode($record->matchpattern);
+        $record->showtext = base64_decode($record->showtext);
+    }
+
+	return $result;
+}
+
 function local_envbar_inject() {
     global $DB, $CFG;
 
