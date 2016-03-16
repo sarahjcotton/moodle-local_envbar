@@ -19,6 +19,7 @@
  *
  * @package   local_envbar
  * @author    Grigory Baleevskiy (grigory@catalyst-au.net)
+ * @author    Nicholas Hoobin <nicholashoobin@catalyst-au.net>
  * @copyright Catalyst IT
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
