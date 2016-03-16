@@ -27,11 +27,25 @@ if (!defined('MOODLE_INTERNAL')) {
     die('Direct access to this script is forbidden.'); // It must be included from a Moodle page.
 }
 
+
 function insert_envbar($data) {
+    global $DB;
+    $DB->insert_record('local_envbar', $data);
 }
 
 function update_envbar($data) {
+    global $DB;
+
+    $result = $DB->get_records('local_envbar', array('id' => $data->id));
+
+    if (empty($result)) {
+        insert_envbar($data);
+    } else {
+        $DB->update_record('local_envbar', $data);
+    }
 }
 
 function delete_envbar($id) {
+    global $DB;
+    $DB->delete_records('local_envbar', array('id' => $id));
 }
