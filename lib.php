@@ -32,10 +32,14 @@
 function envbar_get_records($array = null) {
     global $DB;
 
-    $cache = cache::make('local_envbar', 'records');
+    try {
+        $cache = cache::make('local_envbar', 'records');
+    } catch (Exception $e) {
+        throw $e;
+    }
 
     if (!$result = $cache->get('records')) {
-        $result = $DB->get_records('local_envbar', $array);
+        $result = $DB->get_records('local_envbar');
         $cache->set('records', $result);
     }
 

@@ -36,8 +36,11 @@ if (!defined('MOODLE_INTERNAL')) {
 function update_envbar($data) {
     global $DB;
 
-    $data = base64_encode_record($data);
+    // The cache is assumed to be initialised as it is created in envbar_get_records.
+    $cache = cache::make('local_envbar', 'records');
+    $records = $cache->get('records');
 
+    $data = base64_encode_record($data);
     $result = $DB->get_records('local_envbar', array('id' => $data->id));
 
     if (empty($result)) {
@@ -45,6 +48,9 @@ function update_envbar($data) {
     } else {
         $ret = $DB->update_record('local_envbar', $data);
     }
+
+    $records[$data->id] = $data;
+    $cache->set('records', $records);
 
     return $ret;
 }
@@ -56,8 +62,17 @@ function update_envbar($data) {
  */
 function delete_envbar($id) {
     global $DB;
-    $ret = $DB->delete_records('local_envbar', array('id' => $id));
 
+    // The cache is assumed to be initialised as it is created in envbar_get_records.
+    $cache = cache::make('local_envbar', 'records');
+    $records = $cache->get('records');
+
+    if ($records[$id]) {
+        unset($records[$id]);
+        $cache->set('records', $records);
+    }
+
+    $ret = $DB->delete_records('local_envbar', array('id' => $id));
     return $ret;
 }
 
