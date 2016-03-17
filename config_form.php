@@ -197,8 +197,8 @@ class local_envbar_form extends moodleform {
         $repeatoptions["id"]["default"] = "{no}";
         $repeatoptions["id"]["type"] = PARAM_INT;
 
-        $repeatoptions["bgcolour"]["default"] = "black";
-        $repeatoptions["textcolour"]["default"] = "white";
+        $repeatoptions["colourbg"]["default"] = "black";
+        $repeatoptions["colourtext"]["default"] = "white";
 
         $repeatoptions["matchpattern"]["default"] = "";
         $repeatoptions["matchpattern"]["type"] = PARAM_URL;
