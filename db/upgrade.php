@@ -47,5 +47,20 @@ function xmldb_local_envbar_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2016041505, 'local', 'envbar');
     }
 
+    if ($oldversion < 2016041510) {
+
+        // Define index idx_match (unique) to be dropped form local_envbar.
+        $table = new xmldb_table('local_envbar');
+        $index = new xmldb_index('idx_match', XMLDB_INDEX_UNIQUE, array('matchpattern'));
+
+        // Conditionally launch drop index idx_match.
+        if ($dbman->index_exists($table, $index)) {
+            $dbman->drop_index($table, $index);
+        }
+
+        // Envbar savepoint reached.
+        upgrade_plugin_savepoint(true, 2016041510, 'local', 'envbar');
+    }
+
     return true;
 }

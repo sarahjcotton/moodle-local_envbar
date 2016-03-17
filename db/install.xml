@@ -16,9 +16,6 @@
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
-      <INDEXES>
-        <INDEX NAME="idx_match" UNIQUE="true" FIELDS="matchpattern" COMMENT="match pattern index"/>
-      </INDEXES>
     </TABLE>
   </TABLES>
 </XMLDB>
