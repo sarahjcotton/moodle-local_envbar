@@ -74,15 +74,8 @@ if ($data = $form->get_data()) {
             $item->showtext = $data->repeatshowtext[$value];
             $item->enabled = $data->repeatenabled[$value];
 
-            if ($data->repeatdelete[$value] == 1) {
-                // No need to delete as this is a temporary element.
-                // delete_envbar($value);
-            } else {
-                // Inserts a new item as id is not set.
-                update_envbar($item);
-            }
+            update_envbar($item);
         }
-
     }
 
     redirect(new moodle_url('/local/envbar/index.php'));

@@ -35,7 +35,6 @@ function xmldb_local_envbar_upgrade($oldversion) {
 
     $dbman = $DB->get_manager(); // Loads ddl manager and xmldb classes.
 
-
     if ($oldversion < 2016041501) {
         // Define table local_envbar_configset to be renamed to local_envbar.
         $table = new xmldb_table('local_envbar_configset');
