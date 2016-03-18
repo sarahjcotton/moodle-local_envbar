@@ -41,12 +41,14 @@ function update_envbar($data) {
     $records = $cache->get('records');
 
     $data = base64_encode_record($data);
-    $result = $DB->get_records('local_envbar', array('id' => $data->id));
 
-    if (empty($result)) {
-        $ret = $DB->insert_record('local_envbar', $data);
-    } else {
+    if (isset($data->id)) {
+        // $result = $DB->get_records('local_envbar', array('id' => $data->id));
         $ret = $DB->update_record('local_envbar', $data);
+    } else {
+        // No id exists, lets insert it!
+        $ret = $DB->insert_record('local_envbar', $data);
+        $data->id = $ret;
     }
 
     $records[$data->id] = $data;

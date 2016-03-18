@@ -38,23 +38,51 @@ $form = new local_envbar_form(null, array('records' => $records));
 
 if ($data = $form->get_data()) {
 
-    $keys = array_keys($data->id);
+    if (isset($data->id)) {
 
-    foreach ($keys as $key => $value) {
-        $item = new stdClass();
-        $item->id = $data->id[$value];
-        $item->colourbg = $data->colourbg[$value];
-        $item->colourtext = $data->colourtext[$value];
-        $item->matchpattern = $data->matchpattern[$value];
-        $item->showtext = $data->showtext[$value];
-        $item->enabled = $data->enabled[$value];
+        $keys = array_keys($data->id);
 
-        if ($data->delete[$value] == 1) {
-            delete_envbar($value);
-        } else {
-            // Update or insert a new item.
-            update_envbar($item);
+        foreach ($keys as $key => $value) {
+            $item = new stdClass();
+            $item->id = $data->id[$value];
+            $item->colourbg = $data->colourbg[$value];
+            $item->colourtext = $data->colourtext[$value];
+            $item->matchpattern = $data->matchpattern[$value];
+            $item->showtext = $data->showtext[$value];
+            $item->enabled = $data->enabled[$value];
+
+            if ($data->delete[$value] == 1) {
+                delete_envbar($value);
+            } else {
+                // Update an item as the id has been set.
+                update_envbar($item);
+
+            }
         }
+
+    }
+
+    if (isset($data->repeatid)) {
+        $repeats = array_keys($data->repeatid);
+
+        foreach ($repeats as $key => $value) {
+            $item = new stdClass();
+            // $item->id not set.
+            $item->colourbg = $data->repeatcolourbg[$value];
+            $item->colourtext = $data->repeatcolourtext[$value];
+            $item->matchpattern = $data->repeatmatchpattern[$value];
+            $item->showtext = $data->repeatshowtext[$value];
+            $item->enabled = $data->repeatenabled[$value];
+
+            if ($data->repeatdelete[$value] == 1) {
+                // No need to delete as this is a temporary element.
+                // delete_envbar($value);
+            } else {
+                // Inserts a new item as id is not set.
+                update_envbar($item);
+            }
+        }
+
     }
 
     redirect(new moodle_url('/local/envbar/index.php'));

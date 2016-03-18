@@ -142,40 +142,40 @@ class local_envbar_form extends moodleform {
 
         $repeatarray[] = $mform->createElement(
             "hidden",
-            "id"
+            "repeatid"
         );
 
         $repeatarray[] = $mform->createElement(
             "select",
-            "colourbg",
+            "repeatcolourbg",
             get_string("bgcolour", "local_envbar"),
             $envbarcolourchoices
         );
 
         $repeatarray[] = $mform->createElement(
             "select",
-            "colourtext",
+            "repeatcolourtext",
             get_string("textcolour", "local_envbar"),
             $envbarcolourchoices
         );
 
         $repeatarray[] = $mform->createElement(
             "text",
-            "matchpattern",
+            "repeatmatchpattern",
             get_string("urlmatch", "local_envbar"),
             array("placeholder" => get_string("urlmatchplaceholder", "local_envbar"))
         );
 
         $repeatarray[] = $mform->createElement(
             "text",
-            "showtext",
+            "repeatshowtext",
             get_string("showtext", "local_envbar"),
             array("placeholder" => get_string("showtextplaceholder", "local_envbar"))
         );
 
         $repeatarray[] = $mform->createElement(
             "advcheckbox",
-            "enabled",
+            "repeatenabled",
             get_string("setenabled", "local_envbar"),
             get_string("setenabledtext", "local_envbar"),
             array(),
@@ -184,7 +184,7 @@ class local_envbar_form extends moodleform {
 
         $repeatarray[] = $mform->createElement(
             "advcheckbox",
-            "delete",
+            "repeatdelete",
             get_string("setdeleted", "local_envbar"),
             get_string("setdeletedtext", "local_envbar"),
             array(),
@@ -194,17 +194,17 @@ class local_envbar_form extends moodleform {
         $repeatarray[] = $mform->addElement("html", "<br />");
 
         $repeatoptions = array();
-        $repeatoptions["id"]["default"] = "{no}";
-        $repeatoptions["id"]["type"] = PARAM_INT;
+        $repeatoptions["repeatid"]["default"] = "{no}";
+        $repeatoptions["repeatid"]["type"] = PARAM_INT;
 
-        $repeatoptions["colourbg"]["default"] = "black";
-        $repeatoptions["colourtext"]["default"] = "white";
+        $repeatoptions["repeatcolourbg"]["default"] = "black";
+        $repeatoptions["repeatcolourtext"]["default"] = "white";
 
-        $repeatoptions["matchpattern"]["default"] = "";
-        $repeatoptions["matchpattern"]["type"] = PARAM_URL;
+        $repeatoptions["repeatmatchpattern"]["default"] = "";
+        $repeatoptions["repeatmatchpattern"]["type"] = PARAM_URL;
 
-        $repeatoptions["showtext"]["default"] = "";
-        $repeatoptions["showtext"]["type"] = PARAM_TEXT;
+        $repeatoptions["repeatshowtext"]["default"] = "";
+        $repeatoptions["repeatshowtext"]["type"] = PARAM_TEXT;
 
         $this->repeat_elements($repeatarray, $repeatnumber, $repeatoptions, "repeats", "envbar_add", 1, null, false);
 
