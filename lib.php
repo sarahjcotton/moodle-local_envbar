@@ -48,6 +48,21 @@ function envbar_get_records($array = null) {
         $record->showtext = base64_decode($record->showtext);
     }
 
+    if (isset($array)) {
+        $query = array();
+
+        foreach ($result as $record) {
+            foreach ($array as $key => $value) {
+                if (isset($record->{$key})) {
+                    if ($record->{$key} == $value) {
+                        $query[] = $record;
+                    }
+                }
+            }
+        }
+        $result = $query;
+    }
+
     return $result;
 }
 
