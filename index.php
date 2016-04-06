@@ -51,6 +51,11 @@ if ($data = $form->get_data()) {
             $item->showtext = $data->showtext[$value];
             $item->enabled = $data->enabled[$value];
 
+            // Do not update the database with manual set config.php items.
+            if (isset($data->locked[$value])) {
+                continue;
+            }
+
             if ($data->delete[$value] == 1) {
                 delete_envbar($value);
             } else {
@@ -67,7 +72,7 @@ if ($data = $form->get_data()) {
 
         foreach ($repeats as $key => $value) {
             $item = new stdClass();
-            // $item->id not set.
+            // ID, $item->id not set.
             $item->colourbg = $data->repeatcolourbg[$value];
             $item->colourtext = $data->repeatcolourtext[$value];
             $item->matchpattern = $data->repeatmatchpattern[$value];

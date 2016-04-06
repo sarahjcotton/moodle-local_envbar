@@ -30,7 +30,7 @@
  * @return array $result array of records
  */
 function envbar_get_records($array = null) {
-    global $DB;
+    global $DB, $CFG;
 
     try {
         $cache = cache::make('local_envbar', 'records');
@@ -41,6 +41,22 @@ function envbar_get_records($array = null) {
     if (!$result = $cache->get('records')) {
         $result = $DB->get_records('local_envbar');
         $cache->set('records', $result);
+
+    }
+
+    // Adding manual local envbar items from config.php.
+    if (isset($CFG->local_envbar_items)) {
+        $items = $CFG->local_envbar_items;
+
+        // Converting them to stdClass and adding a local flag.
+        foreach ($items as $key => $value) {
+            $value['local'] = true;
+            $value['showtext'] = base64_encode($value['showtext']);
+            $value['matchpattern'] = base64_encode($value['matchpattern']);
+            $items[$key] = (object) $value;
+        }
+
+        $result = array_merge($items, $result);
     }
 
     foreach ($result as $record) {

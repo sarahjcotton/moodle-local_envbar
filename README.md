@@ -3,8 +3,6 @@
 Environment bar - Moodle local plugin
 ====================
 
-**FOR DEVELOPMENT SERVERS ONLY**
-
 This displays a configurable fixed div across across the top of your Moodle site which can change depending on where it has been deployed.
 
 This is useful with development and production for identifying which server you currently reside on based on the URL.
@@ -31,8 +29,6 @@ Summary of situations covered:
 
 * In non-prod, with refreshed config, env bar shows custom bar
 
-* In non-prod, with zero config, env bar shows generic bar
-
 
 Installation
 ------------
@@ -46,10 +42,43 @@ Run the Moodle upgrade.
 The plugin can be configured via,
     `(Site administration > Plugins > Local Plugins > Environment bar)`
 
-Text, backgound-color and text color can be customised.
+Or you can manually configure the bars in a config.php item,
 
+    $CFG->local_envbar_items = array(
+        array(
+            'colourbg' => 'black',
+            'colourtext' => 'white',
+            'matchpattern' => 'moodle.local',
+            'showtext' => 'Localhost environment',
+            'enabled' => 1,
+        ),
+        array(
+            'colourbg' => 'green',
+            'colourtext' => 'black',
+            'matchpattern' => 'moodle.staging',
+            'showtext' => 'Staging environment',
+            'enabled' => 1,
+        ),
+    );
+
+The colours available are,
+
+    black
+    white
+    red
+    green
+    seagreen
+    yellow
+    brown
+    blue
+    slateblue
+    chocolate
+    crimson
+    orange
+    darkorange
 
 # Details
 
 An extra div will be printed within standard_top_of_body_html function call:
 $OUTPUT->standard_top_of_body_html()
+

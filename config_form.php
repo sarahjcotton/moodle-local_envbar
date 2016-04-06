@@ -60,7 +60,26 @@ class local_envbar_form extends moodleform {
         $records = $this->_customdata["records"];
         $rcount = count($records);
 
+        $localid = -1;
+
         foreach ($records as $record) {
+
+            $locked = false;
+
+            // Local records set in config.php will be locked for editing.
+            if (isset($record->local)) {
+                $record->id = $localid;
+                $locked = true;
+
+                $mform->addElement(
+                    "hidden",
+                    "locked[{$localid}]",
+                    $locked
+                );
+                $mform->setType("locked[{$localid}]", PARAM_INT);
+                $localid--;
+            }
+
             $id = $record->id;
 
             $mform->addElement(
@@ -73,28 +92,32 @@ class local_envbar_form extends moodleform {
                 "select",
                 "colourbg[{$id}]",
                 get_string("bgcolour", "local_envbar"),
-                $envbarcolourchoices
+                $envbarcolourchoices,
+                $locked ? array('disabled') : array()
             );
 
             $textcolour = $mform->addElement(
                 "select",
                 "colourtext[{$id}]",
                 get_string("textcolour", "local_envbar"),
-                $envbarcolourchoices
+                $envbarcolourchoices,
+                $locked ? array('disabled') : array()
             );
 
             $mform->addElement(
                 "text",
                 "matchpattern[{$id}]",
                 get_string("urlmatch", "local_envbar"),
-                array("placeholder" => get_string("urlmatchplaceholder", "local_envbar"))
+                array("placeholder" => get_string("urlmatchplaceholder", "local_envbar")),
+                $locked ? array('disabled') : array()
             );
 
             $mform->addElement(
                 "text",
                 "showtext[{$id}]",
                 get_string("showtext", "local_envbar"),
-                array("placeholder" => get_string("showtextplaceholder", "local_envbar"))
+                array("placeholder" => get_string("showtextplaceholder", "local_envbar")),
+                $locked ? array('disabled') : array()
             );
 
             $mform->addElement(
@@ -102,7 +125,7 @@ class local_envbar_form extends moodleform {
                 "enabled[{$id}]",
                 get_string("setenabled", "local_envbar"),
                 get_string("setenabledtext", "local_envbar"),
-                array(),
+                $locked ? array('disabled') : array(),
                 array(0, 1)
             );
 
@@ -111,7 +134,7 @@ class local_envbar_form extends moodleform {
                 "delete[{$id}]",
                 get_string("setdeleted", "local_envbar"),
                 get_string("setdeletedtext", "local_envbar"),
-                array(),
+                $locked ? array('disabled') : array(),
                 array(0, 1)
             );
 
@@ -126,6 +149,9 @@ class local_envbar_form extends moodleform {
             $mform->setDefault("showtext[{$id}]", $record->showtext);
             $mform->setDefault("enabled[{$id}]", $record->enabled ? 1 : 0);
             $mform->setDefault("delete[{$id}]", 0);
+
+            $mform->disabledIf("showtext[{$id}]", "locked[{$id}]");
+            $mform->disabledIf("matchpattern[{$id}]", "locked[{$id}]");
 
             $textcolour->setSelected($record->colourtext);
             $backgroundcolour->setSelected($record->colourbg);

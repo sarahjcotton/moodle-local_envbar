@@ -43,7 +43,6 @@ function update_envbar($data) {
     $data = base64_encode_record($data);
 
     if (isset($data->id)) {
-        // $result = $DB->get_records('local_envbar', array('id' => $data->id));
         $ret = $DB->update_record('local_envbar', $data);
     } else {
         // No id exists, lets insert it!
