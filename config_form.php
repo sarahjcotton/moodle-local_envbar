@@ -60,6 +60,10 @@ class local_envbar_form extends moodleform {
         $records = $this->_customdata["records"];
         $rcount = count($records);
 
+        // TODO Add help for how it works
+
+        // TODO add the production url here
+
         $localid = -1;
 
         foreach ($records as $record) {

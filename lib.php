@@ -25,12 +25,13 @@
  */
 
 /**
- * Extracted from locallib.php, as it is not called first.
- * @param array $array array of query parameters
- * @return array $result array of records
+ * Find all configure environment sets
+ *
+ * @param  array $array array of query parameters
+ * @return array of env set records
  */
 function envbar_get_records($array = null) {
-    global $DB, $CFG;
+    global $DB;
 
     try {
         $cache = cache::make('local_envbar', 'records');
@@ -90,38 +91,82 @@ function local_envbar_inject() {
 
     // During the initial install we don't want to break the admin gui.
     try {
-        $records = envbar_get_records(array('enabled' => 1));
+        $envs = envbar_get_records(array('enabled' => 1));
     } catch (Exception $e) {
         return;
     }
-    foreach ($records as $set) {
-        $showtext = htmlspecialchars($set->showtext);
-        $additionalhtml = <<<EOD
-<div style="position:fixed; padding:15px; width:100%; top:0px; left:0px; z-index:9999;background-color:{$set->colourbg}; color:{$set->colourtext}">{$showtext}</div>
-<style>
-.navbar-fixed-top {
-    top:50px !important;
-}
-.debuggingmessage {
-    padding-top:50px;
-}
-.debuggingmessage ~ .debuggingmessage {
-    padding-top:0px;
-}
-</style>
-<div style="height:50px;"> &nbsp;</div>
-EOD;
-        if (!empty($set->matchpattern)) {
-            if (false !== (strpos($_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], $set->matchpattern))) {
-                $CFG->additionalhtmltopofbody .= $additionalhtml;
+
+    $here = (new moodle_url('/'))->out();
+
+    // Are we on the production env?
+    // TODO.
+
+    $match = null;
+
+    // If not yet configured then show warning:
+    if (!$envs) {
+        $match = (object) array(
+            'showtext' => get_string('notconfigured', 'local_envbar'),
+            'colourtext' => 'white',
+            'colourbg' => 'red',
+        );
+        $systemcontext = context_system::instance();
+        $canedit = has_capability('moodle/site:config', $systemcontext);
+        if ($canedit) {
+            $match->showtext .= ' - ' . html_writer::link(new moodle_url('/local/envbar/index.php'),
+                get_string('configure', 'local_envbar'), array('style' => 'color: white; text-decoration: underline'));
+        }
+
+    } else {
+
+        // Which env matches?
+        foreach ($envs as $env) {
+            if (!empty($env->matchpattern) && strpos($here, $env->matchpattern) !== false) {
+                $match = $env;
                 break;
             }
         }
+        if (!$match) {
+            return;
+        }
+        $match->showtext = htmlspecialchars($match->showtext);
     }
+
+    $additionalhtml = <<<EOD
+<div class="envbar">{$match->showtext}</div>
+<style>
+.envbar {
+    position: fixed;
+    padding: 15px;
+    width: 100%;
+    height: 20px;
+    top: 0px;
+    left: 0px;
+    z-index: 9999;
+    text-align: center;
+    background: {$match->colourbg};
+    color: {$match->colourtext};
+}
+.navbar-fixed-top {
+    top: 50px !important;
+}
+.debuggingmessage {
+    padding-top: 50px;
+}
+.debuggingmessage ~ .debuggingmessage {
+    padding-top: 0px;
+}
+</style>
+<div style="height: 50px;">&nbsp;</div>
+EOD;
+
+    $CFG->additionalhtmltopofbody .= $additionalhtml;
+
 }
 
 /**
- * lib.php isn't always called, we need to hook something to ensue it runs.
+ * lib.php isn't always called, we need to hook something to ensure it runs.
+ *
  * @param object $navigation
  * @param object $course
  * @param object $module
