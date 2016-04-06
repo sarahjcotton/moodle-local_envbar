@@ -40,7 +40,9 @@ function xmldb_local_envbar_upgrade($oldversion) {
         $table = new xmldb_table('local_envbar_configset');
 
         // Launch rename table for local_envbar.
-        $dbman->rename_table($table, 'local_envbar');
+        if ($dmban->table_exists($table, 'local_envbar')) {
+            $dbman->rename_table($table, 'local_envbar');
+        }
 
         // Envbar savepoint reached.
         upgrade_plugin_savepoint(true, 2016041501, 'local', 'envbar');
