@@ -28,7 +28,7 @@ require_once($CFG->libdir . "/formslib.php");
 require_once(dirname(__FILE__)."/locallib.php");
 
 /**
- * Form for editing a Enviromental bar.
+ * Form for editing an Enviroment bar.
  *
  * @copyright Catalyst IT
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -40,6 +40,8 @@ class local_envbar_form extends moodleform {
      * @see moodleform::definition()
      */
     public function definition() {
+        global $CFG;
+
         $envbarcolourchoices = array(
             "black" => "black",
             "white" => "white",
@@ -60,9 +62,35 @@ class local_envbar_form extends moodleform {
         $records = $this->_customdata["records"];
         $rcount = count($records);
 
+        $urlset = false;
+        if (!empty($CFG->local_envbar_produrl)) {
+            $urlset = true;
+        }
+
         // TODO Add help for how it works
 
-        // TODO add the production url here
+        $mform->addElement(
+            "button",
+            "autofill",
+            get_string("produrlautobutton", "local_envbar"),
+            array("onclick" => "document.getElementById('produrl').value = '$CFG->wwwroot'", $urlset ? 'disabled' : '')
+        );
+
+        $mform->addElement(
+            "text",
+            "produrl",
+            get_string("produrltext", "local_envbar"),
+            array("placeholder" => get_string("produrlplaceholder", "local_envbar"), "id" => "produrl", $urlset ? 'disabled' : '')
+        );
+
+        $mform->setType("produrl", PARAM_URL);
+
+        $mform->setDefault("produrl", get_config("local_envbar", "produrl"));
+
+        // Lets overwrite the value if it has been set in config.php
+        if (!empty($CFG->local_envbar_produrl)) {
+            $mform->setDefault("produrl", $CFG->local_envbar_produrl);
+        }
 
         $localid = -1;
 
@@ -112,16 +140,14 @@ class local_envbar_form extends moodleform {
                 "text",
                 "matchpattern[{$id}]",
                 get_string("urlmatch", "local_envbar"),
-                array("placeholder" => get_string("urlmatchplaceholder", "local_envbar")),
-                $locked ? array('disabled') : array()
+                array("placeholder" => get_string("urlmatchplaceholder", "local_envbar"), $locked ? 'disabled' : '')
             );
 
             $mform->addElement(
                 "text",
                 "showtext[{$id}]",
                 get_string("showtext", "local_envbar"),
-                array("placeholder" => get_string("showtextplaceholder", "local_envbar")),
-                $locked ? array('disabled') : array()
+                array("placeholder" => get_string("showtextplaceholder", "local_envbar"), $locked ? 'disabled' : '')
             );
 
             $mform->addElement(
@@ -153,9 +179,6 @@ class local_envbar_form extends moodleform {
             $mform->setDefault("showtext[{$id}]", $record->showtext);
             $mform->setDefault("enabled[{$id}]", $record->enabled ? 1 : 0);
             $mform->setDefault("delete[{$id}]", 0);
-
-            $mform->disabledIf("showtext[{$id}]", "locked[{$id}]");
-            $mform->disabledIf("matchpattern[{$id}]", "locked[{$id}]");
 
             $textcolour->setSelected($record->colourtext);
             $backgroundcolour->setSelected($record->colourbg);

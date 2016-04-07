@@ -101,3 +101,4 @@ function base64_encode_record($data) {
 
     return $data;
 }
+

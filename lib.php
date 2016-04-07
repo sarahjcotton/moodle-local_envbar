@@ -25,13 +25,13 @@
  */
 
 /**
- * Find all configure environment sets
+ * Find all configured environment sets
  *
  * @param  array $array array of query parameters
  * @return array of env set records
  */
 function envbar_get_records($array = null) {
-    global $DB;
+    global $DB, $CFG;
 
     try {
         $cache = cache::make('local_envbar', 'records');
@@ -42,11 +42,10 @@ function envbar_get_records($array = null) {
     if (!$result = $cache->get('records')) {
         $result = $DB->get_records('local_envbar');
         $cache->set('records', $result);
-
     }
 
     // Adding manual local envbar items from config.php.
-    if (isset($CFG->local_envbar_items)) {
+    if (!empty($CFG->local_envbar_items)) {
         $items = $CFG->local_envbar_items;
 
         // Converting them to stdClass and adding a local flag.
@@ -65,7 +64,7 @@ function envbar_get_records($array = null) {
         $record->showtext = base64_decode($record->showtext);
     }
 
-    if (isset($array)) {
+    if (!empty($array)) {
         $query = array();
 
         foreach ($result as $record) {
@@ -99,12 +98,17 @@ function local_envbar_inject() {
     $here = (new moodle_url('/'))->out();
 
     // Are we on the production env?
-    // TODO.
+    if (!empty($CFG->local_envbar_produrl)) {
+
+    } else {
+        $produrl = get_config('local_envbar', 'produrl');
+    }
+    if (!empty($env->matchpattern) && strpos($here, $env->matchpattern) !== false) {
 
     $match = null;
 
     // If not yet configured then show warning:
-    if (!$envs) {
+    if (empty($envs)) {
         $match = (object) array(
             'showtext' => get_string('notconfigured', 'local_envbar'),
             'colourtext' => 'white',
@@ -176,3 +180,8 @@ function local_envbar_extend_navigation($navigation, $course = null, $module = n
     local_envbar_inject();
 }
 
+function local_envbar_getprodurl() {
+}
+
+function local_envbar_setprodurl($produrl) {
+}

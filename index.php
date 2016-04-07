@@ -38,7 +38,9 @@ $form = new local_envbar_form(null, array('records' => $records));
 
 if ($data = $form->get_data()) {
 
-    if (isset($data->id)) {
+    set_config('produrl', $data->produrl, 'local_envbar');
+
+    if (!empty($data->id)) {
 
         $keys = array_keys($data->id);
 
@@ -52,7 +54,7 @@ if ($data = $form->get_data()) {
             $item->enabled = $data->enabled[$value];
 
             // Do not update the database with manual set config.php items.
-            if (isset($data->locked[$value])) {
+            if (!empty($data->locked[$value])) {
                 continue;
             }
 
@@ -67,7 +69,7 @@ if ($data = $form->get_data()) {
 
     }
 
-    if (isset($data->repeatid)) {
+    if (!empty($data->repeatid)) {
         $repeats = array_keys($data->repeatid);
 
         foreach ($repeats as $key => $value) {
@@ -93,3 +95,4 @@ echo $OUTPUT->heading(get_string('header_envbar', 'local_envbar'));
 echo $form->display();
 
 echo $OUTPUT->footer();
+
