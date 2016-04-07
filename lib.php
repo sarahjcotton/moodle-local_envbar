@@ -98,12 +98,9 @@ function local_envbar_inject() {
     $here = (new moodle_url('/'))->out();
 
     // Are we on the production env?
-    if (!empty($CFG->local_envbar_produrl)) {
-
-    } else {
-        $produrl = get_config('local_envbar', 'produrl');
+    if (local_envbar_getprodwwwroot() === $CFG->wwwroot) {
+        return;
     }
-    if (!empty($env->matchpattern) && strpos($here, $env->matchpattern) !== false) {
 
     $match = null;
 
@@ -125,7 +122,7 @@ function local_envbar_inject() {
 
         // Which env matches?
         foreach ($envs as $env) {
-            if (!empty($env->matchpattern) && strpos($here, $env->matchpattern) !== false) {
+            if (!empty($env->matchpattern) && strpos($here, $env->matchpattern) == true) {
                 $match = $env;
                 break;
             }
@@ -180,8 +177,18 @@ function local_envbar_extend_navigation($navigation, $course = null, $module = n
     local_envbar_inject();
 }
 
-function local_envbar_getprodurl() {
+function local_envbar_getprodwwwroot() {
+    $prodwwwroot = base64_decode(get_config("local_envbar", "prodwwwroot"));
+
+    if (!empty($CFG->local_envbar_prodwwwroot)) {
+        $prodwwwroot = $CFG->local_envbar_prodwwwroot;
+    }
+
+    return $prodwwwroot;
 }
 
-function local_envbar_setprodurl($produrl) {
+function local_envbar_setprodwwwroot($prodwwwroot) {
+    $root = base64_encode($prodwwwroot);
+    set_config('prodwwwroot', $root, 'local_envbar');
 }
+

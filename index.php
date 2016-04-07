@@ -38,7 +38,7 @@ $form = new local_envbar_form(null, array('records' => $records));
 
 if ($data = $form->get_data()) {
 
-    set_config('produrl', $data->produrl, 'local_envbar');
+    local_envbar_setprodwwwroot($data->prodwwwroot);
 
     if (!empty($data->id)) {
 

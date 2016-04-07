@@ -63,7 +63,8 @@ class local_envbar_form extends moodleform {
         $rcount = count($records);
 
         $urlset = false;
-        if (!empty($CFG->local_envbar_produrl)) {
+        // If true then we will lock the url field from being edited.
+        if (!empty($CFG->local_envbar_prodwwwroot)) {
             $urlset = true;
         }
 
@@ -72,24 +73,24 @@ class local_envbar_form extends moodleform {
         $mform->addElement(
             "button",
             "autofill",
-            get_string("produrlautobutton", "local_envbar"),
-            array("onclick" => "document.getElementById('produrl').value = '$CFG->wwwroot'", $urlset ? 'disabled' : '')
+            get_string("prodwwwrootautobutton", "local_envbar"),
+            array("onclick" => "document.getElementById('prodwwwroot').value = '$CFG->wwwroot'", $urlset ? 'disabled' : '')
         );
 
         $mform->addElement(
             "text",
-            "produrl",
-            get_string("produrltext", "local_envbar"),
-            array("placeholder" => get_string("produrlplaceholder", "local_envbar"), "id" => "produrl", $urlset ? 'disabled' : '')
+            "prodwwwroot",
+            get_string("prodwwwroottext", "local_envbar"),
+            array("placeholder" => get_string("prodwwwrootplaceholder", "local_envbar"), "id" => "prodwwwroot", $urlset ? 'disabled' : '')
         );
 
-        $mform->setType("produrl", PARAM_URL);
+        $mform->setType("prodwwwroot", PARAM_URL);
 
-        $mform->setDefault("produrl", get_config("local_envbar", "produrl"));
+        $mform->setDefault("prodwwwroot", local_envbar_getprodwwwroot());
 
         // Lets overwrite the value if it has been set in config.php
         if (!empty($CFG->local_envbar_produrl)) {
-            $mform->setDefault("produrl", $CFG->local_envbar_produrl);
+            $mform->setDefault("prodwwwroot", $CFG->local_envbar_produrl);
         }
 
         $localid = -1;
