@@ -177,6 +177,12 @@ function local_envbar_extend_navigation($navigation, $course = null, $module = n
     local_envbar_inject();
 }
 
+/**
+ * Gets the prodwwwroot.
+ * This also base64_dencodes the value to obtain it.
+ *
+ * @return string $prodwwwroot
+ */
 function local_envbar_getprodwwwroot() {
     $prodwwwroot = base64_decode(get_config("local_envbar", "prodwwwroot"));
 
@@ -187,6 +193,12 @@ function local_envbar_getprodwwwroot() {
     return $prodwwwroot;
 }
 
+/**
+ * Sets the prodwwwroot.
+ * This also base64_encodes the value to prevent datawashing from removing the values.
+ *
+ * @param string $prodwwwroot
+ */
 function local_envbar_setprodwwwroot($prodwwwroot) {
     $root = base64_encode($prodwwwroot);
     set_config('prodwwwroot', $root, 'local_envbar');

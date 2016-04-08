@@ -42,7 +42,7 @@ Run the Moodle upgrade.
 The plugin can be configured via,
     `(Site administration > Plugins > Local Plugins > Environment bar)`
 
-Or you can manually configure the bars in a config.php item,
+Or you can manually configure the bars and prodwwwroot in config.php,
 
     $CFG->local_envbar_items = array(
         array(
@@ -61,6 +61,8 @@ Or you can manually configure the bars in a config.php item,
         ),
     );
 
+    $CFG->local_envbar_prodwwwroot = 'http://moodle.prod/';
+
 The colours available are,
 
     black
@@ -78,6 +80,11 @@ The colours available are,
     darkorange
 
 # Details
+
+Upon first installation you will see a notification across the screen that prodwwwroot has not been set.
+
+Please set this value to be exactly what your production $CFG->wwwwroot is.
+
 
 An extra div will be printed within standard_top_of_body_html function call:
 $OUTPUT->standard_top_of_body_html()
