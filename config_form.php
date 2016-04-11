@@ -94,7 +94,6 @@ class local_envbar_form extends moodleform {
             array("onclick" => "document.getElementById('prodwwwroot').value = '$CFG->wwwroot'", $urlset ? 'disabled' : 'enabled')
         );
 
-
         $mform->addGroup($wwwrootgroup, 'wwwrootg', get_string('prodwwwroottext', 'local_envbar'), array(' '), false);
 
         $mform->setType("prodwwwroot", PARAM_URL);
