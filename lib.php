@@ -104,7 +104,7 @@ function local_envbar_inject() {
 
     $match = null;
 
-    // If not yet configured then show warning:
+    // If not yet configured then show a warning.
     if (empty($envs)) {
         $match = (object) array(
             'showtext' => get_string('notconfigured', 'local_envbar'),

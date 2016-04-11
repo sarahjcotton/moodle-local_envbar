@@ -93,7 +93,7 @@ class local_envbar_form extends moodleform {
 
         $mform->setDefault("prodwwwroot", local_envbar_getprodwwwroot());
 
-        // Lets overwrite the value if it has been set in config.php
+        // Lets overwrite the value if it has been set in config.php.
         if (!empty($CFG->local_envbar_produrl)) {
             $mform->setDefault("prodwwwroot", $CFG->local_envbar_produrl);
         }
