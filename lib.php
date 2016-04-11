@@ -184,6 +184,8 @@ function local_envbar_extend_navigation($navigation, $course = null, $module = n
  * @return string $prodwwwroot
  */
 function local_envbar_getprodwwwroot() {
+    global $CFG;
+
     $prodwwwroot = base64_decode(get_config("local_envbar", "prodwwwroot"));
 
     if (!empty($CFG->local_envbar_prodwwwroot)) {

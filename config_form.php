@@ -97,13 +97,7 @@ class local_envbar_form extends moodleform {
         $mform->addGroup($wwwrootgroup, 'wwwrootg', get_string('prodwwwroottext', 'local_envbar'), array(' '), false);
 
         $mform->setType("prodwwwroot", PARAM_URL);
-
         $mform->setDefault("prodwwwroot", local_envbar_getprodwwwroot());
-
-        // Lets overwrite the value if it has been set in config.php.
-        if (!empty($CFG->local_envbar_produrl)) {
-            $mform->setDefault("prodwwwroot", $CFG->local_envbar_produrl);
-        }
 
         $localid = -1;
 
