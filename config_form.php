@@ -75,19 +75,27 @@ class local_envbar_form extends moodleform {
         If it has been manually set as $CFG->local_envbar_prodwwwroot it will be locked from further edits.
          */
 
-        $mform->addElement(
-            "button",
-            "autofill",
-            get_string("prodwwwrootautobutton", "local_envbar"),
-            array("onclick" => "document.getElementById('prodwwwroot').value = '$CFG->wwwroot'", $urlset ? 'disabled' : '')
-        );
+        $wwwrootgroup = array();
 
-        $mform->addElement(
+        $wwwrootgroup[] =& $mform->createElement(
             "text",
             "prodwwwroot",
             get_string("prodwwwroottext", "local_envbar"),
-            array("placeholder" => get_string("prodwwwrootplaceholder", "local_envbar"), "id" => "prodwwwroot", $urlset ? 'disabled' : '')
+            array("placeholder" => get_string("prodwwwrootplaceholder", "local_envbar"),
+                  "id" => "prodwwwroot",
+                  "size" => 40,
+                  $urlset ? 'disabled' : 'enabled')
         );
+
+        $wwwrootgroup[] =& $mform->createElement(
+            "button",
+            "autofill",
+            get_string("prodwwwrootautobutton", "local_envbar"),
+            array("onclick" => "document.getElementById('prodwwwroot').value = '$CFG->wwwroot'", $urlset ? 'disabled' : 'enabled')
+        );
+
+
+        $mform->addGroup($wwwrootgroup, 'wwwrootg', get_string('prodwwwroottext', 'local_envbar'), array(' '), false);
 
         $mform->setType("prodwwwroot", PARAM_URL);
 
@@ -120,18 +128,30 @@ class local_envbar_form extends moodleform {
 
             $id = $record->id;
 
+            $mform->addElement('html', '<hr />');
+
             $mform->addElement(
                 "hidden",
                 "id[{$id}]",
                 $id
             );
 
-            $backgroundcolour = $mform->addElement(
-                "select",
-                "colourbg[{$id}]",
-                get_string("bgcolour", "local_envbar"),
-                $envbarcolourchoices,
-                $locked ? array('disabled') : array()
+            $mform->addElement(
+                "text",
+                "matchpattern[{$id}]",
+                get_string("urlmatch", "local_envbar"),
+                array("placeholder" => get_string("urlmatchplaceholder", "local_envbar"),
+                    "size" => 40,
+                    $locked ? 'disabled' : 'enabled')
+            );
+
+            $mform->addElement(
+                "text",
+                "showtext[{$id}]",
+                get_string("showtext", "local_envbar"),
+                array("placeholder" => get_string("showtextplaceholder", "local_envbar"),
+                      "size" => 40,
+                      $locked ? 'disabled' : 'enabled')
             );
 
             $textcolour = $mform->addElement(
@@ -142,25 +162,19 @@ class local_envbar_form extends moodleform {
                 $locked ? array('disabled') : array()
             );
 
-            $mform->addElement(
-                "text",
-                "matchpattern[{$id}]",
-                get_string("urlmatch", "local_envbar"),
-                array("placeholder" => get_string("urlmatchplaceholder", "local_envbar"), $locked ? 'disabled' : '')
-            );
-
-            $mform->addElement(
-                "text",
-                "showtext[{$id}]",
-                get_string("showtext", "local_envbar"),
-                array("placeholder" => get_string("showtextplaceholder", "local_envbar"), $locked ? 'disabled' : '')
+            $backgroundcolour = $mform->addElement(
+                "select",
+                "colourbg[{$id}]",
+                get_string("bgcolour", "local_envbar"),
+                $envbarcolourchoices,
+                $locked ? array('disabled') : array()
             );
 
             $mform->addElement(
                 "advcheckbox",
                 "enabled[{$id}]",
                 get_string("setenabled", "local_envbar"),
-                get_string("setenabledtext", "local_envbar"),
+                '',
                 $locked ? array('disabled') : array(),
                 array(0, 1)
             );
@@ -169,12 +183,10 @@ class local_envbar_form extends moodleform {
                 "advcheckbox",
                 "delete[{$id}]",
                 get_string("setdeleted", "local_envbar"),
-                get_string("setdeletedtext", "local_envbar"),
+                '',
                 $locked ? array('disabled') : array(),
                 array(0, 1)
             );
-
-            $mform->addElement("html", "<br />");
 
             $mform->setType("id[{$id}]", PARAM_INT);
             $mform->setType("matchpattern[{$id}]", PARAM_URL);
@@ -205,10 +217,19 @@ class local_envbar_form extends moodleform {
         );
 
         $repeatarray[] = $mform->createElement(
-            "select",
-            "repeatcolourbg",
-            get_string("bgcolour", "local_envbar"),
-            $envbarcolourchoices
+            "text",
+            "repeatmatchpattern",
+            get_string("urlmatch", "local_envbar"),
+            array("placeholder" => get_string("urlmatchplaceholder", "local_envbar"),
+                  "size" => 40)
+        );
+
+        $repeatarray[] = $mform->createElement(
+            "text",
+            "repeatshowtext",
+            get_string("showtext", "local_envbar"),
+            array("placeholder" => get_string("showtextplaceholder", "local_envbar"),
+                  "size" => 40)
         );
 
         $repeatarray[] = $mform->createElement(
@@ -219,24 +240,17 @@ class local_envbar_form extends moodleform {
         );
 
         $repeatarray[] = $mform->createElement(
-            "text",
-            "repeatmatchpattern",
-            get_string("urlmatch", "local_envbar"),
-            array("placeholder" => get_string("urlmatchplaceholder", "local_envbar"))
-        );
-
-        $repeatarray[] = $mform->createElement(
-            "text",
-            "repeatshowtext",
-            get_string("showtext", "local_envbar"),
-            array("placeholder" => get_string("showtextplaceholder", "local_envbar"))
+            "select",
+            "repeatcolourbg",
+            get_string("bgcolour", "local_envbar"),
+            $envbarcolourchoices
         );
 
         $repeatarray[] = $mform->createElement(
             "advcheckbox",
             "repeatenabled",
             get_string("setenabled", "local_envbar"),
-            get_string("setenabledtext", "local_envbar"),
+            '',
             array(),
             array(0, 1)
         );
@@ -245,12 +259,12 @@ class local_envbar_form extends moodleform {
             "advcheckbox",
             "repeatdelete",
             get_string("setdeleted", "local_envbar"),
-            get_string("setdeletedtext", "local_envbar"),
+            '',
             array(),
             array(0, 1)
         );
 
-        $repeatarray[] = $mform->addElement("html", "<br />");
+        $repeatarray[] = $mform->addElement("html", "<hr />");
 
         $repeatoptions = array();
         $repeatoptions["repeatid"]["default"] = "{no}";

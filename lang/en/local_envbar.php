@@ -24,21 +24,18 @@
  */
 
 $string['pluginname'] = 'Environment bar';
-$string['bgcolour'] = 'Background color';
-$string['textcolour'] = 'Text color';
+$string['bgcolour'] = 'Background colour';
+$string['textcolour'] = 'Foreground colour';
 $string['showtext'] = 'Text to show';
 $string['showtextplaceholder'] = 'eg: You are on staging environment';
 $string['setenabled'] = 'Enable';
-$string['setenabledtext'] = '';
 $string['setdeleted'] = 'Delete';
-$string['setdeletedtext'] = '';
 $string['urlmatch'] = 'URL Match pattern';
 $string['urlmatchplaceholder'] = 'eg. staging';
 $string['prodwwwroottext'] = 'Production wwwroot';
 $string['prodwwwrootplaceholder'] = '$CFG->wwwroot on production';
-$string['prodwwwrootautobutton'] = 'Auto-fill Production wwwroot';
+$string['prodwwwrootautobutton'] = 'Auto-fill';
 $string['header_envbar'] = 'Environment bar';
-$string['set'] = 'Set #{$a}';
 $string['cachedef_records'] = 'The environment bar database records';
 $string['notconfigured'] = 'Warning! This is NOT the production environment';
 $string['configure'] = 'Edit environment bar configuration';
