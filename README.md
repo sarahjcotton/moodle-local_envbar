@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/nhoobin/moodle-local_envbar.svg?branch=master)](https://travis-ci.org/nhoobin/moodle-local_envbar)
+[![Build Status](https://travis-ci.org/CatalystIT-AU/moodle-local_envbar.svg?branch=master)](https://travis-ci.org/CatalystIT-AU/moodle-local_envbar)
 
 Environment bar - Moodle local plugin
 ====================
