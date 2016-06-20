@@ -44,6 +44,7 @@ The plugin can be configured via,
 
 Or you can manually configure the bars and prodwwwroot in config.php,
 
+```php
     $CFG->local_envbar_items = array(
         array(
             'colourbg' => 'black',
@@ -62,6 +63,7 @@ Or you can manually configure the bars and prodwwwroot in config.php,
     );
 
     $CFG->local_envbar_prodwwwroot = 'http://moodle.prod/';
+```
 
 The colours available are,
 
@@ -87,5 +89,8 @@ Please set this value to be exactly what your production $CFG->wwwwroot is.
 
 
 An extra div will be printed within standard_top_of_body_html function call:
+
+```
 $OUTPUT->standard_top_of_body_html()
+```
 
