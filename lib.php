@@ -148,8 +148,8 @@ function local_envbar_inject() {
     background: {$match->colourbg};
     color: {$match->colourtext};
 }
-.navbar-fixed-top {
-    top: 50px !important;
+.navbar.navbar-fixed-top {
+    top: 50px;
 }
 .debuggingmessage {
     padding-top: 50px;
