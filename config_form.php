@@ -182,7 +182,7 @@ class local_envbar_form extends moodleform {
             );
 
             $mform->setType("id[{$id}]", PARAM_INT);
-            $mform->setType("matchpattern[{$id}]", PARAM_URL);
+            $mform->setType("matchpattern[{$id}]", PARAM_TEXT);
             $mform->setType("showtext[{$id}]", PARAM_TEXT);
 
             $mform->setDefault("id[{$id}]", $record->id);
