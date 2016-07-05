@@ -83,6 +83,22 @@ function envbar_get_records($array = null) {
 }
 
 /**
+ * Check if provided value matches provided pattern.
+ *
+ * @param string $value A value to check.
+ * @param string $pattern A pattern to check matching against.
+ *
+ * @return bool True or false.
+ */
+function local_envbar_is_match($value, $pattern) {
+    if (!empty($pattern) && strpos($value, $pattern) !== false) {
+        return true;
+    }
+
+    return false;
+}
+
+/**
  * Helper inject function that is used in local_envbar_extend_navigation.
  */
 function local_envbar_inject() {
@@ -94,8 +110,6 @@ function local_envbar_inject() {
     } catch (Exception $e) {
         return;
     }
-
-    $here = (new moodle_url('/'))->out();
 
     // Are we on the production env?
     if (local_envbar_getprodwwwroot() === $CFG->wwwroot) {
@@ -120,9 +134,11 @@ function local_envbar_inject() {
 
     } else {
 
+        $here = (new moodle_url('/'))->out();
+
         // Which env matches?
         foreach ($envs as $env) {
-            if (!empty($env->matchpattern) && strpos($here, $env->matchpattern) == true) {
+            if (local_envbar_is_match($here, $env->matchpattern)) {
                 $match = $env;
                 break;
             }
