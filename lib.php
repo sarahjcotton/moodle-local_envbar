@@ -122,7 +122,7 @@ function local_envbar_inject() {
 
         // Which env matches?
         foreach ($envs as $env) {
-            if (!empty($env->matchpattern) && strpos($here, $env->matchpattern) == true) {
+            if (!empty($env->matchpattern) && strpos($here, $env->matchpattern) !== false) {
                 $match = $env;
                 break;
             }
