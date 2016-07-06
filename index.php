@@ -26,7 +26,6 @@
 
 require_once(dirname(__FILE__) . '/../../config.php');
 require_once(dirname(__FILE__).'/locallib.php');
-require_once(dirname(__FILE__) . '/config_form.php');
 require_once($CFG->libdir . '/adminlib.php');
 
 global $DB;
@@ -34,7 +33,7 @@ global $DB;
 admin_externalpage_setup('local_envbar');
 
 $records = envbar_get_records();
-$form = new local_envbar_form(null, array('records' => $records));
+$form = new \local_envbar\form\config(null, array('records' => $records));
 
 if ($data = $form->get_data()) {
 

@@ -24,8 +24,11 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-require_once($CFG->libdir . "/formslib.php");
-require_once(dirname(__FILE__)."/locallib.php");
+namespace local_envbar\form;
+
+if (!defined('MOODLE_INTERNAL')) {
+    die('Direct access to this script is forbidden.'); // It must be included from a Moodle page.
+}
 
 /**
  * Form for editing an Enviroment bar.
@@ -33,7 +36,7 @@ require_once(dirname(__FILE__)."/locallib.php");
  * @copyright Catalyst IT
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class local_envbar_form extends moodleform {
+class config extends \moodleform {
 
     /**
      * {@inheritDoc}
