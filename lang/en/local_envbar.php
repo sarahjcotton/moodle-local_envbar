@@ -42,7 +42,6 @@ $string['prodwwwrootautobutton'] = 'Autofill';
 $string['header_envbar'] = 'Environment bar';
 $string['cachedef_records'] = 'The environment bar database records';
 $string['notconfigured'] = 'Warning! This is NOT the production environment';
-$string['configure'] = 'Edit envbar config in: ';
-$string['envhere'] = 'This env';
-$string['prodname'] = 'Prod';
+$string['configureinprod'] = 'Edit envbar config in PROD';
+$string['configurehere'] = 'Edit envbar config in THIS env';
 

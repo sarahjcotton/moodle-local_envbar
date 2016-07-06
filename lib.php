@@ -145,6 +145,7 @@ function local_envbar_inject() {
     // If we stil don't have a match then show a default warning.
     if (empty($match)) {
         $match = (object) array(
+            'id' => 0,
             'showtext' => get_string('notconfigured', 'local_envbar'),
             'colourtext' => 'white',
             'colourbg' => 'red',

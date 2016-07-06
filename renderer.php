@@ -49,20 +49,21 @@ class local_envbar_renderer extends plugin_renderer_base {
     width: 100%;
     height: 20px;
     text-align: center;
+    margin-bottom: 10px;
 }
 .envbar.env{$match->id},
 .envbar.env{$match->id} a {
     background: {$match->colourbg};
     color: {$match->colourtext};
 }
+.envbar.env{$match->id} a {
+    text-decoration: underline;
+}
 .envbar.fixed {
     position: fixed;
     top: 0px;
     left: 0px;
     z-index: 9999;
-}
-.navbar.navbar-fixed-top {
-    top: 50px;
 }
 .debuggingmessage {
     padding-top: 50px;
@@ -71,6 +72,13 @@ class local_envbar_renderer extends plugin_renderer_base {
     padding-top: 0px;
 }
 EOD;
+        if ($fixed) {
+            $css .= <<<EOD
+.navbar.navbar-fixed-top {
+    top: 50px;
+}
+EOD;
+        }
 
         $class = 'env' .  $match->id;
         $class .= $fixed ? ' fixed' : '';
@@ -81,10 +89,13 @@ EOD;
         $systemcontext = context_system::instance();
         $canedit = has_capability('moodle/site:config', $systemcontext);
         if ($canedit) {
-            $showtext .= ' - ' . get_string('configure', 'local_envbar');
-            $showtext .= html_writer::link(new moodle_url('/local/envbar/index.php'), get_string('envhere', 'local_envbar'));
-            $showtext .= ' | ';
-            $showtext .= html_writer::link($produrl.'/local/envbar/index.php', get_string('prodname', 'local_envbar'), array('target' => 'prod'));
+            if ($produrl) {
+                $showtext .= ' - ' . html_writer::link($produrl.'/local/envbar/index.php',
+                        get_string('configureinprod', 'local_envbar'), array('target' => 'prod'));
+            } else {
+                $showtext .= ' - ' . html_writer::link(new moodle_url('/local/envbar/index.php'),
+                        get_string('configurehere', 'local_envbar'));
+            }
         }
 
         $html = <<<EOD
@@ -92,8 +103,12 @@ EOD;
 <style>
 $css
 </style>
+EOD;
+        if ($fixed) {
+            $html .= <<<EOD
 <div style="height: 50px;">&nbsp;</div>
 EOD;
+        }
 
         return $html;
     }
