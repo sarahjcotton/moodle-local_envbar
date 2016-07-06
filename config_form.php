@@ -268,7 +268,7 @@ class local_envbar_form extends moodleform {
         $repeatoptions["repeatcolourtext"]["default"] = "white";
 
         $repeatoptions["repeatmatchpattern"]["default"] = "";
-        $repeatoptions["repeatmatchpattern"]["type"] = PARAM_URL;
+        $repeatoptions["repeatmatchpattern"]["type"] = PARAM_TEXT;
         $repeatoptions["repeatmatchpattern"]["helpbutton"] = array('urlmatch', 'local_envbar');
 
         $repeatoptions["repeatshowtext"]["default"] = "";
