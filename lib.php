@@ -132,35 +132,24 @@ function local_envbar_inject() {
 
     $match = null;
 
-    // If not yet configured then show a warning.
-    if (empty($envs)) {
+    $here = (new moodle_url('/'))->out();
+
+    // Which env matches?
+    foreach ($envs as $env) {
+        if (local_envbar_is_match($here, $env->matchpattern)) {
+            $match = $env;
+            break;
+        }
+    }
+
+    // If we stil don't have a match then show a default warning.
+    if (empty($match)) {
         $match = (object) array(
             'showtext' => get_string('notconfigured', 'local_envbar'),
             'colourtext' => 'white',
             'colourbg' => 'red',
         );
-        $systemcontext = context_system::instance();
-        $canedit = has_capability('moodle/site:config', $systemcontext);
-        if ($canedit) {
-            $match->showtext .= ' - ' . html_writer::link(new moodle_url('/local/envbar/index.php'),
-                get_string('configure', 'local_envbar'), array('style' => 'color: white; text-decoration: underline'));
-        }
 
-    } else {
-
-        $here = (new moodle_url('/'))->out();
-
-        // Which env matches?
-        foreach ($envs as $env) {
-            if (local_envbar_is_match($here, $env->matchpattern)) {
-                $match = $env;
-                break;
-            }
-        }
-        if (!$match) {
-            return;
-        }
-        $match->showtext = htmlspecialchars($match->showtext);
     }
 
     $renderer = $PAGE->get_renderer('local_envbar');

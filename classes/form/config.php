@@ -43,7 +43,10 @@ class config extends \moodleform {
      * @see moodleform::definition()
      */
     public function definition() {
-        global $CFG;
+        global $CFG, $PAGE;
+
+        require_once($CFG->dirroot.'/local/envbar/renderer.php');
+        $renderer = $PAGE->get_renderer('local_envbar');
 
         $envbarcolourchoices = array(
             "black" => "black",
@@ -124,7 +127,8 @@ class config extends \moodleform {
 
             $id = $record->id;
 
-            $mform->addElement('html', '<hr />');
+            $html = $renderer->render_envbar($record, false);
+            $mform->addElement('html', $html);
 
             $mform->addElement(
                 "hidden",

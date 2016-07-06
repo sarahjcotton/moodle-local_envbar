@@ -37,24 +37,29 @@ class local_envbar_renderer extends plugin_renderer_base {
 
     /**
      * Render the envbar
-     * @param array $data
+     *
+     * @param stdObj $match And environment to show
+     * @param boolean $static should this bar be fixed to the header
      */
-    public function render_envbar($match) {
+    public function render_envbar($match, $fixed = true) {
 
-        $html = <<<EOD
-<div class="envbar">{$match->showtext}</div>
-<style>
+        $css = <<<EOD
 .envbar {
-    position: fixed;
     padding: 15px;
     width: 100%;
     height: 20px;
+    text-align: center;
+}
+.envbar.env{$match->id},
+.envbar.env{$match->id} a {
+    background: {$match->colourbg};
+    color: {$match->colourtext};
+}
+.envbar.fixed {
+    position: fixed;
     top: 0px;
     left: 0px;
     z-index: 9999;
-    text-align: center;
-    background: {$match->colourbg};
-    color: {$match->colourtext};
 }
 .navbar.navbar-fixed-top {
     top: 50px;
@@ -65,6 +70,27 @@ class local_envbar_renderer extends plugin_renderer_base {
 .debuggingmessage ~ .debuggingmessage {
     padding-top: 0px;
 }
+EOD;
+
+        $class = 'env' .  $match->id;
+        $class .= $fixed ? ' fixed' : '';
+
+        $showtext = htmlspecialchars($match->showtext);
+
+        $produrl = local_envbar_getprodwwwroot();
+        $systemcontext = context_system::instance();
+        $canedit = has_capability('moodle/site:config', $systemcontext);
+        if ($canedit) {
+            $showtext .= ' - ' . get_string('configure', 'local_envbar');
+            $showtext .= html_writer::link(new moodle_url('/local/envbar/index.php'), get_string('envhere', 'local_envbar'));
+            $showtext .= ' | ';
+            $showtext .= html_writer::link($produrl.'/local/envbar/index.php', get_string('prodname', 'local_envbar'), array('target' => 'prod'));
+        }
+
+        $html = <<<EOD
+<div class="envbar $class">$showtext</div>
+<style>
+$css
 </style>
 <div style="height: 50px;">&nbsp;</div>
 EOD;
