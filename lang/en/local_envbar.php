@@ -25,25 +25,23 @@
 
 $string['pluginname'] = 'Environment bar';
 $string['bgcolour'] = 'Background colour';
-$string['textcolour'] = 'Foreground colour';
-$string['showtext'] = 'Text to show';
-$string['showtextplaceholder'] = 'eg: You are on staging environment';
-$string['setenabled'] = 'Enable';
-$string['setdeleted'] = 'Delete';
-$string['urlmatch'] = 'URL Match pattern';
-$string['urlmatch_help'] = 'You can use Regular Expressions to match your URL.
-<br />E.g. http://stage[1,2,3].example.com to match http://stage2.example.com
-<br />Note that following special characters will be escaped:
-<br /> / \ - . ? * ^ $';
-$string['urlmatchplaceholder'] = 'eg. staging';
+$string['cachedef_records'] = 'The environment bar database records';
+$string['configureinprod'] = 'Edit envbar config in PROD';
+$string['configurehere'] = 'Edit envbar config in THIS env';
+$string['header_envbar'] = 'Environment bar';
+$string['help'] = '<p><b>WARNING:</b> These settings should generally only be configured once in the production system.</p><p>If you are NOT in the production system, and these values are empty, then ideally go and fill them out in production and then refresh your database back to here.</p>';
+$string['notconfigured'] = 'Warning! This is an unknown environment';
 $string['prodwwwroottext'] = 'Production wwwroot';
 $string['prodwwwrootplaceholder'] = '$CFG->wwwroot on production';
 $string['prodwwwrootautobutton'] = 'Autofill';
-$string['header_envbar'] = 'Environment bar';
-$string['cachedef_records'] = 'The environment bar database records';
-$string['notconfigured'] = 'Warning! This is an unknown environment';
-$string['configureinprod'] = 'Edit envbar config in PROD';
-$string['configurehere'] = 'Edit envbar config in THIS env';
 $string['refreshedago'] = ' - Refreshed {$a} ago';
 $string['refreshednever'] = ' - Never been refreshed';
+$string['setenabled'] = 'Enable';
+$string['setdeleted'] = 'Delete';
+$string['showtext'] = 'Text to show';
+$string['showtextplaceholder'] = 'eg: You are on staging environment';
+$string['textcolour'] = 'Foreground colour';
+$string['urlmatch'] = 'URL Match pattern';
+$string['urlmatch_help'] = 'You can use Regular Expressions to match your URL.<br />E.g. http://stage[1,2,3].example.com to match http://stage2.example.com<br />Note that following special characters will be escaped:<br /> / \ - . ? * ^ $';
+$string['urlmatchplaceholder'] = 'eg. staging';
 

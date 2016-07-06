@@ -62,10 +62,8 @@ if ($data = $form->get_data()) {
             } else {
                 // Update an item as the id has been set.
                 update_envbar($item);
-
             }
         }
-
     }
 
     if (!empty($data->repeatid)) {
@@ -88,10 +86,8 @@ if ($data = $form->get_data()) {
 }
 
 echo $OUTPUT->header();
-
 echo $OUTPUT->heading(get_string('header_envbar', 'local_envbar'));
-
+echo get_string('help', 'local_envbar');
 echo $form->display();
-
 echo $OUTPUT->footer();
 
