@@ -44,4 +44,6 @@ $string['cachedef_records'] = 'The environment bar database records';
 $string['notconfigured'] = 'Warning! This is an unknown environment';
 $string['configureinprod'] = 'Edit envbar config in PROD';
 $string['configurehere'] = 'Edit envbar config in THIS env';
+$string['refreshedago'] = ' - Refreshed {$a} ago';
+$string['refreshednever'] = ' - Never been refreshed';
 

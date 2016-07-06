@@ -77,8 +77,22 @@ EOD;
         $class = 'env' .  $match->id;
         $class .= $fixed ? ' fixed' : '';
 
+        // Show the configured env message.
         $showtext = htmlspecialchars($match->showtext);
 
+        // Just show the biggest time unit instead of 2.
+        $config = get_config('local_envbar');
+        if (isset($config->prodlastcheck)) {
+            $show = format_time(time() - $config->prodlastcheck);
+            $num = strtok($show, ' ');
+            $unit = strtok(' ');
+            $show = "$num $unit";
+            $showtext .= get_string('refreshedago', 'local_envbar', $show);
+        } else {
+            $showtext .= get_string('refreshednever', 'local_envbar');
+        }
+
+        // Optionally also show the config links for admins.
         $produrl = local_envbar_getprodwwwroot();
         $systemcontext = context_system::instance();
         $canedit = has_capability('moodle/site:config', $systemcontext);
