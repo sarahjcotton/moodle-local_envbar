@@ -3,32 +3,30 @@
 Environment bar - Moodle local plugin
 ====================
 
-This displays a configurable fixed div across across the top of your Moodle site which can change depending on where it has been deployed.
+This displays a prominment header across across the top of your NON PROD Moodle
+environments which can be configured to have different colors and messages for
+each environent, and also automatically detects and show you when the DB was
+last refreshed.
 
-This is useful with development and production for identifying which server you currently reside on based on the URL.
+It's very useful when working with lots of different environments to avoid
+confusion around where you are, especially when env's can contain hard coded
+links and you accidentally jump between environments.
 
 Principals
 ----------
 
-Showing what environment you are in needs to be reliable. If it doesn't work
-for any reason then you may as well not have it. The way this plugin works is
-that in your production system you specify what your different environments
-are. Then after a refresh of production data back to a staging environment it
-can auto detect that it is no longer in production and warn the end user.
-Further more if there isn't any config at all, then it will assume you are in
-a development environment.
+Showing what environment you are in needs to be reliable and fail safe.
 
-By doing it this way, by saying 'Are we not in production' vs 'Are we in a
-dev environment' the logic because much more resiliant to mistakes, refreshed
-databases, and still works even if you forget to do something. Ie it is the
-only near perfect fail safe way to detect an environment.
+If it doesn't work for any reason then you may as well not have it. The way
+this plugin works is that in your production system you specify what your
+different environments are. Then after a refresh of production data back to a
+staging environment it can auto detect that it is no longer in production and
+warn the end user. Further more if there isn't any config at all, then it will
+assume you are in a fresh development environment that hasn't been refreshed
+and show a default fail safe warning.
 
-Summary of situations covered:
-
-* In prod, with config, env bar doesn't show
-
-* In non-prod, with refreshed config, env bar shows custom bar
-
+It will also automatically detect and show you when the environment was last
+refreshed from production, which is a common question testers ask.
 
 Installation
 ------------
@@ -86,7 +84,6 @@ The colours available are,
 Upon first installation you will see a notification across the screen that prodwwwroot has not been set.
 
 Please set this value to be exactly what your production $CFG->wwwwroot is.
-
 
 An extra div will be printed within standard_top_of_body_html function call:
 
