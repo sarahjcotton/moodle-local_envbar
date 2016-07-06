@@ -114,7 +114,9 @@ function local_envbar_is_match($value, $pattern) {
  * Helper inject function that is used in local_envbar_extend_navigation.
  */
 function local_envbar_inject() {
-    global $DB, $CFG;
+    global $DB, $CFG, $PAGE;
+
+    require_once('renderer.php');
 
     // During the initial install we don't want to break the admin gui.
     try {
@@ -161,35 +163,10 @@ function local_envbar_inject() {
         $match->showtext = htmlspecialchars($match->showtext);
     }
 
-    $additionalhtml = <<<EOD
-<div class="envbar">{$match->showtext}</div>
-<style>
-.envbar {
-    position: fixed;
-    padding: 15px;
-    width: 100%;
-    height: 20px;
-    top: 0px;
-    left: 0px;
-    z-index: 9999;
-    text-align: center;
-    background: {$match->colourbg};
-    color: {$match->colourtext};
-}
-.navbar.navbar-fixed-top {
-    top: 50px;
-}
-.debuggingmessage {
-    padding-top: 50px;
-}
-.debuggingmessage ~ .debuggingmessage {
-    padding-top: 0px;
-}
-</style>
-<div style="height: 50px;">&nbsp;</div>
-EOD;
+    $renderer = $PAGE->get_renderer('local_envbar');
+    $html = $renderer->render_envbar($match);
 
-    $CFG->additionalhtmltopofbody .= $additionalhtml;
+    $CFG->additionalhtmltopofbody .= $html;
 
 }
 
