@@ -65,12 +65,6 @@ class local_envbar_renderer extends plugin_renderer_base {
     left: 0px;
     z-index: 9999;
 }
-.debuggingmessage {
-    padding-top: 50px;
-}
-.debuggingmessage ~ .debuggingmessage {
-    padding-top: 0px;
-}
 EOD;
         if ($fixed) {
             $css .= <<<EOD
