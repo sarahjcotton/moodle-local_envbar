@@ -183,6 +183,7 @@ class local_envbar_form extends moodleform {
 
             $mform->setType("id[{$id}]", PARAM_INT);
             $mform->setType("matchpattern[{$id}]", PARAM_TEXT);
+            $mform->addHelpButton("matchpattern[{$id}]", 'urlmatch', 'local_envbar');
             $mform->setType("showtext[{$id}]", PARAM_TEXT);
 
             $mform->setDefault("id[{$id}]", $record->id);
@@ -268,6 +269,7 @@ class local_envbar_form extends moodleform {
 
         $repeatoptions["repeatmatchpattern"]["default"] = "";
         $repeatoptions["repeatmatchpattern"]["type"] = PARAM_URL;
+        $repeatoptions["repeatmatchpattern"]["helpbutton"] = array('urlmatch', 'local_envbar');
 
         $repeatoptions["repeatshowtext"]["default"] = "";
         $repeatoptions["repeatshowtext"]["type"] = PARAM_TEXT;

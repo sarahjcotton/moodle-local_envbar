@@ -31,6 +31,10 @@ $string['showtextplaceholder'] = 'eg: You are on staging environment';
 $string['setenabled'] = 'Enable';
 $string['setdeleted'] = 'Delete';
 $string['urlmatch'] = 'URL Match pattern';
+$string['urlmatch_help'] = 'You can use Regular Expressions to match your URL.
+<br />E.g. http://stage[1,2,3].example.com to match http://stage2.example.com
+<br />Note that following special characters will be escaped:
+<br /> / \ - . ? * ^ $';
 $string['urlmatchplaceholder'] = 'eg. staging';
 $string['prodwwwroottext'] = 'Production wwwroot';
 $string['prodwwwrootplaceholder'] = '$CFG->wwwroot on production';

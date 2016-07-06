@@ -91,7 +91,19 @@ function envbar_get_records($array = null) {
  * @return bool True or false.
  */
 function local_envbar_is_match($value, $pattern) {
-    if (!empty($pattern) && strpos($value, $pattern) !== false) {
+
+    if (empty($pattern)) {
+        return false;
+    }
+
+    $keywords = array('\\', '/', '-', '.', '?', '*', '+', '^', '$');
+
+    foreach ($keywords as $keyword) {
+        // Escape special a keyword to treat it as a part of the string.
+        $pattern = str_replace($keyword, '\\' . $keyword, $pattern);
+    }
+
+    if (preg_match('/' . $pattern . '/', $value)) {
         return true;
     }
 

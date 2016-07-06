@@ -62,6 +62,14 @@ class local_envbar_lib_test extends advanced_testcase {
             array('https://my_moodle.com/', 'https://my_moodle.com//', false),
             array('https://my_moodle.com/', 'http://my_moodle.com', false),
             array('https://my_moodle.com/', 'http://my_moodle.com', false),
+            array('https://my_moodle.com/', '/', true),
+            array('https://my_moodle.com/', 'o{2}', true),
+            array('https://my_moodle.com/', 'o{3}', false),
+            array('https://my_moodle3.com/', 'https://my_moodle[1,2,3].com', true),
+            array('https://my_moodle6.com/', 'https://my_moodle[1-9].com', false),
+            array('https://my_moodle6.com/', '([a-zA-Z](([a-zA-Z0-9-])[a-zA-Z0-9]))', false),
+            array('https://my_moodle6.com/', '\D', false),
+            array('\-/.?*+^$', '\-/.?*+^$', true),
         );
     }
 
