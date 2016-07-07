@@ -23,9 +23,12 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+$string['addfields'] = 'Add another environment';
 $string['pluginname'] = 'Environment bar';
 $string['bgcolour'] = 'Background colour';
 $string['cachedef_records'] = 'The environment bar database records';
+$string['colourerror'] = 'Invalid HTML color code specified.';
+$string['colourplaceholder'] = 'HTML color code. e.g. #fff OR #000000';
 $string['configureinprod'] = 'Edit envbar config in PROD';
 $string['configurehere'] = 'Edit envbar config in THIS env';
 $string['header_envbar'] = 'Environment bar';
