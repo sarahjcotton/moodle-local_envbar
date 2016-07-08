@@ -45,6 +45,31 @@ class config extends \moodleform {
     public function definition() {
         global $CFG, $PAGE;
 
+        $colours = array(
+            "black",
+            "white",
+            "red",
+            "green",
+            "seagreen",
+            "yellow",
+            "brown",
+            "blue",
+            "slateblue",
+            "chocolate",
+            "crimson",
+            "orange",
+            "darkorange"
+        );
+
+        // Construct datalist HTML element for later injection.
+        $datalisthtml = '<datalist id="colours">';
+        foreach ($colours as $colour) {
+            $datalisthtml .= '<option value="' . $colour . '">';
+        }
+        $datalisthtml .= '</datalist>';
+
+        $coloursregex = implode ('\\b|', $colours);
+
         require_once($CFG->dirroot.'/local/envbar/renderer.php');
         $renderer = $PAGE->get_renderer('local_envbar');
 
@@ -139,11 +164,18 @@ class config extends \moodleform {
             );
 
             $mform->addElement(
+                'html',
+                $datalisthtml
+            );
+
+            $mform->addElement(
                 "text",
                 "colourtext[{$id}]",
                 get_string("textcolour", "local_envbar"),
                 array("placeholder" => get_string("colourplaceholder", "local_envbar"),
                     "size" => 40,
+                    "list" => "colours",
+                    "name" => "envcolours",
                     $locked ? 'disabled' : 'enabled')
             );
 
@@ -151,7 +183,7 @@ class config extends \moodleform {
                 "colourtext[{$id}]",
                 get_string("colourerror", "local_envbar"),
                 'regex',
-                '/#([a-f0-9]{3}){1,2}\b/i',
+                '/#([a-f0-9]{3}){1,2}\b|' . $coloursregex . '\b/i',
                 'client'
             );
 
@@ -161,6 +193,8 @@ class config extends \moodleform {
                 get_string("bgcolour", "local_envbar"),
                 array("placeholder" => get_string("colourplaceholder", "local_envbar"),
                     "size" => 40,
+                    "list" => "colours",
+                    "name" => "envcolours",
                     $locked ? 'disabled' : 'enabled')
             );
 
@@ -168,7 +202,7 @@ class config extends \moodleform {
                 "colourbg[{$id}]",
                 get_string("colourerror", "local_envbar"),
                 'regex',
-                '/#([a-f0-9]{3}){1,2}\b/i',
+                '/#([a-f0-9]{3}){1,2}\b|' . $coloursregex . '\b/i',
                 'client'
             );
 
@@ -212,6 +246,11 @@ class config extends \moodleform {
         );
 
         $repeatarray[] = $mform->createElement(
+            'html',
+            $datalisthtml
+        );
+
+        $repeatarray[] = $mform->createElement(
             "text",
             "repeatmatchpattern",
             get_string("urlmatch", "local_envbar"),
@@ -232,7 +271,10 @@ class config extends \moodleform {
             "repeatcolourtext",
             get_string("textcolour", "local_envbar"),
             array("placeholder" => get_string("colourplaceholder", "local_envbar"),
-                "size" => 40)
+                "size" => 40,
+                "list" => "colours",
+                "name" => "envcolours"
+            )
         );
 
         $repeatarray[] = $mform->createElement(
@@ -240,7 +282,9 @@ class config extends \moodleform {
             "repeatcolourbg",
             get_string("bgcolour", "local_envbar"),
             array("placeholder" => get_string("colourplaceholder", "local_envbar"),
-                "size" => 40)
+                "size" => 40,
+                "list" => "colours",
+                "name" => "envcolours")
         );
 
         $repeatarray[] = $mform->createElement(
@@ -263,7 +307,7 @@ class config extends \moodleform {
         $repeatoptions["repeatcolourbg"]["rule"] = array(
             get_string("colourerror", "local_envbar"),
             'regex',
-            '/#([a-f0-9]{3}){1,2}\b/i',
+            '/#([a-f0-9]{3}){1,2}\b|' . $coloursregex . '\b/i',
             'client'
         );
 
@@ -272,7 +316,7 @@ class config extends \moodleform {
         $repeatoptions["repeatcolourtext"]["rule"] = array(
             get_string("colourerror", "local_envbar"),
             'regex',
-            '/#([a-f0-9]{3}){1,2}\b/i',
+            '/#([a-f0-9]{3}){1,2}\b|' . $coloursregex . '\b/i',
             'client'
         );
 
