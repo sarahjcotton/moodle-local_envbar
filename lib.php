@@ -59,6 +59,8 @@ function envbar_get_records($array = null) {
         $result = array_merge($items, $result);
     }
 
+    // I don't understand why this.
+    // This will effectively leave the last record from table {local_envbar} with fields matchpattern and showtext
     foreach ($result as $record) {
         $record->matchpattern = base64_decode($record->matchpattern);
         $record->showtext = base64_decode($record->showtext);
@@ -120,7 +122,7 @@ function local_envbar_inject() {
 
     // During the initial install we don't want to break the admin gui.
     try {
-        $envs = envbar_get_records(array('enabled' => 1));
+        $envs = envbar_get_records();
     } catch (Exception $e) {
         return;
     }
@@ -176,7 +178,7 @@ function local_envbar_extend_navigation($navigation, $course = null, $module = n
  * Gets the prodwwwroot.
  * This also base64_dencodes the value to obtain it.
  *
- * @return string $prodwwwroot
+ * @return string $prodwwwroot if it is set either in plugin config via UI or in config.php. Returns nothing if prodwwwroot is net set anywhere.
  */
 function local_envbar_getprodwwwroot() {
     global $CFG;
@@ -187,7 +189,9 @@ function local_envbar_getprodwwwroot() {
         $prodwwwroot = $CFG->local_envbar_prodwwwroot;
     }
 
-    return $prodwwwroot;
+    if ($prodwwwroot) {
+        return $prodwwwroot;
+    }
 }
 
 /**

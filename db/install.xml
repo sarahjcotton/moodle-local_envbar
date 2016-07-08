@@ -11,7 +11,6 @@
         <FIELD NAME="colourtext" TYPE="char" LENGTH="64" NOTNULL="true" SEQUENCE="false" COMMENT="Text colour"/>
         <FIELD NAME="matchpattern" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Match pattern"/>
         <FIELD NAME="showtext" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Text to show"/>
-        <FIELD NAME="enabled" TYPE="int" LENGTH="1" DEFAULT="0" UNSIGNED="true"  NOTNULL="true" SEQUENCE="false" COMMENT="Enabled Flag"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

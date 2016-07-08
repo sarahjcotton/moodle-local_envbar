@@ -174,15 +174,6 @@ class config extends \moodleform {
 
             $mform->addElement(
                 "advcheckbox",
-                "enabled[{$id}]",
-                get_string("setenabled", "local_envbar"),
-                '',
-                $locked ? array('disabled') : array(),
-                array(0, 1)
-            );
-
-            $mform->addElement(
-                "advcheckbox",
                 "delete[{$id}]",
                 get_string("setdeleted", "local_envbar"),
                 '',
@@ -202,7 +193,6 @@ class config extends \moodleform {
             $mform->setDefault("showtext[{$id}]", $record->showtext);
             $mform->setDefault("colourtext[{$id}]", $record->colourtext);
             $mform->setDefault("colourbg[{$id}]", $record->colourbg);
-            $mform->setDefault("enabled[{$id}]", $record->enabled ? 1 : 0);
             $mform->setDefault("delete[{$id}]", 0);
 
         }
@@ -255,15 +245,6 @@ class config extends \moodleform {
 
         $repeatarray[] = $mform->createElement(
             "advcheckbox",
-            "repeatenabled",
-            get_string("setenabled", "local_envbar"),
-            '',
-            array(),
-            array(0, 1)
-        );
-
-        $repeatarray[] = $mform->createElement(
-            "advcheckbox",
             "repeatdelete",
             get_string("setdeleted", "local_envbar"),
             '',
@@ -294,8 +275,6 @@ class config extends \moodleform {
             '/#([a-f0-9]{3}){1,2}\b/i',
             'client'
         );
-
-//        $repeatoptions["repeatenabled"]["default"] = "1";
 
         $repeatoptions["repeatmatchpattern"]["default"] = "";
         $repeatoptions["repeatmatchpattern"]["type"] = PARAM_TEXT;
