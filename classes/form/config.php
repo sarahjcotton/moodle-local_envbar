@@ -45,24 +45,33 @@ class config extends \moodleform {
     public function definition() {
         global $CFG, $PAGE;
 
+        $colours = array(
+            "black",
+            "white",
+            "red",
+            "green",
+            "seagreen",
+            "yellow",
+            "brown",
+            "blue",
+            "slateblue",
+            "chocolate",
+            "crimson",
+            "orange",
+            "darkorange"
+        );
+
+        // Construct datalist HTML element for later injection.
+        $datalisthtml = '<datalist id="colours">';
+        foreach ($colours as $colour) {
+            $datalisthtml .= '<option value="' . $colour . '">';
+        }
+        $datalisthtml .= '</datalist>';
+
+        $coloursregex = implode ('\\b|', $colours);
+
         require_once($CFG->dirroot.'/local/envbar/renderer.php');
         $renderer = $PAGE->get_renderer('local_envbar');
-
-        $envbarcolourchoices = array(
-            "black" => "black",
-            "white" => "white",
-            "red" => "red",
-            "green" => "green",
-            "seagreen" => "seagreen",
-            "yellow" => "yellow",
-            "brown" => "brown",
-            "blue" => "blue",
-            "slateblue" => "slateblue",
-            "chocolate" => "chocolate",
-            "crimson" => "crimson",
-            "orange" => "orange",
-            "darkorange" => "darkorange",
-        );
 
         $mform = $this->_form;
         $records = $this->_customdata["records"];
@@ -154,29 +163,47 @@ class config extends \moodleform {
                       $locked ? 'disabled' : 'enabled')
             );
 
-            $textcolour = $mform->addElement(
-                "select",
-                "colourtext[{$id}]",
-                get_string("textcolour", "local_envbar"),
-                $envbarcolourchoices,
-                $locked ? array('disabled') : array()
-            );
-
-            $backgroundcolour = $mform->addElement(
-                "select",
-                "colourbg[{$id}]",
-                get_string("bgcolour", "local_envbar"),
-                $envbarcolourchoices,
-                $locked ? array('disabled') : array()
+            $mform->addElement(
+                'html',
+                $datalisthtml
             );
 
             $mform->addElement(
-                "advcheckbox",
-                "enabled[{$id}]",
-                get_string("setenabled", "local_envbar"),
-                '',
-                $locked ? array('disabled') : array(),
-                array(0, 1)
+                "text",
+                "colourtext[{$id}]",
+                get_string("textcolour", "local_envbar"),
+                array("placeholder" => get_string("colourplaceholder", "local_envbar"),
+                    "size" => 40,
+                    "list" => "colours",
+                    "name" => "envcolours",
+                    $locked ? 'disabled' : 'enabled')
+            );
+
+            $mform->addRule(
+                "colourtext[{$id}]",
+                get_string("colourerror", "local_envbar"),
+                'regex',
+                '/#([a-f0-9]{3}){1,2}\b|' . $coloursregex . '\b/i',
+                'client'
+            );
+
+            $mform->addElement(
+                "text",
+                "colourbg[{$id}]",
+                get_string("bgcolour", "local_envbar"),
+                array("placeholder" => get_string("colourplaceholder", "local_envbar"),
+                    "size" => 40,
+                    "list" => "colours",
+                    "name" => "envcolours",
+                    $locked ? 'disabled' : 'enabled')
+            );
+
+            $mform->addRule(
+                "colourbg[{$id}]",
+                get_string("colourerror", "local_envbar"),
+                'regex',
+                '/#([a-f0-9]{3}){1,2}\b|' . $coloursregex . '\b/i',
+                'client'
             );
 
             $mform->addElement(
@@ -192,15 +219,16 @@ class config extends \moodleform {
             $mform->setType("matchpattern[{$id}]", PARAM_TEXT);
             $mform->addHelpButton("matchpattern[{$id}]", 'urlmatch', 'local_envbar');
             $mform->setType("showtext[{$id}]", PARAM_TEXT);
+            $mform->setType("colourtext[{$id}]", PARAM_TEXT);
+            $mform->setType("colourbg[{$id}]", PARAM_TEXT);
 
             $mform->setDefault("id[{$id}]", $record->id);
             $mform->setDefault("matchpattern[{$id}]", $record->matchpattern);
             $mform->setDefault("showtext[{$id}]", $record->showtext);
-            $mform->setDefault("enabled[{$id}]", $record->enabled ? 1 : 0);
+            $mform->setDefault("colourtext[{$id}]", $record->colourtext);
+            $mform->setDefault("colourbg[{$id}]", $record->colourbg);
             $mform->setDefault("delete[{$id}]", 0);
 
-            $textcolour->setSelected($record->colourtext);
-            $backgroundcolour->setSelected($record->colourbg);
         }
 
         // Now we set up the same fields to repeat and add elements.
@@ -215,6 +243,11 @@ class config extends \moodleform {
         $repeatarray[] = $mform->createElement(
             "hidden",
             "repeatid"
+        );
+
+        $repeatarray[] = $mform->createElement(
+            'html',
+            $datalisthtml
         );
 
         $repeatarray[] = $mform->createElement(
@@ -234,26 +267,24 @@ class config extends \moodleform {
         );
 
         $repeatarray[] = $mform->createElement(
-            "select",
+            "text",
             "repeatcolourtext",
             get_string("textcolour", "local_envbar"),
-            $envbarcolourchoices
+            array("placeholder" => get_string("colourplaceholder", "local_envbar"),
+                "size" => 40,
+                "list" => "colours",
+                "name" => "envcolours"
+            )
         );
 
         $repeatarray[] = $mform->createElement(
-            "select",
+            "text",
             "repeatcolourbg",
             get_string("bgcolour", "local_envbar"),
-            $envbarcolourchoices
-        );
-
-        $repeatarray[] = $mform->createElement(
-            "advcheckbox",
-            "repeatenabled",
-            get_string("setenabled", "local_envbar"),
-            '',
-            array(),
-            array(0, 1)
+            array("placeholder" => get_string("colourplaceholder", "local_envbar"),
+                "size" => 40,
+                "list" => "colours",
+                "name" => "envcolours")
         );
 
         $repeatarray[] = $mform->createElement(
@@ -271,8 +302,23 @@ class config extends \moodleform {
         $repeatoptions["repeatid"]["default"] = "{no}";
         $repeatoptions["repeatid"]["type"] = PARAM_INT;
 
-        $repeatoptions["repeatcolourbg"]["default"] = "black";
-        $repeatoptions["repeatcolourtext"]["default"] = "white";
+        $repeatoptions["repeatcolourbg"]["default"] = "#000000";
+        $repeatoptions["repeatcolourbg"]["type"] = PARAM_TEXT;
+        $repeatoptions["repeatcolourbg"]["rule"] = array(
+            get_string("colourerror", "local_envbar"),
+            'regex',
+            '/#([a-f0-9]{3}){1,2}\b|' . $coloursregex . '\b/i',
+            'client'
+        );
+
+        $repeatoptions["repeatcolourtext"]["default"] = "#ffffff";
+        $repeatoptions["repeatcolourtext"]["type"] = PARAM_TEXT;
+        $repeatoptions["repeatcolourtext"]["rule"] = array(
+            get_string("colourerror", "local_envbar"),
+            'regex',
+            '/#([a-f0-9]{3}){1,2}\b|' . $coloursregex . '\b/i',
+            'client'
+        );
 
         $repeatoptions["repeatmatchpattern"]["default"] = "";
         $repeatoptions["repeatmatchpattern"]["type"] = PARAM_TEXT;
@@ -281,7 +327,8 @@ class config extends \moodleform {
         $repeatoptions["repeatshowtext"]["default"] = "";
         $repeatoptions["repeatshowtext"]["type"] = PARAM_TEXT;
 
-        $this->repeat_elements($repeatarray, $repeatnumber, $repeatoptions, "repeats", "envbar_add", 1, null, false);
+        $addstring = get_string("addfields", "local_envbar");
+        $this->repeat_elements($repeatarray, $repeatnumber, $repeatoptions, "repeats", "envbar_add", 1, $addstring, false);
 
         $this->add_action_buttons();
     }
