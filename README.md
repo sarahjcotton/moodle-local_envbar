@@ -43,24 +43,21 @@ The plugin can be configured via,
 Or you can manually configure the bars and prodwwwroot in config.php,
 
 ```php
+    $CFG->local_envbar_prodwwwroot = 'http://moodle.prod';
     $CFG->local_envbar_items = array(
         array(
             'colourbg' => 'black',
             'colourtext' => 'white',
-            'matchpattern' => 'moodle.local',
+            'matchpattern' => 'http://moodle.local',
             'showtext' => 'Localhost environment',
-            'enabled' => 1,
         ),
         array(
             'colourbg' => 'green',
             'colourtext' => 'black',
-            'matchpattern' => 'moodle.staging',
+            'matchpattern' => 'http://moodle.staging',
             'showtext' => 'Staging environment',
-            'enabled' => 1,
         ),
     );
-
-    $CFG->local_envbar_prodwwwroot = 'http://moodle.prod/';
 ```
 
 The colours available are,
@@ -83,7 +80,7 @@ The colours available are,
 
 Upon first installation you will see a notification across the screen that prodwwwroot has not been set.
 
-Please set this value to be exactly what your production $CFG->wwwwroot is.
+Please set this value to be exactly what your production ```$CFG->wwwroot``` is.
 
 An extra div will be printed within standard_top_of_body_html function call:
 
