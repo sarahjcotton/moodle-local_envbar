@@ -35,27 +35,36 @@ Add the plugin to /local/envbar/
 
 Run the Moodle upgrade.
 
-# Setup
+# Configuration
 
-The plugin can be configured via,
-    `(Site administration > Plugins > Local Plugins > Environment bar)`
+Upon first installation you will see a notification across the screen that prodwwwroot has not been set. There is a convenient link in the bar to:
 
-Or you can manually configure the bars and prodwwwroot in config.php,
+ Site administration > Plugins > Local Plugins > Environment bar
+
+Please set this value to be exactly what your production ```$CFG->wwwroot``` is.  If you are on the production box then you can click on the 'autofill' button.
+
+Or you can define the environments and prodwwwroot in config.php:
 
 ```php
     $CFG->local_envbar_prodwwwroot = 'http://moodle.prod';
     $CFG->local_envbar_items = array(
         array(
-            'colourbg' => 'black',
-            'colourtext' => 'white',
-            'matchpattern' => 'http://moodle.local',
-            'showtext' => 'Localhost environment',
+            'matchpattern' => 'https://staging.moodle.edu',
+            'showtext'     => 'Staging environment',
+            'colourbg'     => 'orange',
+            'colourtext'   => 'white',
         ),
         array(
-            'colourbg' => 'green',
-            'colourtext' => 'black',
-            'matchpattern' => 'http://moodle.staging',
-            'showtext' => 'Staging environment',
+            'matchpattern' => 'https://qa.moodle.edu',
+            'showtext'     => 'QA environment',
+            'colourbg'     => 'purple',
+            'colourtext'   => 'white',
+        ),
+        array(
+            'matchpattern' => 'http://moodle.local',
+            'showtext'     => 'Localhost environment',
+            'colourbg'     => 'black',
+            'colourtext'   => 'white',
         ),
     );
 ```
@@ -75,16 +84,3 @@ The colours available are,
     crimson
     orange
     darkorange
-
-# Details
-
-Upon first installation you will see a notification across the screen that prodwwwroot has not been set.
-
-Please set this value to be exactly what your production ```$CFG->wwwroot``` is.
-
-An extra div will be printed within standard_top_of_body_html function call:
-
-```
-$OUTPUT->standard_top_of_body_html()
-```
-
