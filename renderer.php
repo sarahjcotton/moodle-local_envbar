@@ -47,9 +47,10 @@ class local_envbar_renderer extends plugin_renderer_base {
 .envbar {
     padding: 15px;
     width: 100%;
-    height: 20px;
+    height: 50px;
     text-align: center;
     margin-bottom: 10px;
+    box-sizing: border-box;
 }
 .envbar.env{$match->id},
 .envbar.env{$match->id} a {
