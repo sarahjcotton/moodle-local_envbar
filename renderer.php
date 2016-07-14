@@ -30,7 +30,7 @@ if (!defined('MOODLE_INTERNAL')) {
 /**
  * Renderer for envbar.
  *
- * @copyright  2016 Brendan Heywoody (brendan@catalyst-au.net)
+ * @copyright  2016 Brendan Heywood (brendan@catalyst-au.net)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class local_envbar_renderer extends plugin_renderer_base {

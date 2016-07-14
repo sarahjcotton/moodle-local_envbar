@@ -116,7 +116,7 @@ function local_envbar_is_match($value, $pattern) {
  * Helper inject function that is used in local_envbar_extend_navigation.
  */
 function local_envbar_inject() {
-    global $DB, $CFG, $PAGE;
+    global $CFG, $PAGE;
 
     require_once('renderer.php');
 
@@ -155,10 +155,12 @@ function local_envbar_inject() {
 
     }
 
-    $renderer = $PAGE->get_renderer('local_envbar');
-    $html = $renderer->render_envbar($match);
-
-    $CFG->additionalhtmltopofbody .= $html;
+    // TODO When run from unit tests we can't use a renderer.
+    if (!PHPUNIT_TEST) { 
+        $renderer = $PAGE->get_renderer('local_envbar');
+        $html = $renderer->render_envbar($match);
+        $CFG->additionalhtmltopofbody .= $html;
+    }
 
 }
 
