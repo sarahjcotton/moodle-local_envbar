@@ -27,10 +27,9 @@
 /**
  * Find all configured environment sets
  *
- * @param  array $array array of query parameters
  * @return array of env set records
  */
-function envbar_get_records($array = null) {
+function envbar_get_records() {
     global $DB, $CFG;
 
     try {
@@ -62,21 +61,6 @@ function envbar_get_records($array = null) {
         }
 
         $result = array_merge($items, $result);
-    }
-
-    if (!empty($array)) {
-        $query = array();
-
-        foreach ($result as $record) {
-            foreach ($array as $key => $value) {
-                if (isset($record->{$key})) {
-                    if ($record->{$key} == $value) {
-                        $query[] = $record;
-                    }
-                }
-            }
-        }
-        $result = $query;
     }
 
     return $result;
