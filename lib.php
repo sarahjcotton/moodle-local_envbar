@@ -41,29 +41,27 @@ function envbar_get_records($array = null) {
 
     if (!$result = $cache->get('records')) {
         $result = $DB->get_records('local_envbar');
+        // The data for the records is obfuscated using base64 to avoid the chance
+        // of the data being 'cleaned' using either the core DB replace script, or
+        // the local_datacleaner plugin, which would render this plugin useless.
+        foreach ($result as $record) {
+            $record->matchpattern = base64_decode($record->matchpattern);
+            $record->showtext = base64_decode($record->showtext);
+        }
         $cache->set('records', $result);
     }
 
-    // Adding manual local envbar items from config.php.
+    // Add forced local envbar items from config.php.
     if (!empty($CFG->local_envbar_items)) {
         $items = $CFG->local_envbar_items;
 
         // Converting them to stdClass and adding a local flag.
         foreach ($items as $key => $value) {
             $value['local'] = true;
-            $value['showtext'] = base64_encode($value['showtext']);
-            $value['matchpattern'] = base64_encode($value['matchpattern']);
             $items[$key] = (object) $value;
         }
 
         $result = array_merge($items, $result);
-    }
-
-    // I don't understand why this.
-    // This will effectively leave the last record from table {local_envbar} with fields matchpattern and showtext
-    foreach ($result as $record) {
-        $record->matchpattern = base64_decode($record->matchpattern);
-        $record->showtext = base64_decode($record->showtext);
     }
 
     if (!empty($array)) {
@@ -156,7 +154,7 @@ function local_envbar_inject() {
     }
 
     // TODO When run from unit tests we can't use a renderer.
-    if (!PHPUNIT_TEST) { 
+    if (!PHPUNIT_TEST) {
         $renderer = $PAGE->get_renderer('local_envbar');
         $html = $renderer->render_envbar($match);
         $CFG->additionalhtmltopofbody .= $html;
@@ -180,7 +178,8 @@ function local_envbar_extend_navigation($navigation, $course = null, $module = n
  * Gets the prodwwwroot.
  * This also base64_dencodes the value to obtain it.
  *
- * @return string $prodwwwroot if it is set either in plugin config via UI or in config.php. Returns nothing if prodwwwroot is net set anywhere.
+ * @return string $prodwwwroot if it is set either in plugin config via UI or
+ *         in config.php. Returns nothing if prodwwwroot is net set anywhere.
  */
 function local_envbar_getprodwwwroot() {
     global $CFG;
