@@ -36,9 +36,6 @@ if (!defined('MOODLE_INTERNAL')) {
 function update_envbar($data) {
     global $DB;
 
-    // The cache is assumed to be initialised as it is created in envbar_get_records.
-    $cache = cache::make('local_envbar', 'records');
-
     $data = base64_encode_record($data);
 
     if (isset($data->id)) {
@@ -49,6 +46,7 @@ function update_envbar($data) {
         $data->id = $ret;
     }
 
+    $cache = cache::make('local_envbar', 'records');
     $cache->delete('records');
 
     return $ret;
