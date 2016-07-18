@@ -83,12 +83,9 @@ class config extends \moodleform {
             $urlset = true;
         }
 
-        /*
-        The prodwwwroot will be the $CFG->wwwroot that is set on the production server.
-        When this is not set, a warning message will be displayed.
-
-        If it has been manually set as $CFG->local_envbar_prodwwwroot it will be locked from further edits.
-         */
+        // The prodwwwroot will be the $CFG->wwwroot that is set on the production server.
+        // When this is not set, a warning message will be displayed.
+        // If it has been manually set as $CFG->local_envbar_prodwwwroot it will be locked from further edits.
 
         $wwwrootgroup = array();
 
