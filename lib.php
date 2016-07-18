@@ -43,10 +43,7 @@ function envbar_get_records() {
         // The data for the records is obfuscated using base64 to avoid the chance
         // of the data being 'cleaned' using either the core DB replace script, or
         // the local_datacleaner plugin, which would render this plugin useless.
-        foreach ($result as $record) {
-            $record->matchpattern = base64_decode($record->matchpattern);
-            $record->showtext = base64_decode($record->showtext);
-        }
+        $result = base64_decode_records($result);
         $cache->set('records', $result);
     }
 

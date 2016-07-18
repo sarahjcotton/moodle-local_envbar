@@ -38,7 +38,6 @@ function update_envbar($data) {
 
     // The cache is assumed to be initialised as it is created in envbar_get_records.
     $cache = cache::make('local_envbar', 'records');
-    $records = $cache->get('records');
 
     $data = base64_encode_record($data);
 
@@ -50,8 +49,7 @@ function update_envbar($data) {
         $data->id = $ret;
     }
 
-    $records[$data->id] = $data;
-    $cache->set('records', $records);
+    $cache->delete('records');
 
     return $ret;
 }
@@ -66,12 +64,7 @@ function delete_envbar($id) {
 
     // The cache is assumed to be initialised as it is created in envbar_get_records.
     $cache = cache::make('local_envbar', 'records');
-    $records = $cache->get('records');
-
-    if ($records[$id]) {
-        unset($records[$id]);
-        $cache->set('records', $records);
-    }
+    $cache->delete('records');
 
     $ret = $DB->delete_records('local_envbar', array('id' => $id));
     return $ret;
