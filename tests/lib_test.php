@@ -34,6 +34,7 @@ class local_envbar_lib_test extends advanced_testcase {
         global $CFG;
 
         require_once($CFG->dirroot . '/local/envbar/lib.php');
+        require_once($CFG->dirroot . '/local/envbar/locallib.php');
 
         parent::setup();
         $this->resetAfterTest(true);

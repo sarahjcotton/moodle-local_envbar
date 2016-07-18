@@ -31,7 +31,7 @@ defined('MOODLE_INTERNAL') || die();
  * @return bool success
  */
 function xmldb_local_envbar_upgrade($oldversion) {
-    global $CFG, $DB;
+    global $DB;
 
     $dbman = $DB->get_manager(); // Loads ddl manager and xmldb classes.
 
