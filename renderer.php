@@ -99,12 +99,13 @@ EOD;
         $canedit = has_capability('moodle/site:config', $systemcontext);
         if ($canedit) {
             if ($produrl) {
-                $showtext .= ' - ' . html_writer::link($produrl.'/local/envbar/index.php',
+                $editlink = html_writer::link($produrl.'/local/envbar/index.php',
                         get_string('configureinprod', 'local_envbar'), array('target' => 'prod'));
             } else {
-                $showtext .= ' - ' . html_writer::link(new moodle_url('/local/envbar/index.php'),
+                $editlink = html_writer::link(new moodle_url('/local/envbar/index.php'),
                         get_string('configurehere', 'local_envbar'));
             }
+            $showtext .= '<nobr> - ' . $editlink . '</nobr>';
         }
 
         $html = <<<EOD
