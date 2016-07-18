@@ -51,11 +51,15 @@ function xmldb_local_envbar_upgrade($oldversion) {
     if ($oldversion < 2016041505) {
 
         $table = new xmldb_table('local_envbar');
-        $bgfield = new xmldb_field('colorbg', XMLDB_TYPE_CHAR, '64', null, XMLDB_NOTNULL, null, null, 'id');
-        $textfield = new xmldb_field('colortext', XMLDB_TYPE_CHAR, '64', null, XMLDB_NOTNULL, null, null, 'id');
+        $field = new xmldb_field('colorbg', XMLDB_TYPE_CHAR, '64', null, XMLDB_NOTNULL, null, null, 'id');
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->rename_field($table, $field, 'colourbg');
+        }
 
-        $dbman->rename_field($table, $bgfield, 'colourbg');
-        $dbman->rename_field($table, $textfield, 'colourtext');
+        $field = new xmldb_field('colortext', XMLDB_TYPE_CHAR, '64', null, XMLDB_NOTNULL, null, null, 'id');
+        if ($dbman->field_exists($table, $field)) {
+            $dbman->rename_field($table, $field, 'colourtext');
+        }
 
         upgrade_plugin_savepoint(true, 2016041505, 'local', 'envbar');
     }
