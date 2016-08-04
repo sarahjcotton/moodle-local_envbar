@@ -293,13 +293,13 @@ class config extends \moodleform {
             array(0, 1)
         );
 
-        $repeatarray[] = $mform->addElement("html", "<hr />");
+        $repeatarray[] = $mform->addElement("html", "<hr>");
 
         $repeatoptions = array();
         $repeatoptions["repeatid"]["default"] = "{no}";
         $repeatoptions["repeatid"]["type"] = PARAM_INT;
 
-        $repeatoptions["repeatcolourbg"]["default"] = "#000000";
+        $repeatoptions["repeatcolourbg"]["default"] = "red";
         $repeatoptions["repeatcolourbg"]["type"] = PARAM_TEXT;
         $repeatoptions["repeatcolourbg"]["rule"] = array(
             get_string("colourerror", "local_envbar"),
@@ -308,7 +308,7 @@ class config extends \moodleform {
             'client'
         );
 
-        $repeatoptions["repeatcolourtext"]["default"] = "#ffffff";
+        $repeatoptions["repeatcolourtext"]["default"] = "white";
         $repeatoptions["repeatcolourtext"]["type"] = PARAM_TEXT;
         $repeatoptions["repeatcolourtext"]["rule"] = array(
             get_string("colourerror", "local_envbar"),
