@@ -43,6 +43,7 @@ class local_envbar_renderer extends plugin_renderer_base {
      */
     public function render_envbar($match, $fixed = true, $envs = array()) {
 
+        $js = '';
         $css = <<<EOD
 .envbar {
     padding: 15px;
@@ -130,13 +131,20 @@ EOD;
             $showtext .= '<nobr> - ' . $editlink . '</nobr>';
         }
 
+        if ($fixed) {
+            $js .= local_envbar_favicon_js($match);
+        }
+
         $html = <<<EOD
 <div class="envbar $class">$showtext</div>
 <style>
 $css
 </style>
 <script>
-document.body.className += ' local_envbar';
+(function(){
+    document.body.className += ' local_envbar';
+    $js
+})();
 </script>
 EOD;
         if ($fixed) {
@@ -148,5 +156,57 @@ EOD;
         return $html;
     }
 
+}
+
+
+/**
+ * Gets some JS which colorizes the favicon according to the env
+ *
+ * @return string A chunk of JS to set the favicon
+ */
+function local_envbar_favicon_js($match) {
+
+    $js = <<<EOD
+    var favicon;
+    var links = document.getElementsByTagName("link");
+    for (var i = 0; i < links.length; i++) {
+        if ((links[i].getAttribute("rel") == "icon") ||
+            (links[i].getAttribute("rel") == "shortcut icon")) {
+            favicon = links[i];
+        }
+    }
+
+    if (!favicon) {
+        favicon = document.createElement('link');
+        favicon.rel = 'shortcut icon';
+        favicon.type = 'image/x-icon';
+        favicon.href = '';
+        document.getElementsByTagName('head')[0].appendChild(favicon);
+    }
+
+    // First we make the whole thing a solid color matching the envbar.
+    var canvas = document.createElement('canvas');
+    canvas.width = 16;
+    canvas.height = 16;
+    var ctx = canvas.getContext('2d');
+    ctx.fillStyle = "{$match->colourbg}";
+    ctx.fillRect(0, 0, 16, 16);
+
+    // And then optionally if there was an existing favicon we add it back
+    // but partially transparent so it's still colorised.
+    if (favicon.href) {
+        var img = new Image();
+        img.src = favicon.href;
+        img.onload = function() {
+            ctx.globalAlpha = 0.6;
+            ctx.drawImage(img, 0, 0);
+            favicon.href = canvas.toDataURL("image/x-icon");
+        }
+    }
+
+    favicon.href = canvas.toDataURL("image/x-icon");
+EOD;
+
+    return $js;
 }
 

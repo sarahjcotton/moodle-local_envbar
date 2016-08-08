@@ -199,6 +199,7 @@ function local_envbar_inject() {
             'showtext' => get_string('notconfigured', 'local_envbar'),
             'colourtext' => 'white',
             'colourbg' => 'red',
+            'matchpattern' => '',
         );
 
     }
