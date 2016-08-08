@@ -206,7 +206,7 @@ function local_envbar_inject() {
     // TODO When run from unit tests we can't use a renderer.
     if (!PHPUNIT_TEST) {
         $renderer = $PAGE->get_renderer('local_envbar');
-        $html = $renderer->render_envbar($match);
+        $html = $renderer->render_envbar($match, true, $envs);
         $CFG->additionalhtmltopofbody .= $html;
     }
 

@@ -41,7 +41,7 @@ class local_envbar_renderer extends plugin_renderer_base {
      * @param stdObj $match And environment to show
      * @param boolean $static should this bar be fixed to the header
      */
-    public function render_envbar($match, $fixed = true) {
+    public function render_envbar($match, $fixed = true, $envs = array()) {
 
         $css = <<<EOD
 .envbar {
@@ -67,6 +67,28 @@ class local_envbar_renderer extends plugin_renderer_base {
     z-index: 9999;
 }
 EOD;
+
+        // If passed a list of env's, then for any env in the list which
+        // isn't the one we are on, and which isn't production, add some
+        // css which highlights broken links which jump between env's.
+        foreach ($envs as $env) {
+            if ($env->matchpattern != $match->matchpattern) {
+                $css .= <<<EOD
+
+a[href^="{$env->matchpattern}"] {
+    outline: 2px solid {$env->colourbg};
+}
+a[href^="{$env->matchpattern}"]::before {
+    content: '{$env->showtext}';
+    background-color: {$env->colourbg};
+    color: white;
+    padding: 1px 4px;
+}
+EOD;
+            }
+        }
+
+
         if ($fixed) {
             $css .= <<<EOD
 .navbar.navbar-fixed-top {
