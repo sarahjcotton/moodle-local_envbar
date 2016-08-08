@@ -113,6 +113,9 @@ EOD;
 <style>
 $css
 </style>
+<script>
+document.body.className += ' local_envbar';
+</script>
 EOD;
         if ($fixed) {
             $html .= <<<EOD
