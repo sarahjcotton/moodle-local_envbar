@@ -203,6 +203,13 @@ function local_envbar_inject() {
         );
 
     }
+    array_push($envs, (object) array(
+        'id' => -1,
+        'showtext' => get_string('prod', 'local_envbar'),
+        'colourtext' => 'white',
+        'colourbg' => 'red',
+        'matchpattern' => local_envbar_getprodwwwroot(),
+    ));
 
     // TODO When run from unit tests we can't use a renderer.
     if (!PHPUNIT_TEST) {

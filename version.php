@@ -29,9 +29,9 @@ if (!defined('MOODLE_INTERNAL')) {
     die('Direct access to this script is forbidden.'); // It must be included from a Moodle page.
 }
 
-$plugin->version   = 2016070603;        // The current plugin version (Date: YYYYMMDDXX).
-$plugin->release   = 2016070603;
-$plugin->requires  = 2014051200;        // Requires Moodle 2.7 or later.
+$plugin->version   = 2016080802;      // The current plugin version (Date: YYYYMMDDXX).
+$plugin->release   = 2016080802;      // Same as version
+$plugin->requires  = 2014051200;      // Requires Moodle 2.7 or later.
 $plugin->component = "local_envbar";
 $plugin->maturity  = MATURITY_STABLE;
 
