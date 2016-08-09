@@ -135,6 +135,9 @@ EOD;
             $js .= local_envbar_favicon_js($match);
         }
 
+        $envclass = strtolower($match->showtext);
+        $envclass = preg_replace('/\s+/', '', $envclass);
+
         $html = <<<EOD
 <div class="envbar $class">$showtext</div>
 <style>
@@ -142,7 +145,7 @@ $css
 </style>
 <script>
 (function(){
-    document.body.className += ' local_envbar';
+    document.body.className += ' local_envbar local_envarbar_$envclass';
     $js
 })();
 </script>
