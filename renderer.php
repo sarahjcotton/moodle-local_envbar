@@ -89,7 +89,6 @@ EOD;
             }
         }
 
-
         if ($fixed) {
             $css .= <<<EOD
 .navbar.navbar-fixed-top {
