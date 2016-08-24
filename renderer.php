@@ -76,7 +76,7 @@ EOD;
             if ($env->matchpattern != $match->matchpattern) {
                 $css .= <<<EOD
 
-a[href^="{$env->matchpattern}"] {
+a[href^="{$env->matchpattern}"]:not(.no-envbar-highlight) {
     outline: 2px solid {$env->colourbg};
 }
 a[href^="{$env->matchpattern}"]::before {
@@ -133,6 +133,7 @@ EOD;
 
         if ($fixed) {
             $js .= local_envbar_favicon_js($match);
+            $js .= local_envbar_user_menu($envs, $match);
         }
 
         $envclass = strtolower($match->showtext);
@@ -144,10 +145,10 @@ EOD;
 $css
 </style>
 <script>
-(function(){
+document.addEventListener("DOMContentLoaded", function(event) {
     document.body.className += ' local_envbar local_envarbar_$envclass';
     $js
-})();
+});
 </script>
 EOD;
         if ($fixed) {
@@ -211,5 +212,51 @@ function local_envbar_favicon_js($match) {
 EOD;
 
     return $js;
+}
+
+/**
+ * Gets some JS which inserts env jump links into the user menu
+ *
+ * @return string A chunk of JS
+ */
+function local_envbar_user_menu($envs, $match) {
+
+    global $CFG, $PAGE;
+    $url = $PAGE->url->out();
+    $html = '';
+
+    foreach ($envs as $env) {
+        $jump = $url;
+        $jump = str_replace($CFG->wwwroot, $env->matchpattern, $jump);
+        if ($jump == $url) {
+            continue;
+        }
+        $link = <<<EOD
+<li role="presentation">
+  <a class="icon menu-action no-envbar-highlight" role="menuitem" href="{$jump}">
+    <span class="menu-action-text"> </span>
+  </a>
+</li>
+EOD;
+        $html .= $link;
+    }
+
+    if (!$html) {
+        return '';
+    }
+
+    $html = '<li role="presentation"><span class="filler">&nbsp;</span></li>' . $html;
+
+    $html = str_replace("\n", '', $html);
+    $html = str_replace("\"", "\\\"", $html);
+
+    $js = <<<EOD
+
+    var menu = document.querySelector('.usermenu .menu');
+    var html = "$html";
+    menu.insertAdjacentHTML('beforeend', html);
+EOD;
+    return $js;
+
 }
 
