@@ -34,6 +34,12 @@
  * @param object $cm
  */
 function local_envbar_extend_navigation($navigation, $course = null, $module = null, $cm = null) {
+
+    // Why is this even being called in ajax scripts?
+    if (CLI_SCRIPT or AJAX_SCRIPT) {
+        return;
+    }
+
     require_once(dirname(__FILE__).'/locallib.php');
     local_envbar_inject();
 }
