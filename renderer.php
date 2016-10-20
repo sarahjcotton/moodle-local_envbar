@@ -134,6 +134,7 @@ EOD;
         if ($fixed) {
             $js .= local_envbar_favicon_js($match);
             $js .= local_envbar_user_menu($envs, $match);
+            $js .= local_envbar_title($match);
         }
 
         $envclass = strtolower($match->showtext);
@@ -162,6 +163,23 @@ EOD;
 
 }
 
+/**
+ * Gets some JS which adds the env to the page title
+ *
+ * @return string A chunk of JS to set the title
+ */
+function local_envbar_title($match) {
+
+    $prefix = substr($match->showtext,0,4);
+    $js = <<<EOD
+
+    var title = document.querySelector('title');
+    title.innerText = '$prefix: ' + title.innerText;
+
+EOD;
+    return $js;
+
+}
 
 /**
  * Gets some JS which colorizes the favicon according to the env
