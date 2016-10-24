@@ -111,6 +111,19 @@ class config extends \moodleform {
         $mform->setType("prodwwwroot", PARAM_URL);
         $mform->setDefault("prodwwwroot", local_envbar_getprodwwwroot());
 
+        $config = get_config('local_envbar');
+        $mform->addElement('textarea', 'extracss', get_string('extracss', 'local_envbar'), 'wrap="virtual" rows="5" cols="50"');
+        $mform->addHelpButton('extracss', 'extracss', 'local_envbar');
+        if (isset($config->extracss)) {
+            $mform->setDefault('extracss', $config->extracss);
+        } else {
+            $mform->setDefault('extracss', "
+.navbar.navbar-fixed-top {
+    top: 50px;
+}
+");
+        }
+
         $localid = -1;
 
         foreach ($records as $record) {
@@ -176,13 +189,15 @@ class config extends \moodleform {
                     $locked ? 'disabled' : 'enabled')
             );
 
-            $mform->addRule(
-                "colourtext[{$id}]",
-                get_string("colourerror", "local_envbar"),
-                'regex',
-                '/#([a-f0-9]{3}){1,2}\b|' . $coloursregex . '\b/i',
-                'client'
-            );
+            if (!$locked) {
+                $mform->addRule(
+                    "colourtext[{$id}]",
+                    get_string("colourerror", "local_envbar"),
+                    'regex',
+                    '/#([a-f0-9]{3}){1,2}\b|' . $coloursregex . '\b/i',
+                    'client'
+                );
+            }
 
             $mform->addElement(
                 "text",
@@ -195,13 +210,15 @@ class config extends \moodleform {
                     $locked ? 'disabled' : 'enabled')
             );
 
-            $mform->addRule(
-                "colourbg[{$id}]",
-                get_string("colourerror", "local_envbar"),
-                'regex',
-                '/#([a-f0-9]{3}){1,2}\b|' . $coloursregex . '\b/i',
-                'client'
-            );
+            if (!$locked) {
+                $mform->addRule(
+                    "colourbg[{$id}]",
+                    get_string("colourerror", "local_envbar"),
+                    'regex',
+                    '/#([a-f0-9]{3}){1,2}\b|' . $coloursregex . '\b/i',
+                    'client'
+                );
+            }
 
             $mform->addElement(
                 "advcheckbox",

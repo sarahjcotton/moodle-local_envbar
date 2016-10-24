@@ -89,12 +89,9 @@ EOD;
             }
         }
 
-        if ($fixed) {
-            $css .= <<<EOD
-.navbar.navbar-fixed-top {
-    top: 50px;
-}
-EOD;
+        $config = get_config('local_envbar');
+        if ($fixed && isset($config->extracss)) {
+            $css .= $config->extracss;
         }
 
         $class = 'env' .  $match->id;
