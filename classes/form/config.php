@@ -124,6 +124,15 @@ class config extends \moodleform {
 ");
         }
 
+        $mform->addElement('text', 'menuselector', get_string('menuselector', 'local_envbar'), array('placeholder' => '.usermenu .menu'));
+        $mform->setType("menuselector", PARAM_RAW);
+        $mform->addHelpButton('menuselector', 'menuselector', 'local_envbar');
+        if (isset($config->menuselector)) {
+            $mform->setDefault('menuselector', $config->menuselector);
+        } else {
+            $mform->setDefault('menuselector', '.usermenu .menu');
+        }
+
         $localid = -1;
 
         foreach ($records as $record) {

@@ -40,6 +40,7 @@ if ($data = $form->get_data()) {
     local_envbar_setprodwwwroot($data->prodwwwroot);
 
     set_config('extracss', $data->extracss, 'local_envbar');
+    set_config('menuselector', $data->menuselector, 'local_envbar');
 
     if (!empty($data->id)) {
 

@@ -264,9 +264,16 @@ EOD;
     $html = str_replace("\n", '', $html);
     $html = str_replace("\"", "\\\"", $html);
 
+    $config = get_config('local_envbar');
+    if (isset($config->menuselector)) {
+        $menuselector = $config->menuselector;
+    } else {
+        $menuselector = '.usermenu .menu';
+    }
+
     $js = <<<EOD
 
-    var menu = document.querySelector('.usermenu .menu');
+    var menu = document.querySelector('$menuselector');
     var html = "$html";
     menu.insertAdjacentHTML('beforeend', html);
 EOD;
