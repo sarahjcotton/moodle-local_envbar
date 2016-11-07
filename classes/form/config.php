@@ -118,7 +118,7 @@ class config extends \moodleform {
             $mform->setDefault('extracss', $config->extracss);
         } else {
             $mform->setDefault('extracss', "
-.navbar.navbar-fixed-top {
+.local_envbar .navbar.navbar-fixed-top {
     top: 50px;
 }
 ");

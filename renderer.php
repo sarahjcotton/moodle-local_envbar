@@ -136,21 +136,36 @@ EOD;
         $envclass = strtolower($match->showtext);
         $envclass = preg_replace('/\s+/', '', $envclass);
 
+        if ($fixed) {
+            $js .= <<<EOD
+    document.body.className += ' local_envbar local_envarbar_$envclass';
+EOD;
+        }
+
         $html = <<<EOD
-<div class="envbar $class">$showtext</div>
+<div class="envbar $class">
+    $showtext
+    <button type="button" class="close" onclick="envbar_close(this);">×</button>
+</div>
 <style>
 $css
 </style>
 <script>
 document.addEventListener("DOMContentLoaded", function(event) {
-    document.body.className += ' local_envbar local_envarbar_$envclass';
     $js
 });
+function envbar_close(el) {
+    if (el.parentElement.parentElement.nodeName == 'BODY') {
+        el.parentElement.parentElement.classList.remove('local_envbar');
+        document.getElementById('envbar_spacer').remove();
+        el.parentElement.remove();
+    }
+}
 </script>
 EOD;
         if ($fixed) {
             $html .= <<<EOD
-<div style="height: 50px;">&nbsp;</div>
+<div id="envbar_spacer" style="height: 50px;">&nbsp;</div>
 EOD;
         }
 
