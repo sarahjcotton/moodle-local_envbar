@@ -274,7 +274,13 @@ EOD;
         return '';
     }
 
-    $html = '<li role="presentation"><span class="filler">&nbsp;</span></li>' . $html;
+    $config = get_config('local_envbar');
+    if (isset($config->dividerselector)) {
+        $divider = $config->dividerselector;
+    } else {
+        $divider = 'filler';
+    }
+    $html = '<li role="presentation"><span class="'. $divider .'">&nbsp;</span></li>' . $html;
 
     $html = str_replace("\n", '', $html);
     $html = str_replace("\"", "\\\"", $html);

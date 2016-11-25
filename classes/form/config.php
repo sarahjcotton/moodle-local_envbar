@@ -133,6 +133,15 @@ class config extends \moodleform {
             $mform->setDefault('menuselector', '.usermenu .menu');
         }
 
+        $mform->addElement('text', 'dividerselector', get_string('dividerselector', 'local_envbar'), array('placeholder' => 'filler'));
+        $mform->setType("dividerselector", PARAM_RAW);
+        $mform->addHelpButton('dividerselector', 'dividerselector', 'local_envbar');
+        if (isset($config->dividerselector)) {
+            $mform->setDefault('dividerselector', $config->dividerselector);
+        } else {
+            $mform->setDefault('dividerselector', 'filler');
+        }
+
         $localid = -1;
 
         foreach ($records as $record) {

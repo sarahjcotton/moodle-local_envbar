@@ -41,6 +41,7 @@ if ($data = $form->get_data()) {
 
     set_config('extracss', $data->extracss, 'local_envbar');
     set_config('menuselector', $data->menuselector, 'local_envbar');
+    set_config('dividerselector', $data->dividerselector, 'local_envbar');
 
     if (!empty($data->id)) {
 
