@@ -26,6 +26,9 @@
 
 namespace local_envbar\form;
 
+use local_envbar\local\envbarlib;
+use moodleform;
+
 if (!defined('MOODLE_INTERNAL')) {
     die('Direct access to this script is forbidden.'); // It must be included from a Moodle page.
 }
@@ -36,7 +39,7 @@ if (!defined('MOODLE_INTERNAL')) {
  * @copyright Catalyst IT
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class config extends \moodleform {
+class config extends moodleform {
 
     /**
      * {@inheritDoc}
@@ -109,7 +112,7 @@ class config extends \moodleform {
         $mform->addGroup($wwwrootgroup, 'wwwrootg', get_string('prodwwwroottext', 'local_envbar'), array(' '), false);
 
         $mform->setType("prodwwwroot", PARAM_URL);
-        $mform->setDefault("prodwwwroot", local_envbar_getprodwwwroot());
+        $mform->setDefault("prodwwwroot", envbarlib::getprodwwwroot());
 
         $config = get_config('local_envbar');
         $mform->addElement('textarea', 'extracss', get_string('extracss', 'local_envbar'), 'wrap="virtual" rows="5" cols="50"');
