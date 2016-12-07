@@ -108,7 +108,7 @@ class envbarlib {
      * @param array $data
      * @return array $data
      */
-     public static function base64_encode_record($data) {
+    public static function base64_encode_record($data) {
         $data->matchpattern = base64_encode($data->matchpattern);
         $data->showtext = base64_encode($data->showtext);
 

@@ -185,8 +185,7 @@ EOD;
  * @return string A chunk of JS to set the title
  */
 function local_envbar_title($match) {
-
-    $prefix = substr($match->showtext,0,4);
+    $prefix = substr($match->showtext, 0, 4);
     $js = <<<EOD
 
     var title = document.querySelector('title');
