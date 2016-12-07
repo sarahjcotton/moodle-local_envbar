@@ -24,20 +24,21 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use local_envbar\local\envbarlib;
+
 require_once(dirname(__FILE__) . '/../../config.php');
-require_once(dirname(__FILE__).'/locallib.php');
 require_once($CFG->libdir . '/adminlib.php');
 
 global $DB;
 
 admin_externalpage_setup('local_envbar');
 
-$records = envbar_get_records();
+$records = envbarlib::get_records();
 $form = new \local_envbar\form\config(null, array('records' => $records));
 
 if ($data = $form->get_data()) {
 
-    local_envbar_setprodwwwroot($data->prodwwwroot);
+    envbarlib::setprodwwwroot($data->prodwwwroot);
 
     set_config('extracss', $data->extracss, 'local_envbar');
     set_config('menuselector', $data->menuselector, 'local_envbar');

@@ -23,6 +23,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use local_envbar\local\envbarlib;
+
 defined('MOODLE_INTERNAL') || die('Direct access to this script is forbidden');
 
 class local_envbar_lib_test extends advanced_testcase {
@@ -34,7 +36,6 @@ class local_envbar_lib_test extends advanced_testcase {
         global $CFG;
 
         require_once($CFG->dirroot . '/local/envbar/lib.php');
-        require_once($CFG->dirroot . '/local/envbar/locallib.php');
 
         parent::setup();
         $this->resetAfterTest(true);
@@ -84,8 +85,36 @@ class local_envbar_lib_test extends advanced_testcase {
      * @param bool $expected Expected result.
      */
     public function test_pattern_matching($value, $pattern, $expected) {
-        $actual = local_envbar_is_match($value, $pattern);
+        $actual = envbarlib::is_match($value, $pattern);
         $this->assertEquals($expected, $actual);
+    }
+
+    /**
+     * Check envbarlib::inject() works as expected.
+     */
+    public function test_inject() {
+        global $CFG, $PAGE;
+        $this->resetAfterTest(true);
+        $PAGE->set_url(new moodle_url('/local/envbar/index.php'));
+
+        self::assertEmpty($CFG->additionalhtmltopofbody);
+
+        $data = new stdClass();
+        $data->colourbg = '000000';
+        $data->colourtext = '000000';
+        $data->matchpattern = $CFG->wwwroot;
+        $data->showtext = 'Test Inject';
+        envbarlib::update_envbar($data);
+
+        envbarlib::reinject();
+        self::assertContains('<style>', $CFG->additionalhtmltopofbody);
+        self::assertContains('<script>', $CFG->additionalhtmltopofbody);
+
+        // Should not inject more than once with the inject() function.
+        $size = strlen($CFG->additionalhtmltopofbody);
+
+        envbarlib::inject();
+        self::assertSame($size, strlen($CFG->additionalhtmltopofbody));
     }
 
 }

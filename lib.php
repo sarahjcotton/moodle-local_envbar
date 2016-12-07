@@ -24,6 +24,9 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use local_envbar\local\envbarlib;
+
+defined('MOODLE_INTERNAL') || die;
 
 /**
  * lib.php isn't always called, we need to hook something to ensure it runs.
@@ -40,7 +43,5 @@ function local_envbar_extend_navigation($navigation, $course = null, $module = n
         return;
     }
 
-    require_once(dirname(__FILE__).'/locallib.php');
-    local_envbar_inject();
+    envbarlib::inject();
 }
-
