@@ -292,8 +292,8 @@ class envbarlib {
 
         // Do not inject into these pages to prevent duplication of the bar.
         $disallowedpages = array(
-            '/admin/settings.php',
-            '/admin/search.php'
+            '/' . $CFG->admin . '/settings.php',
+            '/' . $CFG->admin . '/search.php'
         );
 
         if (in_array($_SERVER['SCRIPT_NAME'], $disallowedpages)) {
