@@ -290,8 +290,13 @@ class envbarlib {
         }
         self::$injectcalled = true;
 
-        // Do not inject into admin/settings.php
-        if ($_SERVER['SCRIPT_FILENAME'] === $CFG->dirroot.'/admin/settings.php') {
+        // Do not inject into these pages to prevent duplication of the bar.
+        $disallowedpages = array(
+            '/admin/settings.php',
+            '/admin/search.php'
+        );
+
+        if (in_array($_SERVER['SCRIPT_NAME'], $disallowedpages)) {
             return false;
         }
 
