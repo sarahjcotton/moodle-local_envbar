@@ -62,10 +62,10 @@ if ($data = $form->get_data()) {
             }
 
             if ($data->delete[$value] == 1) {
-                delete_envbar($value);
+                envbarlib::delete_envbar($value);
             } else {
                 // Update an item as the id has been set.
-                update_envbar($item);
+                envbarlib::update_envbar($item);
             }
         }
     }
@@ -81,7 +81,7 @@ if ($data = $form->get_data()) {
             $item->matchpattern = $data->repeatmatchpattern[$value];
             $item->showtext = $data->repeatshowtext[$value];
 
-            update_envbar($item);
+            envbarlib::update_envbar($item);
         }
     }
 

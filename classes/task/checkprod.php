@@ -24,6 +24,8 @@
 
 namespace local_envbar\task;
 
+use local_envbar\local\envbarlib;
+
 /**
  * checkprod
  *
@@ -49,7 +51,7 @@ class checkprod extends \core\task\scheduled_task {
         require_once($CFG->dirroot.'/local/envbar/locallib.php');
 
         // Are we on the production env?
-        if (local_envbar_getprodwwwroot() === $CFG->wwwroot) {
+        if (envbarlib::getprodwwwroot() === $CFG->wwwroot) {
             set_config('prodlastcheck', time(), 'local_envbar');
         }
 
