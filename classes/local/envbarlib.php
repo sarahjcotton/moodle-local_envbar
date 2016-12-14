@@ -291,13 +291,10 @@ class envbarlib {
         self::$injectcalled = true;
 
         // Do not inject into these pages to prevent duplication of the bar.
-        $disallowedpages = array(
-            '/' . $CFG->admin . '/settings.php',
-            '/' . $CFG->admin . '/search.php'
-        );
-
-        if (in_array($_SERVER['SCRIPT_NAME'], $disallowedpages)) {
-            return false;
+        if ($_SERVER['SCRIPT_NAME'] == '/'.$CFG->admin.'/settings.php') {
+            if (optional_param('section', '', PARAM_RAW) === 'additionalhtml') {
+                return false;
+            }
         }
 
         // Nothing preventing the injection.
