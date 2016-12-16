@@ -48,8 +48,6 @@ class checkprod extends \core\task\scheduled_task {
     public function execute() {
         global $CFG;
 
-        require_once($CFG->dirroot.'/local/envbar/locallib.php');
-
         // Are we on the production env?
         if (envbarlib::getprodwwwroot() === $CFG->wwwroot) {
             set_config('prodlastcheck', time(), 'local_envbar');
