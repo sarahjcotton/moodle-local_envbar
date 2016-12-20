@@ -23,6 +23,8 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use local_envbar\local\envbarlib;
+
 if (!defined('MOODLE_INTERNAL')) {
     die('Direct access to this script is forbidden.'); // It must be included from a Moodle page.
 }
@@ -38,8 +40,11 @@ class local_envbar_renderer extends plugin_renderer_base {
     /**
      * Render the envbar
      *
-     * @param stdObj $match And environment to show
-     * @param boolean $static should this bar be fixed to the header
+     * @param stdClass $match And environment to show
+     * @param bool $fixed should this bar be fixed to the header
+     * @param array $envs
+     *
+     * @return string
      */
     public function render_envbar($match, $fixed = true, $envs = array()) {
 
@@ -113,7 +118,7 @@ EOD;
         }
 
         // Optionally also show the config links for admins.
-        $produrl = local_envbar_getprodwwwroot();
+        $produrl = envbarlib::getprodwwwroot();
         $systemcontext = context_system::instance();
         $canedit = has_capability('moodle/site:config', $systemcontext);
         if ($canedit) {
@@ -180,8 +185,7 @@ EOD;
  * @return string A chunk of JS to set the title
  */
 function local_envbar_title($match) {
-
-    $prefix = substr($match->showtext,0,4);
+    $prefix = substr($match->showtext, 0, 4);
     $js = <<<EOD
 
     var title = document.querySelector('title');
@@ -274,7 +278,13 @@ EOD;
         return '';
     }
 
-    $html = '<li role="presentation"><span class="filler">&nbsp;</span></li>' . $html;
+    $config = get_config('local_envbar');
+    if (isset($config->dividerselector)) {
+        $divider = $config->dividerselector;
+    } else {
+        $divider = 'filler';
+    }
+    $html = '<li role="presentation"><span class="'. $divider .'">&nbsp;</span></li>' . $html;
 
     $html = str_replace("\n", '', $html);
     $html = str_replace("\"", "\\\"", $html);

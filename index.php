@@ -24,23 +24,25 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+use local_envbar\local\envbarlib;
+
 require_once(dirname(__FILE__) . '/../../config.php');
-require_once(dirname(__FILE__).'/locallib.php');
 require_once($CFG->libdir . '/adminlib.php');
 
 global $DB;
 
 admin_externalpage_setup('local_envbar');
 
-$records = envbar_get_records();
+$records = envbarlib::get_records();
 $form = new \local_envbar\form\config(null, array('records' => $records));
 
 if ($data = $form->get_data()) {
 
-    local_envbar_setprodwwwroot($data->prodwwwroot);
+    envbarlib::setprodwwwroot($data->prodwwwroot);
 
     set_config('extracss', $data->extracss, 'local_envbar');
     set_config('menuselector', $data->menuselector, 'local_envbar');
+    set_config('dividerselector', $data->dividerselector, 'local_envbar');
 
     if (!empty($data->id)) {
 
@@ -60,10 +62,10 @@ if ($data = $form->get_data()) {
             }
 
             if ($data->delete[$value] == 1) {
-                delete_envbar($value);
+                envbarlib::delete_envbar($value);
             } else {
                 // Update an item as the id has been set.
-                update_envbar($item);
+                envbarlib::update_envbar($item);
             }
         }
     }
@@ -79,7 +81,7 @@ if ($data = $form->get_data()) {
             $item->matchpattern = $data->repeatmatchpattern[$value];
             $item->showtext = $data->repeatshowtext[$value];
 
-            update_envbar($item);
+            envbarlib::update_envbar($item);
         }
     }
 
