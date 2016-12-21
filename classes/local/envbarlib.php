@@ -203,8 +203,6 @@ class envbarlib {
     public static function inject() {
         global $CFG, $PAGE;
 
-        require_once(__DIR__.'/../../renderer.php');
-
         self::update_wwwwroot_db();
 
         // Check if we should inject the code.
