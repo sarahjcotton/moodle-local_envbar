@@ -185,16 +185,23 @@ class envbarlib {
 
     /**
      * Helper inject function that is used to set the prodwwwroot to the database if it exists in the $CFG variable.
+     * @return bool
      */
     public static function update_wwwwroot_db() {
         global $CFG;
 
+        // We will not update the db if the $CFG item is empty.
         if (empty($CFG->local_envbar_prodwwwroot)) {
             return false;
         }
 
-        self::setprodwwwroot($CFG->local_envbar_prodwwwroot);
-        return true;
+        // If the db config item is empty then we will update it.
+        if (empty(get_config("local_envbar", "prodwwwroot"))) {
+            self::setprodwwwroot($CFG->local_envbar_prodwwwroot);
+            return true;
+        }
+
+        return false;
     }
 
     /**
