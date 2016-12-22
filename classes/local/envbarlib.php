@@ -27,6 +27,7 @@
 namespace local_envbar\local;
 
 use cache;
+use context_system;
 use Exception;
 use moodle_url;
 use stdClass;
@@ -224,9 +225,18 @@ class envbarlib {
                 return;
             }
 
-            // Are we on the production env?
-            if (self::getprodwwwroot() === $CFG->wwwroot) {
+            $prodwwwroot = self::getprodwwwroot();
+
+            // Do not display on the production environment!
+            if ($prodwwwroot === $CFG->wwwroot) {
                 return;
+            }
+
+            // If the prodwwwroot is not set, only show the bar to admin users.
+            if (empty($prodwwwroot)) {
+                if (!has_capability('moodle/site:config', context_system::instance())) {
+                    return;
+                }
             }
 
             // Sets the prodwwwroot in the database if it exists as a $CFG variable.
@@ -306,7 +316,9 @@ class envbarlib {
     }
 
     /**
-     * Checks if we should try to inject the additionalhtmltopofbody
+     * Checks if we should try to inject the additionalhtmltopofbody.
+     * This prevents injecting multiple times if the call has been added to many hooks.
+     * It also prevents injection on the settings.php?section=additionalhtml page.
      *
      * @return bool
      *
