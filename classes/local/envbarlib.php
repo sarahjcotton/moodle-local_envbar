@@ -28,7 +28,6 @@ namespace local_envbar\local;
 
 use cache;
 use Exception;
-use local_envbar_renderer;
 use moodle_url;
 use stdClass;
 
@@ -36,7 +35,6 @@ if (!defined('MOODLE_INTERNAL')) {
     die('Direct access to this script is forbidden.'); // It must be included from a Moodle page.
 }
 
-require_once(__DIR__.'/../../lib.php');
 
 class envbarlib {
 
