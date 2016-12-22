@@ -183,17 +183,20 @@ class envbarlib {
 
     /**
      * Helper inject function that is used to set the prodwwwroot in the database if it exists as a $CFG variable.
+     * When refreshing the database to another staging/development server, if this config.php file omits this value
+     * then we have saved it to the database.
+     *
+     * @param string $prodwwwroot
+     *
      * @return bool Returns true on update.
      */
-    public static function update_wwwwroot_db() {
+    public static function update_wwwwroot_db($prodwwwroot) {
         global $CFG;
 
         // We will not update the db if the $CFG item is empty.
         if (empty($CFG->local_envbar_prodwwwroot)) {
             return false;
         }
-
-        $prodwwwroot = get_config("local_envbar", "prodwwwroot");
 
         if (empty($prodwwwroot)) {
             // If the db config item is empty then we will update it.
@@ -227,6 +230,9 @@ class envbarlib {
 
             $prodwwwroot = self::getprodwwwroot();
 
+            // Sets the prodwwwroot in the database if it exists as a $CFG variable.
+            self::update_wwwwroot_db($prodwwwroot);
+
             // Do not display on the production environment!
             if ($prodwwwroot === $CFG->wwwroot) {
                 return;
@@ -238,9 +244,6 @@ class envbarlib {
                     return;
                 }
             }
-
-            // Sets the prodwwwroot in the database if it exists as a $CFG variable.
-            self::update_wwwwroot_db();
 
             $envs = self::get_records();
             $match = null;
