@@ -276,6 +276,7 @@ class envbarlib {
                     'colourtext' => 'white',
                     'colourbg' => 'red',
                     'matchpattern' => '',
+                    'lastrefresh' => 0,
                 );
 
             }
