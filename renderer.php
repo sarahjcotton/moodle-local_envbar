@@ -105,20 +105,9 @@ EOD;
         // Show the configured env message.
         $showtext = htmlspecialchars($match->showtext);
 
-        // If this is the env we are on we trust $config->prodlastcheck.
-        // Else we can trust $match->lastrefresh.
-        $lastrefresh = 0;
-        $here = (new moodle_url('/'))->out();
-        if (envbarlib::is_match($here, $match->matchpattern)) {
-            $config = get_config('local_envbar');
-            $lastrefresh = $config->prodlastcheck;
-        } else {
-            $lastrefresh = $match->lastrefresh;
-        }
-
         // Just show the biggest time unit instead of 2.
-        if ($lastrefresh > 0) {
-            $show = format_time(time() - $lastrefresh);
+        if ($match->lastrefresh > 0) {
+            $show = format_time(time() - $match->lastrefresh);
             $num = strtok($show, ' ');
             $unit = strtok(' ');
             $show = "$num $unit";

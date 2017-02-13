@@ -140,6 +140,20 @@ class envbarlib {
             // of the data being 'cleaned' using either the core DB replace script, or
             // the local_datacleaner plugin, which would render this plugin useless.
             $result = self::base64_decode_records($result);
+
+            $config = get_config('local_envbar');
+            if (isset($config->prodlastcheck)) {
+                foreach ($result as $key => $value) {
+                    // If this is the env we are on we trust $config->prodlastcheck.
+                    // Else we can trust lastrefresh.
+                    $here = (new moodle_url('/'))->out();
+                    if (self::is_match($here, $value->matchpattern)) {
+                        $value->lastrefresh = $config->prodlastcheck;
+                    }
+                    $result[$key] = $value;
+                }
+            }
+
             $cache->set('records', $result);
         }
 

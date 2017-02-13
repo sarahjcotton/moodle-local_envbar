@@ -25,6 +25,7 @@
 namespace local_envbar\task;
 
 use local_envbar\local\envbarlib;
+use moodle_url;
 
 /**
  * Task for updating prod with the env lastrefresh.
@@ -47,23 +48,65 @@ class pingprod extends \core\task\scheduled_task {
     public function execute() {
         global $CFG;
 
+        $prodwwwroot = envbarlib::getprodwwwroot();
+
+        // Skip if prodwwwroot hasn't been set.
+        if (empty($prodwwwroot)) {
+            return;
+        }
+
         // Skip if we are we on the production env.
         if (envbarlib::getprodwwwroot() === $CFG->wwwroot) {
-            return true;
+            return;
         }
 
         // Skip if we've already pinged prod after the last refresh.
         $config = get_config('local_envbar');
-        $lastrefresh = isset($config->prodlastcheck) ? 0 : $config->prodlastcheck;
-        $lastping = isset($config->prodlastping) ? 0 : $config->prodlastping;
+        $lastrefresh = isset($config->prodlastcheck) ? $config->prodlastcheck : 0;
+        $lastping = isset($config->prodlastping) ? $config->prodlastping : 0;
         if ($lastrefresh < $lastping) {
-            return true;
+            return;
         }
 
-        
-        
-        set_config('prodlastping', time(), 'local_envbar');
+        $envs = envbarlib::get_records();
+        $match = null;
+        $here = (new moodle_url('/'))->out();
+
+        // Which env matches?
+        foreach ($envs as $env) {
+            if (envbarlib::is_match($here, $env->matchpattern)) {
+                $match = $env;
+                break;
+            }
+        }
+
+        if (!empty($match)) {
+            // Ping prod with the hash and lastrefresh.
+            $url = $prodwwwroot."/local/envbar/service/updatelastrefresh.php";
+            $hash = md5($match->matchpattern . $match->showtext);
+            $params = "hash=".urlencode($hash)."&lastrefresh=".urlencode($lastrefresh);
+
+            require_once($CFG->dirroot . "/lib/filelib.php");
+            $curl = new \curl();
+
+            try {
+                $response = $curl->post($url, $params);
+            } catch (Exception $e) {
+                mtrace("Error contacting production, error returned was: ".$e->getMessage());
+                return;
+            }
+
+            $response = json_decode($response);
+
+            if ($resposne->result === 'success') {
+                mtrace($response->message);
+                set_config('prodlastping', time(), 'local_envbar');
+            } else {
+                mtrace("Error, the lastrefresh was no updated: ".$response->message);
+            }
+            
+        } else {
+            mtrace("This env is unknown.");
+        }
     }
 }
-
-

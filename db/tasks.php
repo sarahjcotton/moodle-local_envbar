@@ -34,5 +34,14 @@ $tasks = array(
         'dayofweek' => '*',
         'month'     => '*'
     ),
+    array(
+        'classname' => 'local_envbar\task\pingprod',
+        'blocking'  => 0,
+        'minute'    => '*',
+        'hour '     => '0',
+        'day'       => '*',
+        'dayofweek' => '*',
+        'month'     => '*'
+    ),
 );
 
