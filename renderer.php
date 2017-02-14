@@ -298,11 +298,18 @@ EOD;
         $menuselector = '.usermenu .menu';
     }
 
+    $url = (new moodle_url('/local/envbar/'))->out();
+    $isadmin = (is_siteadmin() ) ? '1' : '0';
+
     $js = <<<EOD
 
     var menu = document.querySelector('$menuselector');
     var html = "$html";
-    menu.insertAdjacentHTML('beforeend', html);
+    if (menu) {
+        menu.insertAdjacentHTML('beforeend', html);
+    } else {
+        $isadmin && console.error("local_envbar: Menu selector is misconfigured '$menuselector' \\n Please configure it here: $url");
+    }
 EOD;
     return $js;
 
