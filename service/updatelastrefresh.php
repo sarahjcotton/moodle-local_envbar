@@ -38,14 +38,14 @@ if ($secretkey !== $config->secretkey) {
     $response['result'] = 'invalid_secretkey';
     $response['message'] = get_string('invalid_secretkey', 'local_envbar');
     echo json_encode($response);
-    return;
+    die;
 }
 
 if (is_null($wwwroot) || is_null($lastrefresh)) {
     $response['result'] = 'missing_required_parameter';
     $response['message'] = get_string('missing_required_parameter', 'local_envbar');
     echo json_encode($response);
-    return;
+    die;
 }
 
 // Check if any environments match the wwwroot passed.
