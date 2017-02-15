@@ -45,6 +45,9 @@ $string['prod'] = 'PROD';
 $string['prodwwwroottext'] = 'Production wwwroot';
 $string['prodwwwrootplaceholder'] = '$CFG->wwwroot on production';
 $string['prodwwwrootautobutton'] = 'Autofill';
+$string['secretkeytext'] = 'Secret key';
+$string['secretkeyplaceholder'] = 'Secret key for environments to talk to each other';
+$string['secretkeygenbutton'] = 'Generate';
 $string['refreshedago'] = ' - {$a} old';
 $string['refreshednever'] = ' - Never been refreshed';
 $string['setenabled'] = 'Enable';
@@ -55,4 +58,7 @@ $string['textcolour'] = 'Foreground colour';
 $string['urlmatch'] = 'URL Match pattern';
 $string['urlmatch_help'] = 'You can use Regular Expressions to match your URL.<br />E.g. http://stage[1,2,3].example.com to match http://stage2.example.com<br />Note that following special characters will be escaped:<br /> / \ - . ? * ^ $';
 $string['urlmatchplaceholder'] = 'eg. staging';
+$string['lastrefresh_success'] = 'The lastrefresh time has been updated.';
+$string['invalid_secretkey'] = 'The secret key provided was missing or invalid.';
+$string['missing_required_parameter'] = 'A required parameter was missing. Requeired params are wwwroot and lastrefresh.';
 

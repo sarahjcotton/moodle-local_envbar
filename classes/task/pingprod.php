@@ -48,6 +48,7 @@ class pingprod extends \core\task\scheduled_task {
     public function execute() {
         global $CFG;
 
+        $config = get_config('local_envbar');
         $prodwwwroot = envbarlib::getprodwwwroot();
 
         // Skip if prodwwwroot hasn't been set.
@@ -56,57 +57,38 @@ class pingprod extends \core\task\scheduled_task {
         }
 
         // Skip if we are we on the production env.
-        if (envbarlib::getprodwwwroot() === $CFG->wwwroot) {
+        if ($prodwwwroot === $CFG->wwwroot) {
             return;
         }
 
         // Skip if we've already pinged prod after the last refresh.
-        $config = get_config('local_envbar');
         $lastrefresh = isset($config->prodlastcheck) ? $config->prodlastcheck : 0;
         $lastping = isset($config->prodlastping) ? $config->prodlastping : 0;
         if ($lastrefresh < $lastping) {
             return;
         }
 
-        $envs = envbarlib::get_records();
-        $match = null;
-        $here = (new moodle_url('/'))->out();
+        // Ping prod with the env and lastrefresh.
+        $url = $prodwwwroot."/local/envbar/service/updatelastrefresh.php";
+        $params = "wwwroot=".urlencode($CFG->wwwroot)."&lastrefresh=".urlencode($lastrefresh)."&secretkey=".urlencode($config->secretkey);
 
-        // Which env matches?
-        foreach ($envs as $env) {
-            if (envbarlib::is_match($here, $env->matchpattern)) {
-                $match = $env;
-                break;
-            }
+        require_once($CFG->dirroot . "/lib/filelib.php");
+        $curl = new \curl();
+
+        try {
+            $response = $curl->post($url, $params);
+        } catch (Exception $e) {
+            mtrace("Error contacting production, error returned was: ".$e->getMessage());
+            return;
         }
 
-        if (!empty($match)) {
-            // Ping prod with the hash and lastrefresh.
-            $url = $prodwwwroot."/local/envbar/service/updatelastrefresh.php";
-            $hash = md5($match->matchpattern . $match->showtext);
-            $params = "hash=".urlencode($hash)."&lastrefresh=".urlencode($lastrefresh);
+        $response = json_decode($response);
 
-            require_once($CFG->dirroot . "/lib/filelib.php");
-            $curl = new \curl();
-
-            try {
-                $response = $curl->post($url, $params);
-            } catch (Exception $e) {
-                mtrace("Error contacting production, error returned was: ".$e->getMessage());
-                return;
-            }
-
-            $response = json_decode($response);
-
-            if ($resposne->result === 'success') {
-                mtrace($response->message);
-                set_config('prodlastping', time(), 'local_envbar');
-            } else {
-                mtrace("Error, the lastrefresh was no updated: ".$response->message);
-            }
-            
+        if ($resposne->result === 'success') {
+            mtrace($response->message);
+            set_config('prodlastping', time(), 'local_envbar');
         } else {
-            mtrace("This env is unknown.");
+            mtrace("Error, the lastrefresh was no updated: ".$response->message);
         }
     }
 }

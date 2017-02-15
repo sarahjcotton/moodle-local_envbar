@@ -27,25 +27,31 @@ use local_envbar\local\envbarlib;
 
 require_once(dirname(__FILE__) . '/../../../config.php');
 
-$hash = isset($_POST['hash']) ? $_POST['hash'] : null;
+$wwwroot = isset($_POST['wwwroot']) ? $_POST['wwwroot'] : null;
 $lastrefresh = isset($_POST['lastrefresh']) ? $_POST['lastrefresh'] : null;
+$secretkey = isset($_POST['secretkey']) ? $_POST['secretkey'] : null;
+$config = get_config('local_envbar');
 
 $response = array();
 
-if (is_null($hash) || is_null($lastrefresh)) {
-	$response['result'] = 'missing_required_parameter';
-	$response['message'] = 'A required parameter was missing.';
-	echo json_encode($response);
-	return;
+if ($secretkey !== $config->secretkey) {
+    $response['result'] = 'invalid_secretkey';
+    $response['message'] = get_string('invalid_secretkey', 'local_envbar');
+    echo json_encode($response);
+    return;
 }
 
-// Check if any environments match the hash passed.
+if (is_null($wwwroot) || is_null($lastrefresh)) {
+    $response['result'] = 'missing_required_parameter';
+    $response['message'] = get_string('missing_required_parameter', 'local_envbar');
+    echo json_encode($response);
+    return;
+}
+
+// Check if any environments match the wwwroot passed.
 $records = envbarlib::get_records();
-
 foreach ($records as $env) {
-    $envhash = md5($env->matchpattern . $env->showtext);
-
-    if ($envhash === $hash) {
+    if (envbarlib::is_match($wwwroot, $env->matchpattern)) {
         $data = $env;
         break;
     }
@@ -53,13 +59,17 @@ foreach ($records as $env) {
 
 if (isset($data)) {
     $data->lastrefresh = $lastrefresh;
-    envbarlib::update_envbar($data);
-
-    $response['result'] = 'success';
-	$response['message'] = 'The lastrefresh time has been updated.';
 } else {
-    $response['result'] = 'no_match';
-	$response['message'] = 'The hash provided did not match an existing env.';
+    $data = new stdClass();
+    // ID, $data->id not set.
+    $data->matchpattern = $wwwroot;
+    $data->lastrefresh = $lastrefresh;
+    $data->colourtext = 'white';
+    $data->colourbg = 'red';
 }
+
+envbarlib::update_envbar($data);
+$response['result'] = 'success';
+$response['message'] = get_string('lastrefresh_success', 'local_envbar');
 
 echo json_encode($response);

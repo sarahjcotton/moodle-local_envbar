@@ -34,7 +34,8 @@ global $DB;
 admin_externalpage_setup('local_envbar');
 
 $records = envbarlib::get_records();
-$form = new \local_envbar\form\config(null, array('records' => $records));
+$gensecretkey = random_string(25);
+$form = new \local_envbar\form\config(null, array('records' => $records, 'gensecretkey' => $gensecretkey));
 
 if ($data = $form->get_data()) {
 
@@ -43,6 +44,7 @@ if ($data = $form->get_data()) {
     set_config('extracss', $data->extracss, 'local_envbar');
     set_config('menuselector', $data->menuselector, 'local_envbar');
     set_config('dividerselector', $data->dividerselector, 'local_envbar');
+    set_config('secretkey', $data->secretkey, 'local_envbar');
 
     if (!empty($data->id)) {
 
