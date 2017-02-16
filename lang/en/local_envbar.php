@@ -24,7 +24,6 @@
  */
 
 $string['addfields'] = 'Add another environment';
-$string['pluginname'] = 'Environment bar';
 $string['bgcolour'] = 'Background colour';
 $string['cachedef_records'] = 'The environment bar database records';
 $string['colourerror'] = 'Invalid HTML color code specified.';
@@ -37,19 +36,23 @@ $string['extracss'] = 'Extra CSS';
 $string['extracss_help'] = 'This css is add only when the bar is visible and pinned to the top of the page. Your theme may also have fixed headers which may clash so this extra css should resolve the clash and move your main theme header down. If your header is fixed only at certain breakpoints then the media query in this extra css should be identical to the one in your theme.';
 $string['header_envbar'] = 'Environment bar';
 $string['help'] = '<p><b>WARNING:</b> These settings should generally only be configured once in the production system.</p><p>If you are NOT in the production system, and these values are empty, then ideally go and fill them out in production and then refresh your database back to here.</p>';
+$string['lastrefresh_success'] = 'The lastrefresh time has been updated.';
 $string['menuselector'] = 'Menu selector';
 $string['menuselector_help'] = 'This is a css or xpath selector to find the menu ul element for injecting the env swapper menu. If you theme uses different html then you may need to adjust this selector.';
+$string['missing_required_parameter'] = 'A required parameter was missing. Required params are wwwroot and lastrefresh.';
 $string['nextrefreshin'] = ' - Reset in {$a}';
 $string['notconfigured'] = 'UNKNOWN';
+$string['pluginname'] = 'Environment bar';
 $string['prod'] = 'PROD';
 $string['prodwwwroottext'] = 'Production wwwroot';
 $string['prodwwwrootplaceholder'] = '$CFG->wwwroot on production';
 $string['prodwwwrootautobutton'] = 'Autofill';
-$string['secretkeytext'] = 'Secret key';
-$string['secretkeyplaceholder'] = 'Secret key for environments to talk to each other';
-$string['secretkeygenbutton'] = 'Generate';
 $string['refreshedago'] = ' - {$a} old';
 $string['refreshednever'] = ' - Never been refreshed';
+$string['secretkeygenbutton'] = 'Generate';
+$string['secretkeyplaceholder'] = 'Secret key for environments to talk to each other';
+$string['secretkeytext'] = 'Secret key';
+$string['secretkey_invalid'] = 'The secret key provided was missing or invalid.';
 $string['setenabled'] = 'Enable';
 $string['setdeleted'] = 'Delete';
 $string['showtext'] = 'Text to show';
@@ -58,7 +61,4 @@ $string['textcolour'] = 'Foreground colour';
 $string['urlmatch'] = 'URL Match pattern';
 $string['urlmatch_help'] = 'You can use Regular Expressions to match your URL.<br />E.g. http://stage[1,2,3].example.com to match http://stage2.example.com<br />Note that following special characters will be escaped:<br /> / \ - . ? * ^ $';
 $string['urlmatchplaceholder'] = 'eg. staging';
-$string['lastrefresh_success'] = 'The lastrefresh time has been updated.';
-$string['invalid_secretkey'] = 'The secret key provided was missing or invalid.';
-$string['missing_required_parameter'] = 'A required parameter was missing. Requeired params are wwwroot and lastrefresh.';
 

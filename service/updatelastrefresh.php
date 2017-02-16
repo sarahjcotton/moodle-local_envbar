@@ -35,8 +35,8 @@ $config = get_config('local_envbar');
 $response = array();
 
 if ($secretkey !== $config->secretkey) {
-    $response['result'] = 'invalid_secretkey';
-    $response['message'] = get_string('invalid_secretkey', 'local_envbar');
+    $response['result'] = 'secretkey_invalid';
+    $response['message'] = get_string('secretkey_invalid', 'local_envbar');
     echo json_encode($response);
     die;
 }
@@ -66,6 +66,33 @@ if (isset($data)) {
     $data->lastrefresh = $lastrefresh;
     $data->colourtext = 'white';
     $data->colourbg = 'red';
+
+    // We have to do some matching between prod and this new environment
+    // to get a difference to use as the showtext.
+    // Remove http and https in case both environments are different.
+    $pattern = array('/https:\/\//', '/http:\/\//');
+    $replacement = array('', '');
+
+    $here = preg_replace($pattern, $replacement, $CFG->wwwroot);
+    $there = preg_replace($pattern, $replacement, $wwwroot);
+    $herearray = str_split($here);
+    $therearray = str_split($there);
+
+    // Remove same letters from the end and then repeat for the front.
+    for ($i = 0; $i < 2; $i++) {
+        $herearray = array_reverse($herearray);
+        $therearray = array_reverse($therearray);
+
+        foreach ($therearray as $key => $letter) {
+            if ($letter === $herearray[$key]) {
+                unset($therearray[$key]);
+            } else {
+                break;
+            }
+        }
+    }
+
+    $data->showtext = trim(implode("", $therearray), '_-/');
 }
 
 envbarlib::update_envbar($data);
