@@ -339,8 +339,7 @@ class envbarlib {
         preg_match_all($re, $CFG->additionalhtmltopofbody, $matches);
 
         if (!empty($matches)) {
-            preg_replace($re, '', $CFG->additionalhtmltopofbody);
-            return false;
+            $CFG->additionalhtmltopofbody = preg_replace($re, '', $CFG->additionalhtmltopofbody);
         }
 
         // Nothing preventing the injection.
