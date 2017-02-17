@@ -321,7 +321,7 @@ class envbarlib {
     /**
      * Checks if we should try to inject the additionalhtmltopofbody.
      * This prevents injecting multiple times if the call has been added to many hooks.
-     * It also prevents injection on the settings.php?section=additionalhtml page.
+     * It also cleans up additionalhtmltopofbody if there are multiple envbars present.
      *
      * @return bool
      *
