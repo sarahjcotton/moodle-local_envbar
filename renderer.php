@@ -169,12 +169,20 @@ function envbar_close(el) {
     }
 }
 </script>
+
 EOD;
         if ($fixed) {
             $html .= <<<EOD
 <div id="envbar_spacer" style="height: 50px;">&nbsp;</div>
 EOD;
         }
+
+        // Wrap up the envbar in tokens.
+        $html = <<<EOD
+<!-- STARTENVBAR -->
+$html
+<!-- ENDENVBAR -->
+EOD;
 
         return $html;
     }

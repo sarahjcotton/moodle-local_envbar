@@ -335,11 +335,12 @@ class envbarlib {
 
         self::$injectcalled = true;
 
-        // Do not inject into these pages to prevent duplication of the bar.
-        if ($_SERVER['SCRIPT_NAME'] == '/'.$CFG->admin.'/settings.php') {
-            if (optional_param('section', '', PARAM_RAW) === 'additionalhtml') {
-                return false;
-            }
+        $additionalhtml = $CFG->additionalhtmltopofbody;
+        $re = '/<!-- STARTENVBAR -->[\s\S]*<!-- ENDENVBAR -->/m';
+        preg_match($re, $additionalhtml, $matches);
+
+        if (!empty($matches)) {
+            return false;
         }
 
         // Nothing preventing the injection.
