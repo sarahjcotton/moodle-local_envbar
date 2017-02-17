@@ -336,7 +336,7 @@ class envbarlib {
         self::$injectcalled = true;
 
         $re = '/<!-- STARTENVBAR -->[\s\S]*<!-- ENDENVBAR -->/m';
-        preg_match($re, $CFG->additionalhtmltopofbody, $matches);
+        preg_match_all($re, $CFG->additionalhtmltopofbody, $matches);
 
         if (!empty($matches)) {
             preg_replace($re, '', $CFG->additionalhtmltopofbody);
