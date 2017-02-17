@@ -169,7 +169,6 @@ function envbar_close(el) {
     }
 }
 </script>
-
 EOD;
         if ($fixed) {
             $html .= <<<EOD
