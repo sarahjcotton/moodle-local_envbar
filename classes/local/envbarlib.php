@@ -339,7 +339,9 @@ class envbarlib {
         preg_match_all($re, $CFG->additionalhtmltopofbody, $matches);
 
         if (!empty($matches)) {
-            $CFG->additionalhtmltopofbody = preg_replace($re, '', $CFG->additionalhtmltopofbody);
+            // Replace the content to clean up pages that do not have the injection. eg. the login page.
+            $replaced = preg_replace($re, '', $CFG->additionalhtmltopofbody);
+            set_config('additionalhtmltopofbody', $replaced);
         }
 
         // Nothing preventing the injection.
