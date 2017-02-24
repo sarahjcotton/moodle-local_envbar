@@ -177,10 +177,12 @@ EOD;
         }
 
         // Wrap up the envbar in tokens.
+        $ebstart = envbarlib::ENVBAR_START;
+        $ebend = envbarlib::ENVBAR_END;
         $html = <<<EOD
-<!-- STARTENVBAR -->
+$ebstart
 $html
-<!-- ENDENVBAR -->
+$ebend
 EOD;
 
         return $html;

@@ -38,6 +38,10 @@ if (!defined('MOODLE_INTERNAL')) {
 
 class envbarlib {
 
+    const ENVBAR_START = '<!-- ENVBARSTART -->';
+
+    const ENVBAR_END = '<!-- ENVBAREND -->';
+
     private static $injectcalled = false;
 
     /**
@@ -228,6 +232,9 @@ class envbarlib {
                 return;
             }
 
+            // Remove envbars saved in $CFG->additionalhtmltopofbody.
+            self::clean_envbars();
+
             $prodwwwroot = self::getprodwwwroot();
 
             // Sets the prodwwwroot in the database if it exists as a $CFG variable.
@@ -335,17 +342,30 @@ class envbarlib {
 
         self::$injectcalled = true;
 
-        $re = '/<!-- STARTENVBAR -->[\s\S]*<!-- ENDENVBAR -->/m';
-        preg_match_all($re, $CFG->additionalhtmltopofbody, $matches);
-
-        if (!empty($matches)) {
-            // Replace the content to clean up pages that do not have the injection. eg. the login page.
-            $replaced = preg_replace($re, '', $CFG->additionalhtmltopofbody);
-            set_config('additionalhtmltopofbody', $replaced);
-        }
-
         // Nothing preventing the injection.
         return true;
+    }
+
+    /**
+     * Checks $CFG->additionalhtmltopofbody for saved environment bars and removes them.
+     * We should only be temporarily injecting into that variable and not saving them to the database.
+     *
+     * @return string the cleaned content
+     */
+    public static function clean_envbars() {
+        global $CFG;
+
+        // Replace the content to clean up pages that do not have the injection. eg. the login page.
+        $re = '/' . self::ENVBAR_START . '[\s\S]*' . self::ENVBAR_END . '/m';
+        $replaced = preg_replace($re, '', $CFG->additionalhtmltopofbody);
+
+        // We have removed the environment bars and any duplicates as it should be injected and not saved to $CFG.
+        if ($CFG->additionalhtmltopofbody != $replaced) {
+            set_config('additionalhtmltopofbody', $replaced);
+            return $replaced;
+        }
+
+        return '';
     }
 
 }
