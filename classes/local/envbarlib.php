@@ -46,10 +46,12 @@ class envbarlib {
 
     /**
      * Calls inject even if it was already called before.
+     *
+     * @return string the injected content
      */
     public static function reinject() {
         self::$injectcalled = false;
-        self::inject();
+        return self::inject();
     }
 
     /**
@@ -221,6 +223,8 @@ class envbarlib {
 
     /**
      * Helper inject function that is used in local_envbar_extend_navigation.
+     *
+     * @return string the injected content
      */
     public static function inject() {
         global $CFG, $PAGE;
@@ -287,6 +291,8 @@ class envbarlib {
             $renderer = $PAGE->get_renderer('local_envbar');
             $html = $renderer->render_envbar($match, true, $envs);
             $CFG->additionalhtmltopofbody .= $html;
+
+            return $html;
 
         } catch (Exception $e) {
             debugging('Exception occured while injecting our code: '.$e->getMessage(), DEBUG_DEVELOPER);
