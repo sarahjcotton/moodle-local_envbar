@@ -141,7 +141,7 @@ class local_envbar_lib_test extends advanced_testcase {
         $data->showtext = 'Test Inject';
         envbarlib::update_envbar($data);
 
-        $injected = envbarlib::inject();
+        $injected = envbarlib::reinject();
 
         // An envbar is not in the database get_config('additionalhtmltopofbody').
         $additional = get_config('core', 'additionalhtmltopofbody');

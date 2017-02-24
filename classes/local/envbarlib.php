@@ -233,7 +233,7 @@ class envbarlib {
         try {
             // Check if we should inject the code.
             if (!self::injection_allowed()) {
-                return;
+                return '';
             }
 
             // Remove envbars saved in $CFG->additionalhtmltopofbody.
@@ -252,7 +252,7 @@ class envbarlib {
             // If the prodwwwroot is not set, only show the bar to admin users.
             if (empty($prodwwwroot)) {
                 if (!has_capability('moodle/site:config', context_system::instance())) {
-                    return;
+                    return '';
                 }
             }
 
@@ -297,6 +297,8 @@ class envbarlib {
         } catch (Exception $e) {
             debugging('Exception occured while injecting our code: '.$e->getMessage(), DEBUG_DEVELOPER);
         }
+
+        return '';
     }
 
     /**
