@@ -38,14 +38,20 @@ if (!defined('MOODLE_INTERNAL')) {
 
 class envbarlib {
 
+    const ENVBAR_START = '<!-- ENVBARSTART -->';
+
+    const ENVBAR_END = '<!-- ENVBAREND -->';
+
     private static $injectcalled = false;
 
     /**
      * Calls inject even if it was already called before.
+     *
+     * @return string the injected content
      */
     public static function reinject() {
         self::$injectcalled = false;
-        self::inject();
+        return self::inject();
     }
 
     /**
@@ -217,6 +223,8 @@ class envbarlib {
 
     /**
      * Helper inject function that is used in local_envbar_extend_navigation.
+     *
+     * @return string the injected content
      */
     public static function inject() {
         global $CFG, $PAGE;
@@ -225,8 +233,11 @@ class envbarlib {
         try {
             // Check if we should inject the code.
             if (!self::injection_allowed()) {
-                return;
+                return '';
             }
+
+            // Remove envbars saved in $CFG->additionalhtmltopofbody.
+            self::clean_envbars();
 
             $prodwwwroot = self::getprodwwwroot();
 
@@ -241,7 +252,7 @@ class envbarlib {
             // If the prodwwwroot is not set, only show the bar to admin users.
             if (empty($prodwwwroot)) {
                 if (!has_capability('moodle/site:config', context_system::instance())) {
-                    return;
+                    return '';
                 }
             }
 
@@ -281,9 +292,13 @@ class envbarlib {
             $html = $renderer->render_envbar($match, true, $envs);
             $CFG->additionalhtmltopofbody .= $html;
 
+            return $html;
+
         } catch (Exception $e) {
             debugging('Exception occured while injecting our code: '.$e->getMessage(), DEBUG_DEVELOPER);
         }
+
+        return '';
     }
 
     /**
@@ -321,7 +336,7 @@ class envbarlib {
     /**
      * Checks if we should try to inject the additionalhtmltopofbody.
      * This prevents injecting multiple times if the call has been added to many hooks.
-     * It also prevents injection on the settings.php?section=additionalhtml page.
+     * It also cleans up additionalhtmltopofbody if there are multiple envbars present.
      *
      * @return bool
      *
@@ -335,15 +350,30 @@ class envbarlib {
 
         self::$injectcalled = true;
 
-        // Do not inject into these pages to prevent duplication of the bar.
-        if ($_SERVER['SCRIPT_NAME'] == '/'.$CFG->admin.'/settings.php') {
-            if (optional_param('section', '', PARAM_RAW) === 'additionalhtml') {
-                return false;
-            }
-        }
-
         // Nothing preventing the injection.
         return true;
+    }
+
+    /**
+     * Checks $CFG->additionalhtmltopofbody for saved environment bars and removes them.
+     * We should only be temporarily injecting into that variable and not saving them to the database.
+     *
+     * @return string the cleaned content
+     */
+    public static function clean_envbars() {
+        global $CFG;
+
+        // Replace the content to clean up pages that do not have the injection. eg. the login page.
+        $re = '/' . self::ENVBAR_START . '[\s\S]*' . self::ENVBAR_END . '/m';
+        $replaced = preg_replace($re, '', $CFG->additionalhtmltopofbody);
+
+        // We have removed the environment bars and any duplicates as it should be injected and not saved to $CFG.
+        if ($CFG->additionalhtmltopofbody != $replaced) {
+            set_config('additionalhtmltopofbody', $replaced);
+            return $replaced;
+        }
+
+        return '';
     }
 
 }

@@ -119,4 +119,55 @@ class local_envbar_lib_test extends advanced_testcase {
         self::assertSame($size, strlen($CFG->additionalhtmltopofbody));
     }
 
+    /**
+     * Check envbarlib::clean_envbars() works as expected.
+     */
+    public function test_clean_envbars() {
+        global $CFG, $PAGE;
+        $this->resetAfterTest(true);
+        $PAGE->set_url(new moodle_url('/local/envbar/index.php'));
+
+        $this->setAdminUser();
+
+        // Setting the database config additionalhtmltopofbody.
+        $testhtml = '<a href="#">Test</a>';
+        set_config('additionalhtmltopofbody', $testhtml);
+
+        // Create basic data object to inject an envbar.
+        $data = new stdClass();
+        $data->colourbg = '000000';
+        $data->colourtext = '000000';
+        $data->matchpattern = $CFG->wwwroot;
+        $data->showtext = 'Test Inject';
+        envbarlib::update_envbar($data);
+
+        $injected = envbarlib::reinject();
+
+        // An envbar is not in the database get_config('additionalhtmltopofbody').
+        $additional = get_config('core', 'additionalhtmltopofbody');
+        self::assertEquals($testhtml, $additional);
+
+        // An envbar now exists in $CFG->additionalhtmltopofbody with our $testhtml.
+        self::assertContains($injected, $CFG->additionalhtmltopofbody);
+
+        // Which equals the $testhtml . $injected.
+        self::assertEquals($testhtml . $injected, $CFG->additionalhtmltopofbody);
+
+        // Which has no trace of any $injected.
+        self::assertNotContains($injected, $additional);
+
+        $cleaned = envbarlib::clean_envbars();
+        self::assertEquals($testhtml, $cleaned);
+
+        // Lets put the envbar back in, and saved it to the DB.
+        $injected = envbarlib::reinject();
+        $additional = get_config('core', 'additionalhtmltopofbody');
+        set_config('additionalhtmltopofbody', $additional . $injected);
+
+        // With an envbar saved to the db, lets clean it out.
+        $cleaned = envbarlib::clean_envbars();
+        self::assertEquals($testhtml, $cleaned);
+        self::assertEquals($testhtml, $CFG->additionalhtmltopofbody);
+    }
+
 }

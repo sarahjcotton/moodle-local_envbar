@@ -176,6 +176,15 @@ EOD;
 EOD;
         }
 
+        // Wrap up the envbar in tokens.
+        $ebstart = envbarlib::ENVBAR_START;
+        $ebend = envbarlib::ENVBAR_END;
+        $html = <<<EOD
+$ebstart
+$html
+$ebend
+EOD;
+
         return $html;
     }
 
@@ -281,7 +290,7 @@ function local_envbar_user_menu($envs, $match) {
         }
         $link = <<<EOD
 <li role="presentation">
-  <a class="icon menu-action no-envbar-highlight" role="menuitem" href="{$jump}">
+  <a class="icon menu-action no-envbar-highlight" role="menuitem" href="#">
     <span class="menu-action-text"> </span>
   </a>
 </li>
