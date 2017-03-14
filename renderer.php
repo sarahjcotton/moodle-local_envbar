@@ -257,6 +257,19 @@ EOD;
 function local_envbar_user_menu($envs, $match) {
 
     global $CFG, $PAGE;
+
+    $config = get_config('local_envbar');
+
+    if (isset($config->menuselector)) {
+        $menuselector = $config->menuselector;
+    } else {
+        $menuselector = '.usermenu .menu';
+    }
+
+    if (empty($menuselector)) {
+        return ''; // Not using user menu, nothing to do.
+    }
+
     $url = $PAGE->url->out();
     $html = '';
 
@@ -280,7 +293,6 @@ EOD;
         return '';
     }
 
-    $config = get_config('local_envbar');
     if (isset($config->dividerselector)) {
         $divider = $config->dividerselector;
     } else {
@@ -290,13 +302,6 @@ EOD;
 
     $html = str_replace("\n", '', $html);
     $html = str_replace("\"", "\\\"", $html);
-
-    $config = get_config('local_envbar');
-    if (isset($config->menuselector)) {
-        $menuselector = $config->menuselector;
-    } else {
-        $menuselector = '.usermenu .menu';
-    }
 
     $url = (new moodle_url('/local/envbar/'))->out();
     $isadmin = (is_siteadmin() ) ? '1' : '0';
