@@ -46,27 +46,27 @@ Please set this value to be exactly what your production ```$CFG->wwwroot``` is.
 Or you can define the environments and prodwwwroot in config.php:
 
 ```php
-    $CFG->local_envbar_prodwwwroot = 'http://moodle.prod';
-    $CFG->local_envbar_items = array(
-        array(
-            'matchpattern' => 'https://staging.moodle.edu',
-            'showtext'     => 'Staging environment',
-            'colourbg'     => 'orange',
-            'colourtext'   => 'white',
-        ),
-        array(
-            'matchpattern' => 'https://qa.moodle.edu',
-            'showtext'     => 'QA environment',
-            'colourbg'     => 'purple',
-            'colourtext'   => 'white',
-        ),
-        array(
-            'matchpattern' => 'http://moodle.local',
-            'showtext'     => 'Localhost environment',
-            'colourbg'     => 'black',
-            'colourtext'   => 'white',
-        ),
-    );
+$CFG->local_envbar_prodwwwroot = 'http://moodle.prod';
+$CFG->local_envbar_items = array(
+    array(
+        'matchpattern' => 'https://staging.moodle.edu',
+        'showtext'     => 'Staging environment',
+        'colourbg'     => 'orange',
+        'colourtext'   => 'white',
+    ),
+    array(
+        'matchpattern' => 'https://qa.moodle.edu',
+        'showtext'     => 'QA environment',
+        'colourbg'     => 'purple',
+        'colourtext'   => 'white',
+    ),
+    array(
+        'matchpattern' => 'http://moodle.local',
+        'showtext'     => 'Localhost environment',
+        'colourbg'     => 'black',
+        'colourtext'   => 'white',
+    ),
+);
 ```
 
 The colours available are,
@@ -90,7 +90,7 @@ next refresh will be. This time can be injected into the DB or set via config.ph
 and can be flexibly set in a variety of ways:
 
 
-```
+```php
 // A unix timestamp:
 $CFG->forced_plugin_settings['local_envbar']['nextrefresh'] = 1490946920;
 
