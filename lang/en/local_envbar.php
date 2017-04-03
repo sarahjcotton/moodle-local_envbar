@@ -39,6 +39,7 @@ $string['header_envbar'] = 'Environment bar';
 $string['help'] = '<p><b>WARNING:</b> These settings should generally only be configured once in the production system.</p><p>If you are NOT in the production system, and these values are empty, then ideally go and fill them out in production and then refresh your database back to here.</p>';
 $string['menuselector'] = 'Menu selector';
 $string['menuselector_help'] = 'This is a css or xpath selector to find the menu ul element for injecting the env swapper menu. If you theme uses different html then you may need to adjust this selector.';
+$string['nextrefreshin'] = ' - Reset in {$a}';
 $string['notconfigured'] = 'UNKNOWN';
 $string['prod'] = 'PROD';
 $string['prodwwwroottext'] = 'Production wwwroot';

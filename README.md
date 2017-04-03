@@ -84,3 +84,20 @@ The colours available are,
     crimson
     orange
     darkorange
+
+In your non production environments it is also useful to inform your users when the
+next refresh will be. This time can be injected into the DB or set via config.php
+and can be flexibly set in a variety of ways:
+
+
+```
+// A unix timestamp:
+$CFG->forced_plugin_settings['local_envbar']['nextrefresh'] = 1490946920;
+
+// Any date string:
+$CFG->forced_plugin_settings['local_envbar']['nextrefresh'] = '2017-04-03 4:00pm';
+
+// Any valid strtotime string eg 2am every night:
+$CFG->forced_plugin_settings['local_envbar']['nextrefresh'] = '2:00am';
+```
+

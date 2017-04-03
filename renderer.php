@@ -117,6 +117,31 @@ EOD;
             $showtext .= get_string('refreshednever', 'local_envbar');
         }
 
+        $nextrefresh = $config->nextrefresh;
+        if (isset($nextrefresh)) {
+
+            if ($nextrefresh === (1 * $nextrefresh)) {
+                // Does the value look like a timestamp?
+
+            } else if ( ($time = strtotime($nextrefresh)) !== false  ) {
+                // Does the value look like a date string?
+                $nextrefresh = $time;
+
+            } else {
+                // Dunno just ignore it.
+                $nextrefresh = null;
+            }
+
+            if ($nextrefresh) {
+                $show = format_time($nextrefresh - time());
+
+                $num = strtok($show, ' ');
+                $unit = strtok(' ');
+                $show = "$num $unit";
+                $showtext .= get_string('nextrefreshin', 'local_envbar', $show);
+            }
+        }
+
         // Optionally also show the config links for admins.
         $produrl = envbarlib::getprodwwwroot();
         $systemcontext = context_system::instance();
