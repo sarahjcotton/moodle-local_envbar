@@ -40,15 +40,11 @@ if (!defined('MOODLE_INTERNAL')) {
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class config extends moodleform {
-
     /**
-     * {@inheritDoc}
-     * @see moodleform::definition()
+     * @return string[]
      */
-    public function definition() {
-        global $CFG, $PAGE;
-
-        $colours = array(
+    public static function get_colors() {
+        return [
             "black",
             "white",
             "red",
@@ -61,8 +57,18 @@ class config extends moodleform {
             "chocolate",
             "crimson",
             "orange",
-            "darkorange"
-        );
+            "darkorange",
+        ];
+    }
+
+    /**
+     * {@inheritDoc}
+     * @see moodleform::definition()
+     */
+    public function definition() {
+        global $CFG, $PAGE;
+
+        $colours = self::get_colors();
 
         // Construct datalist HTML element for later injection.
         $datalisthtml = '<datalist id="colours">';
