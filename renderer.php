@@ -117,12 +117,12 @@ EOD;
             $showtext .= get_string('refreshednever', 'local_envbar');
         }
 
-        $nextrefresh = $config->nextrefresh;
+        $nextrefresh = isset($config->nextrefresh) ? $config->nextrefresh : null;
         if (isset($nextrefresh)) {
 
-            if ($nextrefresh === (1 * $nextrefresh)) {
+            if ($nextrefresh == (1 * $nextrefresh)) {
                 // Does the value look like a timestamp?
-
+                $nextrefresh = (1 * $nextrefresh);
             } else if ( ($time = strtotime($nextrefresh)) !== false  ) {
                 // Does the value look like a date string?
                 $nextrefresh = $time;
@@ -288,7 +288,7 @@ EOD;
  *
  * @return string A chunk of JS
  */
-function local_envbar_user_menu($envs, $match) {
+function local_envbar_user_menu($envs) {
 
     global $CFG, $PAGE;
 
@@ -347,7 +347,8 @@ EOD;
     if (menu) {
         menu.insertAdjacentHTML('beforeend', html);
     } else {
-        $isadmin && console.error("local_envbar: Menu selector is misconfigured '$menuselector' \\n Please configure it here: $url");
+        $isadmin && console.error(
+            "local_envbar: Menu selector is misconfigured '$menuselector' \\n Please configure it here: $url");
     }
 EOD;
     return $js;

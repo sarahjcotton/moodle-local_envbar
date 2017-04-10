@@ -342,8 +342,6 @@ class envbarlib {
      *
      */
     public static function injection_allowed() {
-        global $CFG;
-
         if (self::$injectcalled) {
             return false;
         }

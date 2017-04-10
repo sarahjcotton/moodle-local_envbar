@@ -127,7 +127,8 @@ class config extends moodleform {
 ");
         }
 
-        $mform->addElement('text', 'menuselector', get_string('menuselector', 'local_envbar'), array('placeholder' => '.usermenu .menu'));
+        $mform->addElement('text', 'menuselector', get_string('menuselector', 'local_envbar'),
+                           array('placeholder' => '.usermenu .menu'));
         $mform->setType("menuselector", PARAM_RAW);
         $mform->addHelpButton('menuselector', 'menuselector', 'local_envbar');
         if (isset($config->menuselector)) {
@@ -136,7 +137,8 @@ class config extends moodleform {
             $mform->setDefault('menuselector', '.usermenu .menu');
         }
 
-        $mform->addElement('text', 'dividerselector', get_string('dividerselector', 'local_envbar'), array('placeholder' => 'filler'));
+        $mform->addElement('text', 'dividerselector', get_string('dividerselector', 'local_envbar'),
+                           array('placeholder' => 'filler'));
         $mform->setType("dividerselector", PARAM_RAW);
         $mform->addHelpButton('dividerselector', 'dividerselector', 'local_envbar');
         if (isset($config->dividerselector)) {
