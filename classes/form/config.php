@@ -40,11 +40,15 @@ if (!defined('MOODLE_INTERNAL')) {
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class config extends moodleform {
+
     /**
-     * @return string[]
+     * {@inheritDoc}
+     * @see moodleform::definition()
      */
-    public static function get_colors() {
-        return [
+    public function definition() {
+        global $CFG, $PAGE;
+
+        $colours = array(
             "black",
             "white",
             "red",
@@ -57,18 +61,8 @@ class config extends moodleform {
             "chocolate",
             "crimson",
             "orange",
-            "darkorange",
-        ];
-    }
-
-    /**
-     * {@inheritDoc}
-     * @see moodleform::definition()
-     */
-    public function definition() {
-        global $CFG, $PAGE;
-
-        $colours = self::get_colors();
+            "darkorange"
+        );
 
         // Construct datalist HTML element for later injection.
         $datalisthtml = '<datalist id="colours">';
@@ -133,7 +127,8 @@ class config extends moodleform {
 ");
         }
 
-        $mform->addElement('text', 'menuselector', get_string('menuselector', 'local_envbar'), array('placeholder' => '.usermenu .menu'));
+        $mform->addElement('text', 'menuselector', get_string('menuselector', 'local_envbar'),
+                           array('placeholder' => '.usermenu .menu'));
         $mform->setType("menuselector", PARAM_RAW);
         $mform->addHelpButton('menuselector', 'menuselector', 'local_envbar');
         if (isset($config->menuselector)) {
@@ -142,7 +137,8 @@ class config extends moodleform {
             $mform->setDefault('menuselector', '.usermenu .menu');
         }
 
-        $mform->addElement('text', 'dividerselector', get_string('dividerselector', 'local_envbar'), array('placeholder' => 'filler'));
+        $mform->addElement('text', 'dividerselector', get_string('dividerselector', 'local_envbar'),
+                           array('placeholder' => 'filler'));
         $mform->setType("dividerselector", PARAM_RAW);
         $mform->addHelpButton('dividerselector', 'dividerselector', 'local_envbar');
         if (isset($config->dividerselector)) {

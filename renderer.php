@@ -288,7 +288,7 @@ EOD;
  *
  * @return string A chunk of JS
  */
-function local_envbar_user_menu($envs, $match) {
+function local_envbar_user_menu($envs) {
 
     global $CFG, $PAGE;
 
@@ -347,7 +347,8 @@ EOD;
     if (menu) {
         menu.insertAdjacentHTML('beforeend', html);
     } else {
-        $isadmin && console.error("local_envbar: Menu selector is misconfigured '$menuselector' \\n Please configure it here: $url");
+        $isadmin && console.error(
+            "local_envbar: Menu selector is misconfigured '$menuselector' \\n Please configure it here: $url");
     }
 EOD;
     return $js;
