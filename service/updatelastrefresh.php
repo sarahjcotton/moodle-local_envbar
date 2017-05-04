@@ -29,7 +29,6 @@ use local_envbar\local\envbarlib;
 
 require_once(dirname(__FILE__) . '/../../../config.php');
 
-
 $wwwroot = required_param('wwwroot', '', PARAM_RAW);
 $lastrefresh = required_param('lastrefresh', '', PARAM_INT);
 $secretkey = required_param('secretkey', '', PARAM_TEXT);
@@ -64,11 +63,9 @@ if (isset($data)) {
     $data->colourtext = 'white';
     $data->colourbg = 'red';
 
-    /**
-     * We have to do some matching between prod and this new environment
-     * to get a difference to use as the showtext.
-     * Remove http and https in case both environments are different.
-     */
+    // We have to do some matching between prod and this new environment
+    // to get a difference to use as the showtext.
+    // Remove http and https in case both environments are different.
     $pattern = array('/https:\/\//', '/http:\/\//');
     $replacement = array('', '');
 
@@ -77,10 +74,8 @@ if (isset($data)) {
     $herearray = str_split($here);
     $therearray = str_split($there);
 
-    /**
-     * Remove same letters from the end and then repeat for the front.
-     * e.g. catalyst and catalyst-dev will become just dev.
-     */
+    // Remove same letters from the end and then repeat for the front
+    // e.g. catalyst and catalyst-dev will become just dev.
     for ($i = 0; $i < 2; $i++) {
         $herearray = array_reverse($herearray);
         $therearray = array_reverse($therearray);
