@@ -29,13 +29,8 @@ if (!defined('MOODLE_INTERNAL')) {
     die('Direct access to this script is forbidden.'); // It must be included from a Moodle page.
 }
 
-<<<<<<< a54d4e71f990df3e089d979ba064ae93d870cea0
 $plugin->version   = 2017051600;      // The current plugin version (Date: YYYYMMDDXX).
 $plugin->release   = 2017051600;      // Same as version
-=======
-$plugin->version   = 2017021500;      // The current plugin version (Date: YYYYMMDDXX).
-$plugin->release   = 2017021500;      // Same as version
->>>>>>> Issue #44: Squished ping and check tasks into one and bumped version number
 $plugin->requires  = 2014051200;      // Requires Moodle 2.7 or later.
 $plugin->component = "local_envbar";
 $plugin->maturity  = MATURITY_STABLE;

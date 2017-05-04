@@ -30,6 +30,7 @@ use cache;
 use context_system;
 use Exception;
 use moodle_url;
+use moodle_exception;
 use stdClass;
 
 if (!defined('MOODLE_INTERNAL')) {
@@ -434,7 +435,7 @@ class envbarlib {
             $response = $curl->post($url, $params);
         } catch (Exception $e) {
             mtrace("Error contacting production, error returned was: ".$e->getMessage());
-            return;
+            throw new moodle_exception('connectionfailed');
         }
 
         $response = json_decode($response);
@@ -443,7 +444,8 @@ class envbarlib {
             mtrace($response->message);
             set_config('prodlastping', time(), 'local_envbar');
         } else {
-            mtrace("Error, the lastrefresh was no updated: ".$response->message);
+            mtrace("Error, the lastrefresh was no updated");
+            throw new moodle_exception('connectionfailed');
         }
     }
 

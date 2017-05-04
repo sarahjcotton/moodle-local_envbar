@@ -15,7 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Page that is pinged to update an env lastrefresh time
+ * This page is pinged to update an env lastrefresh time.
+ * This simple rest point was created outside of moodle's ws to avoid
+ *  the overhead and config that comes with it.
  *
  * @package   local_envbar
  * @author    Rossco Hellmans <rosscohellmans@catalyst-au.net>
@@ -27,9 +29,10 @@ use local_envbar\local\envbarlib;
 
 require_once(dirname(__FILE__) . '/../../../config.php');
 
-$wwwroot = isset($_POST['wwwroot']) ? $_POST['wwwroot'] : null;
-$lastrefresh = isset($_POST['lastrefresh']) ? $_POST['lastrefresh'] : null;
-$secretkey = isset($_POST['secretkey']) ? $_POST['secretkey'] : null;
+
+$wwwroot = required_param('wwwroot', '', PARAM_RAW);
+$lastrefresh = required_param('lastrefresh', '', PARAM_INT);
+$secretkey = required_param('secretkey', '', PARAM_TEXT);
 $config = get_config('local_envbar');
 
 $response = array();
@@ -37,13 +40,6 @@ $response = array();
 if ($secretkey !== $config->secretkey) {
     $response['result'] = 'secretkey_invalid';
     $response['message'] = get_string('secretkey_invalid', 'local_envbar');
-    echo json_encode($response);
-    die;
-}
-
-if (is_null($wwwroot) || is_null($lastrefresh)) {
-    $response['result'] = 'missing_required_parameter';
-    $response['message'] = get_string('missing_required_parameter', 'local_envbar');
     echo json_encode($response);
     die;
 }
@@ -60,6 +56,7 @@ foreach ($records as $env) {
 if (isset($data)) {
     $data->lastrefresh = $lastrefresh;
 } else {
+    // This environment doesn't exist in prod, so create a default entry for it.
     $data = new stdClass();
     // ID, $data->id not set.
     $data->matchpattern = $wwwroot;
@@ -67,9 +64,11 @@ if (isset($data)) {
     $data->colourtext = 'white';
     $data->colourbg = 'red';
 
-    // We have to do some matching between prod and this new environment
-    // to get a difference to use as the showtext.
-    // Remove http and https in case both environments are different.
+    /**
+     * We have to do some matching between prod and this new environment
+     * to get a difference to use as the showtext.
+     * Remove http and https in case both environments are different.
+     */
     $pattern = array('/https:\/\//', '/http:\/\//');
     $replacement = array('', '');
 
@@ -78,7 +77,10 @@ if (isset($data)) {
     $herearray = str_split($here);
     $therearray = str_split($there);
 
-    // Remove same letters from the end and then repeat for the front.
+    /**
+     * Remove same letters from the end and then repeat for the front.
+     * e.g. catalyst and catalyst-dev will become just dev.
+     */
     for ($i = 0; $i < 2; $i++) {
         $herearray = array_reverse($herearray);
         $therearray = array_reverse($therearray);
