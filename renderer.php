@@ -321,7 +321,7 @@ function local_envbar_user_menu($envs) {
         }
         $link = <<<EOD
 <li role="presentation">
-  <a class="icon menu-action no-envbar-highlight" role="menuitem" href="#">
+  <a class="icon menu-action no-envbar-highlight" role="menuitem" href="{$jump}">
     <span class="menu-action-text"> </span>
   </a>
 </li>
