@@ -47,6 +47,7 @@ $string['prod'] = 'PROD';
 $string['prodwwwroottext'] = 'Production wwwroot';
 $string['prodwwwrootplaceholder'] = '$CFG->wwwroot on production';
 $string['prodwwwrootautobutton'] = 'Autofill';
+$string['prodlasttimestamp'] = '<p>Production timestamp last updated {$a} ago</p>';
 $string['refreshedago'] = ' - {$a} old';
 $string['refreshednever'] = ' - Never been refreshed';
 $string['secretkeygenbutton'] = 'Generate';

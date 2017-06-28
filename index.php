@@ -90,9 +90,16 @@ if ($data = $form->get_data()) {
     redirect(new moodle_url('/local/envbar/index.php'));
 }
 
+$config = get_config('local_envbar');
+$show = format_time(time() - $config->prodlastcheck);
+$num = strtok($show, ' ');
+$unit = strtok(' ');
+$show = "$num $unit";
+
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('header_envbar', 'local_envbar'));
 echo get_string('help', 'local_envbar');
+echo get_string('prodlasttimestamp', 'local_envbar', $show);
 echo $form->display();
 echo $OUTPUT->footer();
 
