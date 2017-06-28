@@ -79,7 +79,7 @@ function xmldb_local_envbar_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2016041510, 'local', 'envbar');
     }
 
-    if ($oldversion < 2017050400) {
+    if ($oldversion < 2017062800) {
 
         $table = new xmldb_table('local_envbar');
         $field = new xmldb_field('lastrefresh', XMLDB_TYPE_INTEGER, '20', null, XMLDB_NOTNULL, null, '0', null);
@@ -92,7 +92,7 @@ function xmldb_local_envbar_upgrade($oldversion) {
         }
 
         // Envbar savepoint reached.
-        upgrade_plugin_savepoint(true, 2017050400, 'local', 'envbar');
+        upgrade_plugin_savepoint(true, 2017062800, 'local', 'envbar');
     }
 
     return true;
