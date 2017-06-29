@@ -31,10 +31,11 @@ require_once($CFG->libdir . '/adminlib.php');
 
 global $DB;
 
-admin_externalpage_setup('local_envbar');
+admin_externalpage_setup('local_envbar_settings');
 
 $records = envbarlib::get_records();
-$form = new \local_envbar\form\config(null, array('records' => $records));
+$gensecretkey = random_string(25);
+$form = new \local_envbar\form\config(null, array('records' => $records, 'gensecretkey' => $gensecretkey));
 
 if ($data = $form->get_data()) {
 
@@ -43,6 +44,7 @@ if ($data = $form->get_data()) {
     set_config('extracss', $data->extracss, 'local_envbar');
     set_config('menuselector', $data->menuselector, 'local_envbar');
     set_config('dividerselector', $data->dividerselector, 'local_envbar');
+    set_config('secretkey', $data->secretkey, 'local_envbar');
 
     if (!empty($data->id)) {
 
@@ -88,9 +90,16 @@ if ($data = $form->get_data()) {
     redirect(new moodle_url('/local/envbar/index.php'));
 }
 
+$config = get_config('local_envbar');
+$show = format_time(time() - $config->prodlastcheck);
+$num = strtok($show, ' ');
+$unit = strtok(' ');
+$show = "$num $unit";
+
 echo $OUTPUT->header();
 echo $OUTPUT->heading(get_string('header_envbar', 'local_envbar'));
 echo get_string('help', 'local_envbar');
+echo get_string('prodlasttimestamp', 'local_envbar', $show);
 echo $form->display();
 echo $OUTPUT->footer();
 

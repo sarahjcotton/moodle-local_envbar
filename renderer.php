@@ -106,9 +106,8 @@ EOD;
         $showtext = htmlspecialchars($match->showtext);
 
         // Just show the biggest time unit instead of 2.
-        $config = get_config('local_envbar');
-        if (isset($config->prodlastcheck)) {
-            $show = format_time(time() - $config->prodlastcheck);
+        if ($match->lastrefresh > 0) {
+            $show = format_time(time() - $match->lastrefresh);
             $num = strtok($show, ' ');
             $unit = strtok(' ');
             $show = "$num $unit";

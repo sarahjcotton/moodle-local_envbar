@@ -30,6 +30,7 @@ use cache;
 use context_system;
 use Exception;
 use moodle_url;
+use moodle_exception;
 use stdClass;
 
 if (!defined('MOODLE_INTERNAL')) {
@@ -140,6 +141,19 @@ class envbarlib {
             // of the data being 'cleaned' using either the core DB replace script, or
             // the local_datacleaner plugin, which would render this plugin useless.
             $result = self::base64_decode_records($result);
+
+            $config = get_config('local_envbar');
+            if (isset($config->prodlastcheck)) {
+                foreach ($result as $key => $value) {
+                    // If this is the env we are on we trust $config->prodlastcheck.
+                    // Else we can trust lastrefresh.
+                    if (self::is_match($CFG->wwwroot, $value->matchpattern)) {
+                        $value->lastrefresh = $config->prodlastcheck;
+                    }
+                    $result[$key] = $value;
+                }
+            }
+
             $cache->set('records', $result);
         }
 
@@ -276,6 +290,7 @@ class envbarlib {
                     'colourtext' => 'white',
                     'colourbg' => 'red',
                     'matchpattern' => '',
+                    'lastrefresh' => 0,
                 );
 
             }
@@ -377,6 +392,70 @@ class envbarlib {
         }
 
         return '';
+    }
+
+    /**
+     * Sets prodlastcheck with the current time.
+     *
+     */
+    public function updatelastcheck() {
+        set_config('prodlastcheck', time(), 'local_envbar');
+    }
+
+    /**
+     * Sends a post to prod to update the lastrefresh time of this environment.
+     *
+     * @param bool $debug print curl debug if true
+     */
+    public function pingprod($debug = false) {
+        global $CFG;
+
+        $config = get_config('local_envbar');
+        $prodwwwroot = self::getprodwwwroot();
+
+        // Skip if prodwwwroot hasn't been set.
+        if (empty($prodwwwroot)) {
+            return;
+        }
+
+        // Skip if we've already pinged prod after the last refresh.
+        $lastrefresh = isset($config->prodlastcheck) ? $config->prodlastcheck : 0;
+        $lastping = isset($config->prodlastping) ? $config->prodlastping : 0;
+        if ($lastrefresh < $lastping) {
+            return;
+        }
+
+        // Ping prod with the env and lastrefresh.
+        $url = $prodwwwroot."/local/envbar/service/updatelastrefresh.php";
+        $params = "wwwroot=".urlencode($CFG->wwwroot)."&lastrefresh=".urlencode($lastrefresh)."&secretkey=".urlencode($config->secretkey);
+        $options = array();
+        if ($debug) {
+            $options['debug'] = true;
+        }
+
+        require_once($CFG->dirroot . "/lib/filelib.php");
+        $curl = new \curl($options);
+
+        try {
+            $response = $curl->post($url, $params);
+        } catch (Exception $e) {
+            mtrace("Error contacting production, error returned was: ".$e->getMessage());
+            if (!$debug) {
+                throw new moodle_exception('connectionfailed');
+            }
+        }
+
+        $response = json_decode($response);
+
+        if ($response->result === 'success') {
+            mtrace($response->message);
+            set_config('prodlastping', time(), 'local_envbar');
+        } else {
+            mtrace("Error, the lastrefresh was not updated");
+            if (!$debug) {
+                throw new moodle_exception('connectionfailed');
+            }
+        }
     }
 
 }

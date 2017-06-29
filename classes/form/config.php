@@ -78,6 +78,7 @@ class config extends moodleform {
 
         $mform = $this->_form;
         $records = $this->_customdata["records"];
+        $gensecretkey = $this->_customdata["gensecretkey"];
         $rcount = count($records);
 
         $urlset = false;
@@ -149,6 +150,38 @@ class config extends moodleform {
             $mform->setDefault('dividerselector', $config->dividerselector);
         } else {
             $mform->setDefault('dividerselector', 'filler');
+        }
+
+        $secretkeyset = false;
+        // If true then we will lock the secretkey field from being edited.
+        if (!empty($CFG->local_envbar_secretkey)) {
+            $secretkeyset = true;
+        }
+
+        $secretkeygroup = array();
+
+        $secretkeygroup[] =& $mform->createElement(
+            "text",
+            "secretkey",
+            get_string("secretkeytext", "local_envbar"),
+            array("placeholder" => get_string("secretkeyplaceholder", "local_envbar"),
+                  "id" => "secretkey",
+                  "size" => 40,
+                  $secretkeyset ? 'disabled' : 'enabled')
+        );
+
+        $secretkeygroup[] =& $mform->createElement(
+            "button",
+            "secretkeygen",
+            get_string("secretkeygenbutton", "local_envbar"),
+            array("onclick" => "document.getElementById('secretkey').value = '$gensecretkey'", $secretkeyset ? 'disabled' : 'enabled')
+        );
+
+        $mform->addGroup($secretkeygroup, 'secretkeyg', get_string('secretkeytext', 'local_envbar'), array(' '), false);
+
+        $mform->setType("secretkey", PARAM_TEXT);
+        if (isset($config->secretkey)) {
+            $mform->setDefault('secretkey', $config->secretkey);
         }
 
         $localid = -1;

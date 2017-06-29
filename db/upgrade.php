@@ -79,5 +79,21 @@ function xmldb_local_envbar_upgrade($oldversion) {
         upgrade_plugin_savepoint(true, 2016041510, 'local', 'envbar');
     }
 
+    if ($oldversion < 2017062800) {
+
+        $table = new xmldb_table('local_envbar');
+        $field = new xmldb_field('lastrefresh', XMLDB_TYPE_INTEGER, '20', null, XMLDB_NOTNULL, null, '0', null);
+        if (!$dbman->field_exists($table, $field)) {
+            $dbman->add_field($table, $field);
+        }
+
+        if (!$DB->record_exists('config_plugins', array('plugin' => 'local_envbar', 'name' => 'secretkey'))) {
+            set_config('secretkey', random_string(25), 'local_envbar');
+        }
+
+        // Envbar savepoint reached.
+        upgrade_plugin_savepoint(true, 2017062800, 'local', 'envbar');
+    }
+
     return true;
 }

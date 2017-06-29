@@ -11,6 +11,7 @@
         <FIELD NAME="colourtext" TYPE="char" LENGTH="64" NOTNULL="true" SEQUENCE="false" COMMENT="Text colour"/>
         <FIELD NAME="matchpattern" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Match pattern"/>
         <FIELD NAME="showtext" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false" COMMENT="Text to show"/>
+        <FIELD NAME="lastrefresh" TYPE="int" LENGTH="20" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
       </FIELDS>
       <KEYS>
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>

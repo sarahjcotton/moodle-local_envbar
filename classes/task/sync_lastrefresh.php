@@ -15,27 +15,27 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * local_envbar
+ * Form for editing a configuration of the status bar
  *
- * @package    local_envbar
- * @copyright  2016 Brendan Heywood <brendan@catalyst-au.net>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package   local_envbar
+ * @author    Rossco Hellmans <rosscohellmans@catalyst-au.net>
+ * @copyright Catalyst IT
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 namespace local_envbar\task;
 
 defined('MOODLE_INTERNAL') || die();
 
 use local_envbar\local\envbarlib;
+use moodle_url;
 
 /**
- * checkprod
+ * Task for updating prod with the env lastrefresh.
  *
- * @package    local_envbar
- * @copyright  2016 Brendan Heywood <brendan@catalyst-au.net>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @copyright Catalyst IT
+ * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class checkprod extends \core\task\scheduled_task {
+class sync_lastrefresh extends \core\task\scheduled_task {
 
     /**
      * Get task name
@@ -52,10 +52,9 @@ class checkprod extends \core\task\scheduled_task {
 
         // Are we on the production env?
         if (envbarlib::getprodwwwroot() === $CFG->wwwroot) {
-            set_config('prodlastcheck', time(), 'local_envbar');
+            envbarlib::updatelastcheck();
+        } else {
+            envbarlib::pingprod();
         }
-
     }
 }
-
-

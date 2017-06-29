@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $tasks = array(
     array(
-        'classname' => 'local_envbar\task\checkprod',
+        'classname' => 'local_envbar\task\sync_lastrefresh',
         'blocking'  => 0,
         'minute'    => '*',
         'hour '     => '*',
