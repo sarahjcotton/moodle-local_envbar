@@ -29,9 +29,9 @@ use local_envbar\local\envbarlib;
 
 require_once(dirname(__FILE__) . '/../../../config.php');
 
-$wwwroot = required_param('wwwroot', '', PARAM_RAW);
-$lastrefresh = required_param('lastrefresh', '', PARAM_INT);
-$secretkey = required_param('secretkey', '', PARAM_TEXT);
+$wwwroot = required_param('wwwroot', PARAM_RAW);
+$lastrefresh = required_param('lastrefresh', PARAM_INT);
+$secretkey = required_param('secretkey', PARAM_TEXT);
 $config = get_config('local_envbar');
 
 $response = array();
