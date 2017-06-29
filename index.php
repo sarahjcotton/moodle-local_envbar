@@ -31,7 +31,7 @@ require_once($CFG->libdir . '/adminlib.php');
 
 global $DB;
 
-admin_externalpage_setup('local_envbar');
+admin_externalpage_setup('local_envbar_settings');
 
 $records = envbarlib::get_records();
 $gensecretkey = random_string(25);

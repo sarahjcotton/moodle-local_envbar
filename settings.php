@@ -26,11 +26,18 @@
 
 if ($hassiteconfig) {
 
-    $externalpage = new admin_externalpage('local_envbar',
-        get_string('pluginname', 'local_envbar'),
+    $ADMIN->add('localplugins', new admin_category('envbar', get_string('pluginname', 'local_envbar')));
+
+    $envsettings = new admin_externalpage('local_envbar_settings',
+        get_string('menuenvsettings', 'local_envbar'),
         new moodle_url('/local/envbar/index.php'));
 
-    $ADMIN->add('localplugins', $externalpage);
+    $lastrefresh = new admin_externalpage('local_envbar_lastrefresh',
+        get_string('menulastrefresh', 'local_envbar'),
+        new moodle_url('/local/envbar/last_refresh.php'));
+
+    $ADMIN->add('envbar', $envsettings);
+    $ADMIN->add('envbar', $lastrefresh);
 
     $settings = null;
 }
