@@ -24,7 +24,6 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-use cache;
 use local_envbar\local\envbarlib;
 
 require_once(dirname(__FILE__) . '/../../config.php');
@@ -38,10 +37,7 @@ $config = get_config('local_envbar');
 $form = new \local_envbar\form\lastrefresh(null, array('prodlastcheck' => $config->prodlastcheck));
 
 if ($data = $form->get_data()) {
-    // Update the prodlastcheck and clear the cache to make it effective.
-    set_config('prodlastcheck', $data->lastrefresh, 'local_envbar');
-    $cache = cache::make('local_envbar', 'records');
-    $cache->delete('records');
+    envbarlib::updatelastcheck($data->lastrefresh);
 
     // Check if we want to ping prod.
     $verbose = isset($data->verbose);
