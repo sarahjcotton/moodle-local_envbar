@@ -405,9 +405,10 @@ class envbarlib {
     /**
      * Sends a post to prod to update the lastrefresh time of this environment.
      *
+     * @param bool $force if true do not check prodlastping
      * @param bool $debug print curl debug if true
      */
-    public function pingprod($debug = false) {
+    public function pingprod($force = false, $debug = false) {
         global $CFG;
 
         $config = get_config('local_envbar');
@@ -418,10 +419,10 @@ class envbarlib {
             return;
         }
 
-        // Skip if we've already pinged prod after the last refresh.
+        // Skip if we've already pinged prod after the last refresh unless force is true.
         $lastrefresh = isset($config->prodlastcheck) ? $config->prodlastcheck : 0;
         $lastping = isset($config->prodlastping) ? $config->prodlastping : 0;
-        if ($lastrefresh < $lastping) {
+        if ($lastrefresh < $lastping && !$force) {
             return;
         }
 

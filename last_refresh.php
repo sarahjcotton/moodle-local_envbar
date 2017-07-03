@@ -43,7 +43,7 @@ if ($data = $form->get_data()) {
     $verbose = isset($data->verbose);
     if (isset($data->pingprod)) {
         ob_start();
-        envbarlib::pingprod($verbose);
+        envbarlib::pingprod(true, $verbose);
         $debug = ob_get_contents();
         ob_clean();
     } else {
