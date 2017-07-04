@@ -37,7 +37,7 @@ $config = get_config('local_envbar');
 $form = new \local_envbar\form\lastrefresh(null, array('prodlastcheck' => $config->prodlastcheck));
 
 if ($data = $form->get_data()) {
-    set_config('prodlastcheck', $data->lastrefresh, 'local_envbar');
+    envbarlib::updatelastcheck($data->lastrefresh);
 
     // Check if we want to ping prod.
     $verbose = isset($data->verbose);

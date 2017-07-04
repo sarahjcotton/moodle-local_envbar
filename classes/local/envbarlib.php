@@ -395,11 +395,16 @@ class envbarlib {
     }
 
     /**
-     * Sets prodlastcheck with the current time.
+     * Sets prodlastcheck with the current or a passed time.
      *
+     * @param int epoch to set prodlastcheck, current time by default
      */
-    public function updatelastcheck() {
-        set_config('prodlastcheck', time(), 'local_envbar');
+    public function updatelastcheck($time = null) {
+        // Update the prodlastcheck and clear the cache to make it effective.
+        $time = is_null($time) ? time() : $time;
+        set_config('prodlastcheck', $time, 'local_envbar');
+        $cache = cache::make('local_envbar', 'records');
+        $cache->delete('records');
     }
 
     /**
