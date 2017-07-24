@@ -399,7 +399,7 @@ class envbarlib {
      *
      * @param int epoch to set prodlastcheck, current time by default
      */
-    public function updatelastcheck($time = null) {
+    public static function updatelastcheck($time = null) {
         // Update the prodlastcheck and clear the cache to make it effective.
         $time = is_null($time) ? time() : $time;
         set_config('prodlastcheck', $time, 'local_envbar');
@@ -413,7 +413,7 @@ class envbarlib {
      * @param bool $force if true do not check prodlastping
      * @param bool $debug print curl debug if true
      */
-    public function pingprod($force = false, $debug = false) {
+    public static function pingprod($force = false, $debug = false) {
         global $CFG;
 
         $config = get_config('local_envbar');
