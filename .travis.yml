@@ -45,6 +45,10 @@ matrix:
   # Test with PHP 7.1
   - php: 7.1
     env: DB=pgsql MOODLE_BRANCH=master
+  # Moodle 3.4+ requires PHP 7.
+  exclude:
+  - php: 5.6
+  - MOODLE_BRANCH=master
 
 before_install:
 - cd ../..
