@@ -6,7 +6,7 @@ notifications:
     - nicholashoobin@catalyst-au.net
     - danielroperto@catalyst-au.net
 
-sudo: false
+sudo: required
 
 addons:
   postgresql: "9.3"

@@ -56,6 +56,21 @@ class envbarlib {
     }
 
     /**
+     * Provides the default CSS code to be used in settings or when not configured.
+     */
+    public static function get_default_extra_css() {
+        return <<<CSS
+.local_envbar .navbar.navbar-fixed-top,
+.local_envbar .navbar.navbar-static-top {
+    top: 50px;
+}
+.local_envbar #nav-drawer {
+    top: 100px;
+}
+CSS;
+    }
+
+    /**
      * Helper function to update data, or insert if it does not exist.
      * @param stdClass $data
      * @return boolean|number return value for the update

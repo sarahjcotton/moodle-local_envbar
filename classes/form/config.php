@@ -121,15 +121,7 @@ class config extends moodleform {
         if (isset($config->extracss)) {
             $mform->setDefault('extracss', $config->extracss);
         } else {
-            $mform->setDefault('extracss', "
-.local_envbar .navbar.navbar-fixed-top,
-.local_envbar .navbar.navbar-static-top {
-    top: 50px;
-}
-.local_envbar #nav-drawer {
-    top: 100px;
-}
-");
+            $mform->setDefault('extracss', envbarlib::get_default_extra_css());
         }
 
         $mform->addElement('text', 'menuselector', get_string('menuselector', 'local_envbar'),

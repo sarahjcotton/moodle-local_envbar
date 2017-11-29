@@ -95,8 +95,8 @@ EOD;
         }
 
         $config = get_config('local_envbar');
-        if ($fixed && isset($config->extracss)) {
-            $css .= $config->extracss;
+        if ($fixed) {
+            $css .= empty($config->extracss) ? envbarlib::get_default_extra_css() : $config->extracss;
         }
 
         $class = 'env' .  $match->id;
