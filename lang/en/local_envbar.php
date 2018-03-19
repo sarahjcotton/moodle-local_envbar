@@ -66,7 +66,7 @@ $string['setdeleted'] = 'Delete';
 $string['showtext'] = 'Text to show';
 $string['showtextplaceholder'] = 'eg: You are on staging environment';
 $string['textcolour'] = 'Foreground colour';
-$string['urlmatch'] = 'URL Match pattern';
-$string['urlmatch_help'] = 'You can use Regular Expressions to match your URL.<br />E.g. http://stage[1,2,3].example.com to match http://stage2.example.com<br />Note that following special characters will be escaped:<br /> / \ - . ? * ^ $';
+$string['urlmatch'] = 'Non Production URL';
+$string['urlmatch_help'] = 'Add the address for your non prod site. Note: You can use Regular Expressions to match your URL.<br />E.g. http://stage[1,2,3].example.com to match http://stage2.example.com<br />Note that following special characters will be escaped:<br /> / \ - . ? * ^ $';
 $string['urlmatchplaceholder'] = 'eg. staging';
 
