@@ -305,7 +305,7 @@ CSS;
                     'colourtext' => 'white',
                     'colourbg' => 'red',
                     'matchpattern' => '',
-                    'lastrefresh' => 0,
+                    'lastrefresh' => get_config('local_envbar', 'prodlastcheck'),
                 );
 
             }
