@@ -13,24 +13,31 @@
 //
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
-
 /**
- * Version information.
+ * Privacy provider.
  *
  * @package   local_envbar
- * @author    Brendan Heywood (brendan@catalyst-au.net)
- * @author    Grigory Baleevskiy (grigory@catalyst-au.net)
- * @author    Nicholas Hoobin <nicholashoobin@catalyst-au.net>
- * @copyright Catalyst IT
+ * @author    Ilya Tregubov (ilyatregubov@catalyst-au.net)
+ * @copyright 2018 Catalyst IT
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-if (!defined('MOODLE_INTERNAL')) {
-    die('Direct access to this script is forbidden.'); // It must be included from a Moodle page.
+namespace local_envbar\privacy;
+defined('MOODLE_INTERNAL') || die;
+use core_privacy\local\metadata\null_provider;
+use core_privacy\local\legacy_polyfill;
+/**
+ * Class provider
+ * @package local_envbar\privacy
+ */
+class provider implements null_provider {
+    use legacy_polyfill;
+    /**
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
+     *
+     * @return  string
+     */
+    public static function _get_reason() {
+        return 'privacy:metadata';
+    }
 }
-
-$plugin->version   = 2018061401;      // The current plugin version (Date: YYYYMMDDXX).
-$plugin->release   = 2018061401;      // Same as version
-$plugin->requires  = 2014051200;      // Requires Moodle 2.7 or later.
-$plugin->component = "local_envbar";
-$plugin->maturity  = MATURITY_STABLE;
