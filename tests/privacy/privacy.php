@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package   local_datacleaner
+ * @package   local_objectfs
  * @copyright Moodle
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
