@@ -309,23 +309,26 @@ function local_envbar_user_menu($envs) {
         return ''; // Not using user menu, nothing to do.
     }
 
-    $url = $PAGE->url->out();
     $html = '';
 
-    foreach ($envs as $env) {
-        $jump = $url;
-        $jump = str_replace($CFG->wwwroot, $env->matchpattern, $jump);
-        if ($jump == $url) {
-            continue;
-        }
-        $link = <<<EOD
+    if ($PAGE->has_set_url()) {
+        $url = $PAGE->url->out();
+
+        foreach ($envs as $env) {
+            $jump = $url;
+            $jump = str_replace($CFG->wwwroot, $env->matchpattern, $jump);
+            if ($jump == $url) {
+                continue;
+            }
+            $link = <<<EOD
 <li role="presentation">
   <a class="icon menu-action no-envbar-highlight" role="menuitem" href="{$jump}">
     <span class="menu-action-text"> </span>
   </a>
 </li>
 EOD;
-        $html .= $link;
+            $html .= $link;
+        }
     }
 
     if (!$html) {

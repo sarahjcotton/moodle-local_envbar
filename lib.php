@@ -40,14 +40,20 @@ function local_envbar_before_http_headers() {
  * lib.php isn't always called, we need to hook something to ensure it runs.
  */
 function local_envbar_extend_navigation() {
+    global $CFG;
 
-    envbarlib::inject();
+    if ($CFG->branch < 33) {
+        envbarlib::inject();
+    }
 }
 
 /**
  * This is the hook for pre 2.9 moodle.
  */
 function local_envbar_extends_navigation() {
+    global $CFG;
 
-    envbarlib::inject();
+    if ($CFG->branch < 33) {
+        envbarlib::inject();
+    }
 }
