@@ -87,7 +87,7 @@ a[href^="{$env->matchpattern}"]:not(.no-envbar-highlight) {
 a[href^="{$env->matchpattern}"]::before {
     content: '{$env->showtext}';
     background-color: {$env->colourbg};
-    color: white;
+    color: {$env->colourtext};
     padding: 1px 4px;
 }
 EOD;

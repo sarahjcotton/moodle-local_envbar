@@ -313,8 +313,8 @@ CSS;
             array_push($envs, (object) array(
                 'id' => -1,
                 'showtext' => get_string('prod', 'local_envbar'),
-                'colourtext' => 'white',
-                'colourbg' => 'red',
+                'colourtext' => get_config('local_envbar', 'prodtextcolour'),
+                'colourbg' => get_config('local_envbar', 'prodbgcolour'),
                 'matchpattern' => self::getprodwwwroot(),
             ));
 

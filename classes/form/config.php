@@ -144,6 +144,42 @@ class config extends moodleform {
             $mform->setDefault('dividerselector', 'filler');
         }
 
+        $mform->addElement('text', 'prodtextcolour', get_string('prodtextcolour', 'local_envbar'),
+                array('placeholder' => 'white',
+                      'size' => 40));
+        $mform->setType('prodtextcolour', PARAM_TEXT);
+        $mform->addHelpButton('prodtextcolour', 'prodtextcolour', 'local_envbar');
+        if (isset($config->prodtextcolour)) {
+            $mform->setDefault('prodtextcolour', $config->prodtextcolour);
+        } else {
+            $mform->setDefault('prodtextcolour', 'white');
+        }
+        $mform->addRule(
+                'prodtextcolour',
+                get_string('colourerror', 'local_envbar'),
+                'regex',
+                '/#([a-f0-9]{3}){1,2}\b|' . $coloursregex . '\b/i',
+                'client'
+        );
+
+        $mform->addElement('text', 'prodbgcolour', get_string('prodbgcolour', 'local_envbar'),
+                array('placeholder' => 'red',
+                      'size' => 40));
+        $mform->setType('prodbgcolour', PARAM_TEXT);
+        $mform->addHelpButton('prodbgcolour', 'prodbgcolour', 'local_envbar');
+        if (isset($config->prodbgcolour)) {
+            $mform->setDefault('prodbgcolour', $config->prodbgcolour);
+        } else {
+            $mform->setDefault('prodbgcolour', 'red');
+        }
+        $mform->addRule(
+                'prodbgcolour',
+                get_string('colourerror', 'local_envbar'),
+                'regex',
+                '/#([a-f0-9]{3}){1,2}\b|' . $coloursregex . '\b/i',
+                'client'
+        );
+
         $secretkeyset = false;
         // If true then we will lock the secretkey field from being edited.
         if (!empty($CFG->local_envbar_secretkey)) {
