@@ -85,6 +85,15 @@ The colours available are,
     orange
     darkorange
 
+Please configure a secret key which is needed to let the environments talk to each other. If no secret key is set, 
+the non production environments won't be able to detect their last reset time. Please set it to some random alphanumeric string 
+of your choice or press the 'Generate' button.
+Or you can define the secret key in config.php:
+
+```php
+$CFG->local_envbar_secretkey = 'SomeRandomAlphanumericalString';
+```
+
 In your non production environments it is also useful to inform your users when the
 next refresh will be. This time can be injected into the DB or set via config.php
 and can be flexibly set in a variety of ways:
