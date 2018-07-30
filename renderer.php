@@ -317,6 +317,10 @@ function local_envbar_user_menu($envs) {
 
     $config = get_config('local_envbar');
 
+    if (!$config->enablemenu) {
+        return '';
+    }
+
     if (isset($config->menuselector)) {
         $menuselector = $config->menuselector;
     } else {

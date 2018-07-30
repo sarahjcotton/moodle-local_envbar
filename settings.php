@@ -72,6 +72,11 @@ if ($hassiteconfig) {
             get_string('menuheading', 'local_envbar'),
             null));
 
+    $presentation->add(new admin_setting_configcheckbox('local_envbar/enablemenu',
+            get_string('enablemenu', 'local_envbar'),
+            get_string('enablemenu_desc', 'local_envbar'),
+            true));
+
     $presentation->add(new admin_setting_configtext('local_envbar/menuselector',
             get_string('menuselector', 'local_envbar'),
             get_string('menuselector_desc', 'local_envbar'),
