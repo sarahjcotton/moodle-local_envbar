@@ -45,6 +45,10 @@ if ($hassiteconfig) {
     $presentation = new admin_settingpage('local_envbar_presentation',
             get_string('menupresentation', 'local_envbar'));
 
+    $presentation->add(new admin_setting_heading('local_envbar/envbarheading',
+            get_string('envbarheading', 'local_envbar'),
+            null));
+
     $presentation->add(new admin_setting_configtextarea('local_envbar/extracss',
             get_string('extracss', 'local_envbar'),
             get_string('extracss_desc', 'local_envbar'),
@@ -52,6 +56,21 @@ if ($hassiteconfig) {
             PARAM_RAW,
             50,
             10));
+
+    $presentation->add(new admin_setting_configtext('local_envbar/stringseparator',
+            get_string('stringseparator', 'local_envbar'),
+            get_string('stringseparator_desc', 'local_envbar'),
+            '-',
+            PARAM_CLEANHTML));
+
+    $presentation->add(new admin_setting_configcheckbox('local_envbar/showconfiglink',
+            get_string('showconfiglink', 'local_envbar'),
+            get_string('showconfiglink_desc', 'local_envbar'),
+            true));
+
+    $presentation->add(new admin_setting_heading('local_envbar/menuheading',
+            get_string('menuheading', 'local_envbar'),
+            null));
 
     $presentation->add(new admin_setting_configtext('local_envbar/menuselector',
             get_string('menuselector', 'local_envbar'),
@@ -65,6 +84,10 @@ if ($hassiteconfig) {
             'filler',
             PARAM_RAW));
 
+    $presentation->add(new admin_setting_heading('local_envbar/linksheading',
+            get_string('linksheading', 'local_envbar'),
+            null));
+
     $presentation->add(new admin_setting_configcheckbox('local_envbar/highlightlinks',
             get_string('highlightlinks', 'local_envbar'),
             get_string('highlightlinks_desc', 'local_envbar'),
@@ -74,17 +97,6 @@ if ($hassiteconfig) {
             get_string('highlightlinksenvbar', 'local_envbar'),
             get_string('highlightlinksenvbar_desc', 'local_envbar'),
             true));
-
-    $presentation->add(new admin_setting_configcheckbox('local_envbar/showconfiglink',
-            get_string('showconfiglink', 'local_envbar'),
-            get_string('showconfiglink_desc', 'local_envbar'),
-            true));
-
-    $presentation->add(new admin_setting_configtext('local_envbar/stringseparator',
-            get_string('stringseparator', 'local_envbar'),
-            get_string('stringseparator_desc', 'local_envbar'),
-            '-',
-            PARAM_CLEANHTML));
 
     $ADMIN->add('envbar', $envsettings);
     $ADMIN->add('envbar', $lastrefresh);
