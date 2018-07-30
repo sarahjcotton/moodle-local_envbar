@@ -40,6 +40,7 @@ $string['lastrefresh'] = 'Last refresh';
 $string['lastrefresh_success'] = 'The lastrefresh time has been updated.';
 $string['menuenvsettings'] = 'Environments';
 $string['menulastrefresh'] = 'Last refresh';
+$string['menupresentation'] = 'Presentation';
 $string['menuselector'] = 'Menu selector';
 $string['menuselector_help'] = 'This is a css or xpath selector to find the menu ul element for injecting the env swapper menu. If your theme uses different html then you may need to adjust this selector. If you don\'t want to add the user menu at all, clear this setting.';
 $string['missing_required_parameter'] = 'A required parameter was missing. Required params are wwwroot and lastrefresh.';

@@ -41,9 +41,6 @@ if ($data = $form->get_data()) {
 
     envbarlib::setprodwwwroot($data->prodwwwroot);
 
-    set_config('extracss', $data->extracss, 'local_envbar');
-    set_config('menuselector', $data->menuselector, 'local_envbar');
-    set_config('dividerselector', $data->dividerselector, 'local_envbar');
     set_config('prodbgcolour', $data->prodbgcolour, 'local_envbar');
     set_config('prodtextcolour', $data->prodtextcolour, 'local_envbar');
     set_config('secretkey', $data->secretkey, 'local_envbar');

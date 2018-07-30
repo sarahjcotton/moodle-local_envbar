@@ -36,8 +36,13 @@ if ($hassiteconfig) {
         get_string('menulastrefresh', 'local_envbar'),
         new moodle_url('/local/envbar/last_refresh.php'));
 
+    $presentation = new admin_externalpage('local_envbar_presentation',
+            get_string('menupresentation', 'local_envbar'),
+            new moodle_url('/local/envbar/presentation.php'));
+
     $ADMIN->add('envbar', $envsettings);
     $ADMIN->add('envbar', $lastrefresh);
+    $ADMIN->add('envbar', $presentation);
 
     $settings = null;
 }
