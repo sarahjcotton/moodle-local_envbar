@@ -70,6 +70,29 @@ class presentation extends moodleform {
             $mform->setDefault('dividerselector', 'filler');
         }
 
+        $mform->addElement('advcheckbox',
+                'highlightlinks',
+                get_string('highlightlinks', 'local_envbar'),
+                get_string('enable', 'core'));
+        $mform->addHelpButton('highlightlinks', 'highlightlinks', 'local_envbar');
+        if (isset($config->highlightlinks)) {
+            $mform->setDefault('highlightlinks', $config->highlightlinks);
+        } else {
+            $mform->setDefault('highlightlinks', true);
+        }
+
+        $mform->addElement('advcheckbox',
+                'highlightlinksenvbar',
+                get_string('highlightlinksenvbar', 'local_envbar'),
+                get_string('enable', 'core'));
+        $mform->addHelpButton('highlightlinksenvbar', 'highlightlinksenvbar', 'local_envbar');
+        if (isset($config->highlightlinksenvbar)) {
+            $mform->setDefault('highlightlinksenvbar', $config->highlightlinksenvbar);
+        } else {
+            $mform->setDefault('highlightlinksenvbar', true);
+        }
+        $mform->disabledIf('highlightlinksenvbar', 'highlightlinks');
+
         $this->add_action_buttons();
     }
 }

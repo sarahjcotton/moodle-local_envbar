@@ -48,6 +48,8 @@ class local_envbar_renderer extends plugin_renderer_base {
      */
     public function render_envbar($match, $fixed = true, $envs = array()) {
 
+        $config = get_config('local_envbar');
+
         $js = '';
         $css = <<<EOD
 .envbar {
@@ -74,12 +76,14 @@ class local_envbar_renderer extends plugin_renderer_base {
 }
 EOD;
 
+
         // If passed a list of env's, then for any env in the list which
         // isn't the one we are on, and which isn't production, add some
         // css which highlights broken links which jump between env's.
-        foreach ($envs as $env) {
-            if ($env->matchpattern != $match->matchpattern) {
-                $css .= <<<EOD
+        if ($config->highlightlinks) {
+            foreach ($envs as $env) {
+                if ($env->matchpattern != $match->matchpattern) {
+                    $css .= <<<EOD
 
 a[href^="{$env->matchpattern}"]:not(.no-envbar-highlight) {
     outline: 2px solid {$env->colourbg};
@@ -91,10 +95,25 @@ a[href^="{$env->matchpattern}"]::before {
     padding: 1px 4px;
 }
 EOD;
+                }
             }
         }
+        if ($config->highlightlinks && !$config->highlightlinksenvbar) {
+            $css .= <<<EOD
 
-        $config = get_config('local_envbar');
+/* Restricting the rules above for elements outside the envbar with :not() does not work reliably, 
+    so we revert the rules here. */
+.envbar a[href^="{$env->matchpattern}"] {
+    outline: inherit;
+}
+.envbar a[href^="{$env->matchpattern}"]::before {
+    content: '';
+    background-color: transparent;
+    padding: 0;
+}
+EOD;
+        }
+
         if ($fixed) {
             $css .= empty($config->extracss) ? envbarlib::get_default_extra_css() : $config->extracss;
         }
