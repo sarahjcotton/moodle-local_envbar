@@ -244,6 +244,12 @@ EOD;
  * @return string A chunk of JS to set the title
  */
 function local_envbar_title($match) {
+    $config = get_config('local_envbar');
+
+    if (!$config->enabletitleprefix) {
+        return '';
+    }
+
     $prefix = substr($match->showtext, 0, 4);
     $js = <<<EOD
 
@@ -261,6 +267,11 @@ EOD;
  * @return string A chunk of JS to set the favicon
  */
 function local_envbar_favicon_js($match) {
+    $config = get_config('local_envbar');
+
+    if (!$config->enablefaviconcolorize) {
+        return '';
+    }
 
     $js = <<<EOD
     var favicon;

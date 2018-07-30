@@ -103,6 +103,24 @@ if ($hassiteconfig) {
             get_string('highlightlinksenvbar_desc', 'local_envbar'),
             true));
 
+    $presentation->add(new admin_setting_heading('local_envbar/faviconheading',
+            get_string('faviconheading', 'local_envbar'),
+            null));
+
+    $presentation->add(new admin_setting_configcheckbox('local_envbar/enablefaviconcolorize',
+            get_string('enablefaviconcolorize', 'local_envbar'),
+            get_string('enablefaviconcolorize_desc', 'local_envbar'),
+            true));
+
+    $presentation->add(new admin_setting_heading('local_envbar/titleheading',
+            get_string('titleheading', 'local_envbar'),
+            null));
+
+    $presentation->add(new admin_setting_configcheckbox('local_envbar/enabletitleprefix',
+            get_string('enabletitleprefix', 'local_envbar'),
+            get_string('enabletitleprefix_desc', 'local_envbar'),
+            true));
+
     $ADMIN->add('envbar', $envsettings);
     $ADMIN->add('envbar', $lastrefresh);
     $ADMIN->add('envbar', $presentation);
