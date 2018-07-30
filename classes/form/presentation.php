@@ -93,6 +93,17 @@ class presentation extends moodleform {
         }
         $mform->disabledIf('highlightlinksenvbar', 'highlightlinks');
 
+        $mform->addElement('advcheckbox',
+                'showconfiglink',
+                get_string('showconfiglink', 'local_envbar'),
+                get_string('enable', 'core'));
+        $mform->addHelpButton('showconfiglink', 'showconfiglink', 'local_envbar');
+        if (isset($config->showconfiglink)) {
+            $mform->setDefault('showconfiglink', $config->showconfiglink);
+        } else {
+            $mform->setDefault('showconfiglink', true);
+        }
+
         $this->add_action_buttons();
     }
 }

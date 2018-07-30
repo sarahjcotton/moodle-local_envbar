@@ -164,7 +164,7 @@ EOD;
         $produrl = envbarlib::getprodwwwroot();
         $systemcontext = context_system::instance();
         $canedit = has_capability('moodle/site:config', $systemcontext);
-        if ($canedit) {
+        if ($canedit && $config->showconfiglink) {
             if ($produrl) {
                 $editlink = html_writer::link($produrl.'/local/envbar/index.php',
                         get_string('configureinprod', 'local_envbar'), array('target' => 'prod'));

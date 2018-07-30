@@ -41,6 +41,8 @@ if ($data = $form->get_data()) {
     set_config('dividerselector', $data->dividerselector, 'local_envbar');
     set_config('highlightlinks', $data->highlightlinks, 'local_envbar');
     set_config('highlightlinksenvbar', $data->highlightlinksenvbar, 'local_envbar');
+    set_config('showconfiglink', $data->showconfiglink, 'local_envbar');
+
 
     redirect(new moodle_url('/local/envbar/presentation.php'));
 }
