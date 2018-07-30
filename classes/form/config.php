@@ -191,7 +191,7 @@ class config extends moodleform {
         $secretkeygroup[] =& $mform->createElement(
             "text",
             "secretkey",
-            get_string("secretkeytext", "local_envbar"),
+            get_string("secretkey", "local_envbar"),
             array("placeholder" => get_string("secretkeyplaceholder", "local_envbar"),
                   "id" => "secretkey",
                   "size" => 40,
@@ -205,12 +205,13 @@ class config extends moodleform {
             array("onclick" => "document.getElementById('secretkey').value = '$gensecretkey'", $secretkeyset ? 'disabled' : 'enabled')
         );
 
-        $mform->addGroup($secretkeygroup, 'secretkeyg', get_string('secretkeytext', 'local_envbar'), array(' '), false);
+        $mform->addGroup($secretkeygroup, 'secretkeyg', get_string('secretkey', 'local_envbar'), array(' '), false);
 
         $mform->setType("secretkey", PARAM_TEXT);
         if (isset($config->secretkey)) {
             $mform->setDefault('secretkey', $config->secretkey);
         }
+        $mform->addHelpButton('secretkeyg', 'secretkey', 'local_envbar');
 
         $localid = -1;
 
