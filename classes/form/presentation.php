@@ -104,6 +104,16 @@ class presentation extends moodleform {
             $mform->setDefault('showconfiglink', true);
         }
 
+        $mform->addElement('text', 'stringseparator', get_string('stringseparator', 'local_envbar'),
+                array('placeholder' => '-'));
+        $mform->setType("stringseparator", PARAM_CLEANHTML);
+        $mform->addHelpButton('stringseparator', 'stringseparator', 'local_envbar');
+        if (isset($config->stringseparator)) {
+            $mform->setDefault('stringseparator', $config->stringseparator);
+        } else {
+            $mform->setDefault('stringseparator', '-');
+        }
+
         $this->add_action_buttons();
     }
 }

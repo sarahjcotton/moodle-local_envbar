@@ -76,7 +76,6 @@ class local_envbar_renderer extends plugin_renderer_base {
 }
 EOD;
 
-
         // If passed a list of env's, then for any env in the list which
         // isn't the one we are on, and which isn't production, add some
         // css which highlights broken links which jump between env's.
@@ -101,7 +100,7 @@ EOD;
         if ($config->highlightlinks && !$config->highlightlinksenvbar) {
             $css .= <<<EOD
 
-/* Restricting the rules above for elements outside the envbar with :not() does not work reliably, 
+/* Restricting the rules above for elements outside the envbar with :not() does not work reliably,
     so we revert the rules here. */
 .envbar a[href^="{$env->matchpattern}"] {
     outline: inherit;
@@ -130,9 +129,9 @@ EOD;
             $num = strtok($show, ' ');
             $unit = strtok(' ');
             $show = "$num $unit";
-            $showtext .= get_string('refreshedago', 'local_envbar', $show);
+            $showtext .= ' ' . $config->stringseparator . ' ' . get_string('refreshedago', 'local_envbar', $show);
         } else {
-            $showtext .= get_string('refreshednever', 'local_envbar');
+            $showtext .= ' ' . $config->stringseparator . ' ' . get_string('refreshednever', 'local_envbar');
         }
 
         $nextrefresh = isset($config->nextrefresh) ? $config->nextrefresh : null;
@@ -156,7 +155,7 @@ EOD;
                 $num = strtok($show, ' ');
                 $unit = strtok(' ');
                 $show = "$num $unit";
-                $showtext .= get_string('nextrefreshin', 'local_envbar', $show);
+                $showtext .= ' ' . $config->stringseparator . ' ' . get_string('nextrefreshin', 'local_envbar', $show);
             }
         }
 
@@ -172,7 +171,7 @@ EOD;
                 $editlink = html_writer::link(new moodle_url('/local/envbar/index.php'),
                         get_string('configurehere', 'local_envbar'));
             }
-            $showtext .= '<nobr> - ' . $editlink . '</nobr>';
+            $showtext .= '<nobr> ' . $config->stringseparator . ' ' . $editlink . '</nobr>';
         }
 
         if ($fixed) {
