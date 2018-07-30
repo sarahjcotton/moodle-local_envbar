@@ -60,10 +60,14 @@ class envbarlib {
      */
     public static function get_default_extra_css() {
         return <<<CSS
+/* Move navbar down by 50px. */
 .local_envbar .navbar.navbar-fixed-top,
-.local_envbar .navbar.navbar-static-top {
+.local_envbar .navbar.navbar-static-top,
+.local_envbar .navbar.fixed-top {
     top: 50px;
 }
+
+/* Move nav drawer down by another 50px. */
 .local_envbar #nav-drawer {
     top: 100px;
 }

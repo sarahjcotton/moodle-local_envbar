@@ -103,7 +103,7 @@ EOD;
         $class .= $fixed ? ' fixed' : '';
 
         // Show the configured env message.
-        $showtext = htmlspecialchars($match->showtext);
+        $showtext = format_string(htmlspecialchars($match->showtext));
 
         // Just show the biggest time unit instead of 2.
         if ($match->lastrefresh > 0) {
