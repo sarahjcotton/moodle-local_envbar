@@ -71,6 +71,11 @@ class envbarlib {
 .local_envbar #nav-drawer {
     top: 100px;
 }
+
+/* Move modal dialogues down by 50px. */
+.local_envbar .modal-dialog {
+    top: 50px;
+}
 CSS;
     }
 
