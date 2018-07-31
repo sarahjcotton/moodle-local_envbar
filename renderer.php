@@ -83,12 +83,14 @@ EOD;
 
 a[href^="{$env->matchpattern}"]:not(.no-envbar-highlight) {
     outline: 2px solid {$env->colourbg};
+    padding-right: 4px;
 }
 a[href^="{$env->matchpattern}"]::before {
     content: '{$env->showtext}';
     background-color: {$env->colourbg};
     color: {$env->colourtext};
-    padding: 1px 4px;
+    padding: 1px 4px 1px 2px;
+    margin-right: 4px;
 }
 EOD;
             }
@@ -167,7 +169,7 @@ EOD;
 
         if ($fixed) {
             $js .= <<<EOD
-    document.body.className += ' local_envbar local_envarbar_$envclass';
+    document.body.className += ' local_envbar local_envbar_$envclass';
 EOD;
         }
 
