@@ -279,7 +279,7 @@ function local_envbar_favicon_js($match) {
         img.src = favicon.href;
         img.onload = function() {
             ctx.globalAlpha = 0.6;
-            ctx.drawImage(img, 0, 0);
+            ctx.drawImage(img, 0, 0, 16, 16);
             favicon.href = canvas.toDataURL("image/x-icon");
         }
     }
