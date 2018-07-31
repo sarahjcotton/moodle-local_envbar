@@ -169,7 +169,7 @@ EOD;
 
         if ($fixed) {
             $js .= <<<EOD
-    document.body.className += ' local_envbar local_envarbar_$envclass';
+    document.body.className += ' local_envbar local_envbar_$envclass';
 EOD;
         }
 
