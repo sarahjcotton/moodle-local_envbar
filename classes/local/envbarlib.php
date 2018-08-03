@@ -72,6 +72,11 @@ class envbarlib {
     top: 100px;
 }
 
+/* Shrink nav drawer by another 50px. */
+[data-region="drawer"] {
+    height: calc(100% - 100px);
+}
+
 /* Move modal dialogues down by 50px. */
 .local_envbar .modal-dialog {
     top: 50px;
