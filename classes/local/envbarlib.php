@@ -462,7 +462,7 @@ CSS;
 
         // Ping prod with the env and lastrefresh.
         $url = $prodwwwroot."/local/envbar/service/updatelastrefresh.php";
-        $params = "wwwroot=".urlencode($CFG->wwwroot)."&lastrefresh=".urlencode($lastrefresh)."&secretkey=".urlencode(envbarlib::get_secret_key());
+        $params = "wwwroot=".urlencode($CFG->wwwroot)."&lastrefresh=".urlencode($lastrefresh)."&secretkey=".urlencode(self::get_secret_key());
         $options = array();
         if ($debug) {
             $options['debug'] = true;
