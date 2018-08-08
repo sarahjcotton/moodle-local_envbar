@@ -462,7 +462,7 @@ CSS;
 
         // Ping prod with the env and lastrefresh.
         $url = $prodwwwroot."/local/envbar/service/updatelastrefresh.php";
-        $params = "wwwroot=".urlencode($CFG->wwwroot)."&lastrefresh=".urlencode($lastrefresh)."&secretkey=".urlencode($config->secretkey);
+        $params = "wwwroot=".urlencode($CFG->wwwroot)."&lastrefresh=".urlencode($lastrefresh)."&secretkey=".urlencode(envbarlib::get_secret_key());
         $options = array();
         if ($debug) {
             $options['debug'] = true;
@@ -488,6 +488,32 @@ CSS;
         // We update the lastping even if it did not work. This is only for
         // information purposes, we don't want to spam the network constantly.
         set_config('prodlastping', time(), 'local_envbar');
+    }
+
+    /**
+     * Check if a secret key is overridden in config.php.
+     * @return bool
+     */
+    public static function is_secret_key_overridden() {
+        global $CFG;
+
+        return !empty($CFG->local_envbar_secretkey) && is_string($CFG->local_envbar_secretkey);
+    }
+
+    /**
+     * Returns secret key.
+     *
+     * @return mixed
+     * @throws \dml_exception
+     */
+    public static function get_secret_key() {
+        global $CFG;
+
+        if (self::is_secret_key_overridden()) {
+            return $CFG->local_envbar_secretkey;
+        } else {
+            return get_config('local_envbar', 'secretkey');
+        }
     }
 
 }

@@ -36,7 +36,7 @@ $config = get_config('local_envbar');
 
 $response = array();
 
-if ($secretkey !== $config->secretkey) {
+if ($secretkey !== envbarlib::get_secret_key()) {
     $response['result'] = 'secretkey_invalid';
     $response['message'] = get_string('secretkey_invalid', 'local_envbar');
     echo json_encode($response);
