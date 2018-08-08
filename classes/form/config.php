@@ -116,34 +116,6 @@ class config extends moodleform {
         $mform->setDefault("prodwwwroot", envbarlib::getprodwwwroot());
 
         $config = get_config('local_envbar');
-        $mform->addElement('textarea', 'extracss', get_string('extracss', 'local_envbar'), 'wrap="virtual" rows="5" cols="50"');
-        $mform->addHelpButton('extracss', 'extracss', 'local_envbar');
-        if (isset($config->extracss)) {
-            $mform->setDefault('extracss', $config->extracss);
-        } else {
-            $mform->setDefault('extracss', envbarlib::get_default_extra_css());
-        }
-
-        $mform->addElement('text', 'menuselector', get_string('menuselector', 'local_envbar'),
-                           array('placeholder' => '.usermenu .menu'));
-        $mform->setType("menuselector", PARAM_RAW);
-        $mform->addHelpButton('menuselector', 'menuselector', 'local_envbar');
-        if (isset($config->menuselector)) {
-            $mform->setDefault('menuselector', $config->menuselector);
-        } else {
-            $mform->setDefault('menuselector', '.usermenu .menu');
-        }
-
-        $mform->addElement('text', 'dividerselector', get_string('dividerselector', 'local_envbar'),
-                           array('placeholder' => 'filler'));
-        $mform->setType("dividerselector", PARAM_RAW);
-        $mform->addHelpButton('dividerselector', 'dividerselector', 'local_envbar');
-        if (isset($config->dividerselector)) {
-            $mform->setDefault('dividerselector', $config->dividerselector);
-        } else {
-            $mform->setDefault('dividerselector', 'filler');
-        }
-
         $mform->addElement('text', 'prodtextcolour', get_string('prodtextcolour', 'local_envbar'),
                 array('placeholder' => 'white',
                       'size' => 40));

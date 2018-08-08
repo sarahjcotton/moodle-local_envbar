@@ -48,6 +48,8 @@ class local_envbar_renderer extends plugin_renderer_base {
      */
     public function render_envbar($match, $fixed = true, $envs = array()) {
 
+        $config = get_config('local_envbar');
+
         $js = '';
         $css = <<<EOD
 .envbar {
@@ -77,9 +79,10 @@ EOD;
         // If passed a list of env's, then for any env in the list which
         // isn't the one we are on, and which isn't production, add some
         // css which highlights broken links which jump between env's.
-        foreach ($envs as $env) {
-            if ($env->matchpattern != $match->matchpattern) {
-                $css .= <<<EOD
+        if ($config->highlightlinks) {
+            foreach ($envs as $env) {
+                if ($env->matchpattern != $match->matchpattern) {
+                    $css .= <<<EOD
 
 a[href^="{$env->matchpattern}"]:not(.no-envbar-highlight) {
     outline: 2px solid {$env->colourbg};
@@ -93,10 +96,25 @@ a[href^="{$env->matchpattern}"]::before {
     margin-right: 4px;
 }
 EOD;
+                }
             }
         }
+        if ($config->highlightlinks && !$config->highlightlinksenvbar) {
+            $css .= <<<EOD
 
-        $config = get_config('local_envbar');
+/* Restricting the rules above for elements outside the envbar with :not() does not work reliably,
+    so we revert the rules here. */
+.envbar a[href^="{$env->matchpattern}"] {
+    outline: inherit;
+}
+.envbar a[href^="{$env->matchpattern}"]::before {
+    content: '';
+    background-color: transparent;
+    padding: 0;
+}
+EOD;
+        }
+
         if ($fixed) {
             $css .= empty($config->extracss) ? envbarlib::get_default_extra_css() : $config->extracss;
         }
@@ -113,9 +131,9 @@ EOD;
             $num = strtok($show, ' ');
             $unit = strtok(' ');
             $show = "$num $unit";
-            $showtext .= get_string('refreshedago', 'local_envbar', $show);
+            $showtext .= ' ' . $config->stringseparator . ' ' . get_string('refreshedago', 'local_envbar', $show);
         } else {
-            $showtext .= get_string('refreshednever', 'local_envbar');
+            $showtext .= ' ' . $config->stringseparator . ' ' . get_string('refreshednever', 'local_envbar');
         }
 
         $nextrefresh = isset($config->nextrefresh) ? $config->nextrefresh : null;
@@ -139,7 +157,7 @@ EOD;
                 $num = strtok($show, ' ');
                 $unit = strtok(' ');
                 $show = "$num $unit";
-                $showtext .= get_string('nextrefreshin', 'local_envbar', $show);
+                $showtext .= ' ' . $config->stringseparator . ' ' . get_string('nextrefreshin', 'local_envbar', $show);
             }
         }
 
@@ -147,7 +165,7 @@ EOD;
         $produrl = envbarlib::getprodwwwroot();
         $systemcontext = context_system::instance();
         $canedit = has_capability('moodle/site:config', $systemcontext);
-        if ($canedit) {
+        if ($canedit && $config->showconfiglink) {
             if ($produrl) {
                 $editlink = html_writer::link($produrl.'/local/envbar/index.php',
                         get_string('configureinprod', 'local_envbar'), array('target' => 'prod'));
@@ -155,7 +173,7 @@ EOD;
                 $editlink = html_writer::link(new moodle_url('/local/envbar/index.php'),
                         get_string('configurehere', 'local_envbar'));
             }
-            $showtext .= '<nobr> - ' . $editlink . '</nobr>';
+            $showtext .= '<nobr> ' . $config->stringseparator . ' ' . $editlink . '</nobr>';
         }
 
         if ($fixed) {
@@ -228,6 +246,12 @@ EOD;
  * @return string A chunk of JS to set the title
  */
 function local_envbar_title($match) {
+    $config = get_config('local_envbar');
+
+    if (!$config->enabletitleprefix) {
+        return '';
+    }
+
     $prefix = substr($match->showtext, 0, 4);
     $js = <<<EOD
 
@@ -245,6 +269,11 @@ EOD;
  * @return string A chunk of JS to set the favicon
  */
 function local_envbar_favicon_js($match) {
+    $config = get_config('local_envbar');
+
+    if (!$config->enablefaviconcolorize) {
+        return '';
+    }
 
     $js = <<<EOD
     var favicon;
@@ -300,6 +329,10 @@ function local_envbar_user_menu($envs) {
     global $CFG, $PAGE;
 
     $config = get_config('local_envbar');
+
+    if (!$config->enablemenu) {
+        return '';
+    }
 
     if (isset($config->menuselector)) {
         $menuselector = $config->menuselector;
