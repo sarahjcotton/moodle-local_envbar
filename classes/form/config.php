@@ -152,12 +152,6 @@ class config extends moodleform {
                 'client'
         );
 
-        $secretkeyset = false;
-        // If true then we will lock the secretkey field from being edited.
-        if (!empty($CFG->local_envbar_secretkey)) {
-            $secretkeyset = true;
-        }
-
         $secretkeygroup = array();
 
         $secretkeygroup[] =& $mform->createElement(
@@ -165,23 +159,23 @@ class config extends moodleform {
             "secretkey",
             get_string("secretkey", "local_envbar"),
             array("placeholder" => get_string("secretkeyplaceholder", "local_envbar"),
-                  "id" => "secretkey",
-                  "size" => 40,
-                  $secretkeyset ? 'disabled' : 'enabled')
+                "id" => "secretkey",
+                "size" => 40,
+                envbarlib::is_secret_key_overridden() ? 'disabled' : 'enabled')
         );
 
         $secretkeygroup[] =& $mform->createElement(
             "button",
             "secretkeygen",
             get_string("secretkeygenbutton", "local_envbar"),
-            array("onclick" => "document.getElementById('secretkey').value = '$gensecretkey'", $secretkeyset ? 'disabled' : 'enabled')
+            array("onclick" => "document.getElementById('secretkey').value = '$gensecretkey'", envbarlib::is_secret_key_overridden() ? 'disabled' : 'enabled')
         );
 
         $mform->addGroup($secretkeygroup, 'secretkeyg', get_string('secretkey', 'local_envbar'), array(' '), false);
 
         $mform->setType("secretkey", PARAM_TEXT);
         if (isset($config->secretkey)) {
-            $mform->setDefault('secretkey', $config->secretkey);
+            $mform->setDefault('secretkey', envbarlib::get_secret_key());
         }
         $mform->addHelpButton('secretkeyg', 'secretkey', 'local_envbar');
 

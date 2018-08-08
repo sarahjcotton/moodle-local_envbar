@@ -43,7 +43,9 @@ if ($data = $form->get_data()) {
 
     set_config('prodbgcolour', $data->prodbgcolour, 'local_envbar');
     set_config('prodtextcolour', $data->prodtextcolour, 'local_envbar');
-    set_config('secretkey', $data->secretkey, 'local_envbar');
+    if (!envbarlib::is_secret_key_overridden()) {
+        set_config('secretkey', $data->secretkey, 'local_envbar');
+    }
 
     if (!empty($data->id)) {
 

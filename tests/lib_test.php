@@ -170,4 +170,49 @@ class local_envbar_lib_test extends advanced_testcase {
         self::assertEquals($testhtml, $CFG->additionalhtmltopofbody);
     }
 
+    /**
+     * Test is_secret_key_overridden() function.
+     */
+    public function test_is_secret_key_overridden() {
+        global $CFG;
+
+        $this->resetAfterTest();
+
+        $CFG->local_envbar_secretkey = 'test';
+        $this->assertTrue(envbarlib::is_secret_key_overridden());
+
+        $CFG->local_envbar_secretkey = '';
+        $this->assertFalse(envbarlib::is_secret_key_overridden());
+
+        $CFG->local_envbar_secretkey = array();
+        $this->assertFalse(envbarlib::is_secret_key_overridden());
+
+        $CFG->local_envbar_secretkey = array(1);
+        $this->assertFalse(envbarlib::is_secret_key_overridden());
+
+        $CFG->local_envbar_secretkey = new StdClass();
+        $this->assertFalse(envbarlib::is_secret_key_overridden());
+
+        unset($CFG->local_envbar_secretkey);
+        $this->assertFalse(envbarlib::is_secret_key_overridden());
+    }
+
+    /**
+     * Test get_secret_key().
+     */
+    public function test_get_secret_key() {
+        global $CFG;
+
+        $this->resetAfterTest();
+
+        $this->assertEmpty(envbarlib::get_secret_key());
+
+        $CFG->local_envbar_secretkey = 'overridden';
+        set_config('secretkey', 'configured', 'local_envbar');
+        $this->assertEquals('overridden', envbarlib::get_secret_key());
+
+        unset($CFG->local_envbar_secretkey);
+        $this->assertEquals('configured', envbarlib::get_secret_key());
+    }
+
 }
