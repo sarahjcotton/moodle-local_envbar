@@ -176,6 +176,10 @@ EOD;
             $showtext .= '<nobr> ' . $config->stringseparator . ' ' . $editlink . '</nobr>';
         }
 
+        if ($config->showdebugging) {
+            $showtext .= $this->get_debug_text($canedit, $config);
+        }
+
         if ($fixed) {
             $js .= local_envbar_favicon_js($match);
             $js .= local_envbar_user_menu($envs, $match);
@@ -236,6 +240,58 @@ $ebend
 EOD;
 
         return $html;
+    }
+
+    /**
+     * Returns the debug text to be displayed in the envbar.
+     *
+     * @param boolean $canedit Whether editing is allowed
+     * @param object $config Config
+     * @return string Debug text
+     */
+    protected function get_debug_text($canedit = false, $config) {
+
+        global $CFG, $ME;
+
+        $debugtext = '';
+        $debugging = envbarlib::get_debugging_status_string();
+        if ($canedit) {
+            // Get the url of the current page.
+            $currentlink = $ME;
+            $debugtogglelink = html_writer::link(
+                new moodle_url('/local/envbar/toggle_debugging.php?redirect='.$currentlink),
+                envbarlib::get_debug_toggle_string()
+            );
+            $debugtext .= $this->get_debug_text_for_admin($config->stringseparator, $debugging, $debugtogglelink);
+        } else {
+            $debugtext .= '<nobr> ' . $config->stringseparator . ' ' . $debugging . '</nobr>';
+        }
+
+        return $debugtext;
+    }
+
+    /**
+     * Returns the debug text to be displayed for admin.
+     *
+     * @param  string $stringseparator String separator
+     * @param  string $debugging Debugging text
+     * @param  string $debugtogglelink Debug toggle link
+     * @return string Debug text
+     */
+    protected function get_debug_text_for_admin($stringseparator, $debugging, $debugtogglelink) {
+        global $CFG;
+
+        $debugtext = '';
+        // Check if debug level and debug display is set on config.php.
+        if (!isset($CFG->config_php_settings['debug']) && !isset($CFG->config_php_settings['debugdisplay'])) {
+            $debugtext .= '<nobr> ' . $stringseparator . ' ' . $debugging. ' ' . $debugtogglelink . '</nobr>';
+        } else {
+            $debuggingdefinedstr = get_string('debuggingdefinedinconfig', 'local_envbar');
+            // Remove link to toggle debugging.
+            $debugtext .= '<nobr> ' . $stringseparator . ' ' . $debugging;
+            $debugtext .= ' ' . $debuggingdefinedstr . '</nobr>';
+        }
+        return $debugtext;
     }
 
 }

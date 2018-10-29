@@ -516,4 +516,93 @@ CSS;
         }
     }
 
+    /**
+     * Check if the debug value is a number.
+     *
+     * @param  mixed $debug Debug level
+     * @return boolean
+     */
+    protected static function is_valid_debug_value($debug) {
+        return is_number($debug) && !is_object($debug) && !is_array($debug);
+    }
+
+    /**
+     * Returns the toggled value of the debug config.
+     *
+     * @param  mixed $debug Debug level
+     * @return string $debugconfig Debug level
+     */
+    public static function get_toggle_debug_config($debug) {
+        if (self::is_valid_debug_value($debug) && $debug == DEBUG_NORMAL) {
+            $debugconfig = DEBUG_DEVELOPER;
+        } else {
+            // Set to DEBUG_NORMAL in case there's an unknown debug level.
+            $debugconfig = DEBUG_NORMAL;
+        }
+        return $debugconfig;
+    }
+
+    /**
+     * Returns the value of the debug display.
+     *
+     * @param  mixed $debug Debug level
+     * @return int $debugdisplay Debug display
+     */
+    public static function get_debug_display_config($debug) {
+        if (self::is_valid_debug_value($debug) && $debug == DEBUG_DEVELOPER) {
+            // Output debug messages to the browser.
+            $debugdisplay = 1;
+        } else {
+            // Debug messages will not show on the browser.
+            $debugdisplay = 0;
+        }
+        return $debugdisplay;
+    }
+
+    /**
+     * Returns the debugging status string to be displayed.
+     *
+     * @return string
+     */
+    public static function get_debugging_status_string() {
+        global $CFG;
+
+        if (self::is_valid_debug_value($CFG->debug) && $CFG->debug == DEBUG_DEVELOPER) {
+            $debuggingstr = get_string('debuggingon', 'local_envbar');
+        } else {
+            $debuggingstr = get_string('debuggingoff', 'local_envbar');
+        }
+        return $debuggingstr;
+    }
+
+    /**
+     * Sets the debugconfig and debug display.
+     *
+     * @param mixed $debug Debug level
+     */
+    public static function set_debug_config($debug) {
+        // Toggles the debug config and debug display.
+        $debugconfig = self::get_toggle_debug_config($debug);
+        $debugdisplay = self::get_debug_display_config($debugconfig);
+
+        set_config('debug', $debugconfig);
+        set_config('debugdisplay', $debugdisplay);
+    }
+
+    /**
+     * Returns the debug toggle string to be displayed.
+     *
+     * @return string
+     */
+    public static function get_debug_toggle_string() {
+        global $CFG;
+
+        if (self::is_valid_debug_value($CFG->debug) && $CFG->debug == DEBUG_DEVELOPER) {
+            $debugtogglestr = get_string('debugtogglelinkoff', 'local_envbar');
+        } else {
+            $debugtogglestr = get_string('debugtogglelinkon', 'local_envbar');
+        }
+        return $debugtogglestr;
+    }
+
 }
