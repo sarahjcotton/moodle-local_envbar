@@ -139,9 +139,9 @@ EOD;
         $nextrefresh = isset($config->nextrefresh) ? $config->nextrefresh : null;
         if (isset($nextrefresh)) {
 
-            if ($nextrefresh == (1 * $nextrefresh)) {
+            if ($nextrefresh === intval($nextrefresh)) {
                 // Does the value look like a timestamp?
-                $nextrefresh = (1 * $nextrefresh);
+                $nextrefresh = intval($nextrefresh);
             } else if ( ($time = strtotime($nextrefresh)) !== false  ) {
                 // Does the value look like a date string?
                 $nextrefresh = $time;
