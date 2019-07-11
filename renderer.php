@@ -88,7 +88,7 @@ a[href^="{$env->matchpattern}"]:not(.no-envbar-highlight) {
     outline: 2px solid {$env->colourbg};
     padding-right: 4px;
 }
-a[href^="{$env->matchpattern}"]::before {
+a[href^="{$env->matchpattern}"]:not(.no-envbar-highlight)::before {
     content: '{$env->showtext}';
     background-color: {$env->colourbg};
     color: {$env->colourtext};
@@ -168,7 +168,8 @@ EOD;
         if ($canedit && $config->showconfiglink) {
             if ($produrl) {
                 $editlink = html_writer::link($produrl.'/local/envbar/index.php',
-                        get_string('configureinprod', 'local_envbar'), array('target' => 'prod'));
+                        get_string('configureinprod', 'local_envbar'),
+                        array('target' => 'prod', 'class' => 'no-envbar-highlight'));
             } else {
                 $editlink = html_writer::link(new moodle_url('/local/envbar/index.php'),
                         get_string('configurehere', 'local_envbar'));
