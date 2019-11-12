@@ -74,6 +74,15 @@ class local_envbar_renderer extends plugin_renderer_base {
     left: 0px;
     z-index: 9999;
 }
+
+@media screen and (max-width: 700px) {
+    .envbar {
+        font-size: 12px;
+        line-height: 12px;
+        padding: 10px;
+    }
+}
+
 EOD;
 
         // If passed a list of env's, then for any env in the list which
@@ -198,8 +207,8 @@ EOD;
 
         $html = <<<EOD
 <div class="envbar $class">
-    $showtext
     <button type="button" class="close" onclick="envbar_close(this);">×</button>
+    $showtext
 </div>
 <style>
 $css
