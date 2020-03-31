@@ -420,10 +420,12 @@ function local_envbar_user_menu($envs) {
             if ($jump == $url) {
                 continue;
             }
+            $jump = s($jump);
+            $show = s($env->showtext);
             $link = <<<EOD
 <li role="presentation">
   <a class="icon menu-action no-envbar-highlight" role="menuitem" href="{$jump}">
-    <span class="menu-action-text"> </span>
+    <span class="menu-action-text">$show</span>
   </a>
 </li>
 EOD;
