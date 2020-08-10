@@ -620,4 +620,58 @@ CSS;
         return $debugtogglestr;
     }
 
+    /**
+     * This function overrides settings inside of CFG
+     *
+     * @return void
+     */
+    public static function config() {
+        global $CFG, $FULLME;
+        $prodwwwroot = self::getprodwwwroot();
+
+        // Do not modify config on the production environment!
+        if ($prodwwwroot === $CFG->wwwroot) {
+            return;
+        }
+
+        // If on admin pages, we do not want to do anything, as we need to avoid recursively adding config through GUI.
+        // Too early to use $PAGE here.
+        $cleanurl = new \moodle_url($FULLME);
+        if (strpos($cleanurl->out(), $CFG->wwwroot . '/admin/settings.php') !== false ||
+            strpos($cleanurl->out(), $CFG->wwwroot . '/admin/category.php') !== false ||
+            strpos($cleanurl->out(), $CFG->wwwroot . '/admin/search.php') !== false) {
+            return;
+        }
+
+        $envs = self::get_records();
+        $match = null;
+        $here = (new moodle_url('/'))->out();
+
+        // Which env matches?
+        foreach ($envs as $env) {
+            if (self::is_match($here, $env->matchpattern)) {
+                $match = $env;
+                break;
+            }
+        }
+
+        // If we stil don't have a match then use a default environment.
+        if (empty($match)) {
+            $match = (object) array(
+                'id' => 0,
+                'showtext' => get_string('notconfigured', 'local_envbar'),
+                'colourtext' => 'white',
+                'colourbg' => 'red',
+                'matchpattern' => '',
+                'lastrefresh' => get_config('local_envbar', 'prodlastcheck'),
+            );
+        }
+
+        // Email subject prefix.
+        if (get_config('local_envbar', 'enableemailprefix')) {
+            $origprefix = $CFG->emailsubjectprefix;
+            $CFG->emailsubjectprefix = '[' . substr($match->showtext, 0, 4) . '] ' . $origprefix;
+        }
+    }
+
 }

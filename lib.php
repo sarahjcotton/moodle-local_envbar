@@ -57,3 +57,14 @@ function local_envbar_extends_navigation() {
         envbarlib::inject();
     }
 }
+
+/**
+ * We need to override some settings very early in the load process.
+ */
+function local_envbar_after_config() {
+    try {
+        envbarlib::config();
+    } catch (Exception $e) {        // @codingStandardsIgnoreStart
+        // Catch exceptions from stuff not existing during installation process, fail silently.
+    }                               // @codingStandardsIgnoreEnd
+}

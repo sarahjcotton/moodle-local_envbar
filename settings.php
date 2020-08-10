@@ -126,6 +126,15 @@ if ($hassiteconfig) {
             get_string('enabletitleprefix_desc', 'local_envbar', null, true),
             true));
 
+    $presentation->add(new admin_setting_heading('local_envbar/emailheading',
+            get_string('emailheading', 'local_envbar', null, true),
+            ''));
+
+    $presentation->add(new admin_setting_configcheckbox('local_envbar/enableemailprefix',
+            get_string('enableemailprefix', 'local_envbar', null, true),
+            get_string('enableemailprefix_desc', 'local_envbar', null, true),
+            true));
+
     $ADMIN->add('envbar', $envsettings);
     $ADMIN->add('envbar', $lastrefresh);
     $ADMIN->add('envbar', $presentation);
