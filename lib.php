@@ -62,9 +62,12 @@ function local_envbar_extends_navigation() {
  * We need to override some settings very early in the load process.
  */
 function local_envbar_after_config() {
-    try {
-        envbarlib::config();
-    } catch (Exception $e) {        // @codingStandardsIgnoreStart
-        // Catch exceptions from stuff not existing during installation process, fail silently.
-    }                               // @codingStandardsIgnoreEnd
+    // Hack to avoid breaking messaging tests, as this setting defaults on.
+    if (!PHPUNIT_TEST) {
+        try {
+            envbarlib::config();
+        } catch (Exception $e) {        // @codingStandardsIgnoreStart
+            // Catch exceptions from stuff not existing during installation process, fail silently.
+        }                               // @codingStandardsIgnoreEnd
+    }
 }
