@@ -108,7 +108,7 @@ EOD;
                 }
             }
         }
-        if (isset($config->highlightlinks) && $config->highlightlinks && !$config->highlightlinksenvbar) {
+        if (isset($config->highlightlinks) && !empty($config->highlightlinks) && empty($config->highlightlinksenvbar)) {
             $css .= <<<EOD
 
 /* Restricting the rules above for elements outside the envbar with :not() does not work reliably,
@@ -135,6 +135,9 @@ EOD;
         $showtext = format_string(htmlspecialchars($match->showtext));
 
         // Just show the biggest time unit instead of 2.
+        if (!isset($config->stringseparator)) {
+            $config->stringseparator = '-'; // Set default.
+        }
         if ($match->lastrefresh > 0) {
             $show = format_time(time() - $match->lastrefresh);
             $num = strtok($show, ' ');
@@ -174,7 +177,7 @@ EOD;
         $produrl = envbarlib::getprodwwwroot();
         $systemcontext = context_system::instance();
         $canedit = has_capability('moodle/site:config', $systemcontext);
-        if ($canedit && $config->showconfiglink) {
+        if ($canedit && !empty($config->showconfiglink)) {
             if ($produrl) {
                 $editlink = html_writer::link($produrl.'/local/envbar/index.php',
                         get_string('configureinprod', 'local_envbar'),
@@ -186,7 +189,7 @@ EOD;
             $showtext .= '<nobr> ' . $config->stringseparator . ' ' . $editlink . '</nobr>';
         }
 
-        if ($config->showdebugging) {
+        if (!empty($config->showdebugging)) {
             $showtext .= $this->get_debug_text($canedit, $config);
         }
 
@@ -313,7 +316,7 @@ EOD;
 function local_envbar_title($match) {
     $config = get_config('local_envbar');
 
-    if (!$config->enabletitleprefix) {
+    if (empty($config->enabletitleprefix)) {
         return '';
     }
 
@@ -336,7 +339,7 @@ EOD;
 function local_envbar_favicon_js($match) {
     $config = get_config('local_envbar');
 
-    if (!$config->enablefaviconcolorize) {
+    if (empty($config->enablefaviconcolorize)) {
         return '';
     }
 
@@ -395,7 +398,7 @@ function local_envbar_user_menu($envs) {
 
     $config = get_config('local_envbar');
 
-    if (!$config->enablemenu) {
+    if (empty($config->enablemenu)) {
         return '';
     }
 
