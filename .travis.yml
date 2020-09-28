@@ -3,7 +3,7 @@ language: php
 sudo: required
 
 addons:
-  postgresql: "9.5"
+  postgresql: "9.6"
 
 cache:
   directories:
@@ -27,17 +27,11 @@ env:
 
 matrix:
   include:
-  # Some additional tests including MOODLE 27..30 and php 5.5.
   # This plugin is not database intensive, just a few tests in mysqli should be enough.
-  - php: 5.5
-    dist: trusty
-    env: DB=mysqli MOODLE_BRANCH=MOODLE_27_STABLE
-  - php: 5.6
-    env: DB=mysqli MOODLE_BRANCH=MOODLE_28_STABLE
-  - php: 5.6
-    env: DB=mysqli MOODLE_BRANCH=MOODLE_29_STABLE
-  - php: 5.6
-    env: DB=mysqli MOODLE_BRANCH=MOODLE_31_STABLE
+  - php: 7.2
+    env: DB=mysqli MOODLE_BRANCH=MOODLE_39_STABLE
+  - php: 7.2
+    env: DB=mysqli MOODLE_BRANCH=MOODLE_310_STABLE
   - php: 7.2
     env: DB=pgsql MOODLE_BRANCH=master
   # Moodle 3.4+ requires PHP 7.
@@ -47,9 +41,9 @@ matrix:
 
 
 before_install:
+- phpenv config-rm xdebug.ini
 - cd ../..
-- composer selfupdate
-- composer create-project -n --no-dev moodlerooms/moodle-plugin-ci ci ^1
+- composer create-project -n --no-dev --prefer-dist moodlehq/moodle-plugin-ci ci ^3;
 - export PATH="$(cd ci/bin; pwd):$(cd ci/vendor/bin; pwd):$PATH"
 
 install:
@@ -61,9 +55,6 @@ script:
 - moodle-plugin-ci phpcpd
 - moodle-plugin-ci phpmd
 - moodle-plugin-ci codechecker
-- moodle-plugin-ci csslint
-- moodle-plugin-ci shifter
-- moodle-plugin-ci jshint
 - moodle-plugin-ci validate
-- moodle-plugin-ci phpunit
+- moodle-plugin-ci phpunit -vvv
 - moodle-plugin-ci behat
