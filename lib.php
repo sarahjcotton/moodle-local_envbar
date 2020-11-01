@@ -42,7 +42,7 @@ function local_envbar_before_http_headers() {
 function local_envbar_extend_navigation() {
     global $CFG;
 
-    if ($CFG->branch < 33) {
+    if (isset($CFG->branch) && $CFG->branch < 33) {
         envbarlib::inject();
     }
 }
