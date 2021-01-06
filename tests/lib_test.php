@@ -35,7 +35,7 @@ class local_envbar_lib_test extends advanced_testcase {
     /**
      * Initial set up.
      */
-    protected function setUp() {
+    protected function setUp(): void {
         global $CFG;
 
         require_once($CFG->dirroot . '/local/envbar/lib.php');
