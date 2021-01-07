@@ -112,8 +112,8 @@ class local_envbar_lib_test extends advanced_testcase {
         envbarlib::update_envbar($data);
 
         envbarlib::reinject();
-        self::assertContains('<style>', $CFG->additionalhtmltopofbody);
-        self::assertContains('<script>', $CFG->additionalhtmltopofbody);
+        self::assertStringContainsString('<style>', $CFG->additionalhtmltopofbody);
+        self::assertStringContainsString('<script>', $CFG->additionalhtmltopofbody);
 
         // Should not inject more than once with the inject() function.
         $size = strlen($CFG->additionalhtmltopofbody);
@@ -151,13 +151,13 @@ class local_envbar_lib_test extends advanced_testcase {
         self::assertEquals($testhtml, $additional);
 
         // An envbar now exists in $CFG->additionalhtmltopofbody with our $testhtml.
-        self::assertContains($injected, $CFG->additionalhtmltopofbody);
+        self::assertStringContainsString($injected, $CFG->additionalhtmltopofbody);
 
         // Which equals the $testhtml . $injected.
         self::assertEquals($testhtml . $injected, $CFG->additionalhtmltopofbody);
 
         // Which has no trace of any $injected.
-        self::assertNotContains($injected, $additional);
+        self::assertStringNotContainsString($injected, $additional);
 
         $cleaned = envbarlib::clean_envbars();
         self::assertEquals($testhtml, $cleaned);
