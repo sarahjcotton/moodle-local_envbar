@@ -28,6 +28,8 @@
 
 use local_envbar\local\envbarlib;
 
+define('NO_MOODLE_COOKIES', true);
+
 require_once(dirname(__FILE__) . '/../../../config.php');
 
 $wwwroot = required_param('wwwroot', PARAM_RAW);
