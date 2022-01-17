@@ -1,4 +1,5 @@
-[![Build Status](https://github.com/catalyst/moodle-local_envbar/workflows/Moodle%20plugin%20CI%20for%20VERSION3/badge.svg)](https://github.com/catalyst/moodle-local_envbar/actions)
+[![Build Status](https://github.com/catalyst/moodle-local_envbar/workflows/Run%20all%20tests%20for%20Moodle%203.10+/badge.svg)](https://github.com/catalyst/moodle-local_envbar/actions)
+
 Environment bar - Moodle local plugin
 ====================
 
