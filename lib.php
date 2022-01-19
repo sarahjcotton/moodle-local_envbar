@@ -27,6 +27,17 @@
 use local_envbar\local\envbarlib;
 
 /**
+ * Add cron related service status checks
+ *
+ * @return array of check objects
+ */
+function local_envbar_security_checks(): array {
+    return [
+        new \local_envbar\check\envage(),
+    ];
+}
+
+/**
  * This is the hook enables the plugin to insert a chunk of html at the start of the html document.
  */
 function local_envbar_before_standard_top_of_body_html() {

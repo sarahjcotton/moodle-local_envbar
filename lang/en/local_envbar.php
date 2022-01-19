@@ -26,6 +26,7 @@
 $string['addfields'] = 'Add another environment';
 $string['bgcolour'] = 'Background colour';
 $string['cachedef_records'] = 'The environment bar database records';
+$string['checkenvage'] = 'Check environment refresh age';
 $string['colourerror'] = 'Invalid HTML color code specified.';
 $string['colourplaceholder'] = 'HTML color code. e.g. #fff OR #000000';
 $string['configureinprod'] = 'Edit config';
