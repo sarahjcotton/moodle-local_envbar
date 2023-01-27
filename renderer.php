@@ -247,11 +247,11 @@ EOD;
     /**
      * Returns the debug text to be displayed in the envbar.
      *
-     * @param boolean $canedit Whether editing is allowed
-     * @param object $config Config
+     * @param stdClass $config Config
+     * @param bool $canedit Whether editing is allowed
      * @return string Debug text
      */
-    protected function get_debug_text($config, $canedit = false) {
+    protected function get_debug_text(stdClass $config, bool $canedit): string {
         global $ME;
 
         $debugtext = '';
